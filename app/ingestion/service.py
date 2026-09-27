@@ -13,7 +13,7 @@ import hashlib
 import logging
 import re
 import uuid
-from dataclasses import asdict
+from dataclasses import asdict, replace
 from datetime import UTC, datetime
 from pathlib import Path, PurePath
 
@@ -24,19 +24,26 @@ from sqlalchemy.orm import Session
 
 from app.api.errors import AppError
 from app.config import get_settings
-from app.db.models import AttendanceRecord, IngestionJob, SourceDocument
+from app.db.models import AttendanceRecord, DocumentChunk, IngestionJob, SourceDocument
 from app.db.session import scoped_session
 from app.ingestion.detect import detect
 from app.ingestion.normalize.normalizer import Roster, normalize
-from app.ingestion.parsers import csv_parser, xlsx_parser
+from app.ingestion.parsers import csv_parser, docx_parser, pdf_parser, xlsx_parser
 from app.ingestion.types import IngestionError, ParseResult, PermanentError
+from app.security import injection, pii
 from app.security.context import SecurityContext
 from app.security.scope import DbScope
 
 log = logging.getLogger(__name__)
 
 NS_RECORD = uuid.UUID("0b3c2f0e-6c3e-4c8e-9a51-2a8f6b1d7c11")
-PARSERS = {"csv": csv_parser.parse, "xlsx": xlsx_parser.parse}
+PARSERS = {
+    "csv": csv_parser.parse,
+    "xlsx": xlsx_parser.parse,
+    "docx": docx_parser.parse,
+    "pdf": pdf_parser.parse,
+}
+CONFIDENTIAL_SECTIONS = ("remark", "comment", "confidential", "disciplinary")
 _VERSION_SUFFIX = re.compile(r"[_\- ]v\d+$", re.I)
 _SAFE_NAME = re.compile(r"[^A-Za-z0-9._ -]")
 
@@ -51,6 +58,15 @@ def logical_name_for(filename: str) -> str:
 
 def _now() -> str:
     return datetime.now(UTC).isoformat(timespec="seconds")
+
+
+def ingestion_scope(ctx: SecurityContext) -> DbScope:
+    """Write scope for ingestion: the uploader's tenant/product/module/entities, but
+    SYSTEM clearance. Classification is assigned by the pipeline from content (e.g.
+    manager remarks -> confidential), not capped by who uploaded the file; RLS WITH
+    CHECK still pins every row to the uploader's tenant, product, module and entities.
+    The uploader can read back only what their own clearance allows."""
+    return replace(ctx.to_scope(), clearance="restricted")
 
 
 def scope_to_dict(scope: DbScope) -> dict:
@@ -90,7 +106,7 @@ def submit(
     logical = (logical_name or logical_name_for(filename)).strip().lower()[:120]
     if entity_id is None and not ctx.all_entities and len(ctx.entities) == 1:
         entity_id = ctx.entities[0]
-    scope = ctx.to_scope()
+    scope = ingestion_scope(ctx)
     job_id = uuid.uuid4()
 
     with scoped_session(scope, role="app") as db:
@@ -205,7 +221,7 @@ def run_with_retries(job_id, scope_dict: dict) -> str:
 
 
 def retry_job(ctx: SecurityContext, job_id: uuid.UUID) -> dict:
-    scope = ctx.to_scope()
+    scope = ingestion_scope(ctx)
     with scoped_session(scope, role="app") as db:
         job = db.get(IngestionJob, job_id)
         if job is None:
@@ -285,8 +301,9 @@ def process(job_id, scope_dict: dict, *, raise_transient: bool = False) -> str:
             job = db.get(IngestionJob, job_id)
             _set_stage(db, job, "normalized", valid=len(drafts), failed=len(failures))
             _persist(db, scope, doc_id, filename, checksum, parsed.method, drafts)
-            diff = _supersede(db, prev_doc_id, drafts) if prev_doc_id else None
             doc = db.get(SourceDocument, doc_id)
+            narrative = _persist_narrative(db, scope, doc, checksum, parsed.narrative)
+            diff = _supersede(db, prev_doc_id, drafts) if prev_doc_id else None
             doc.status = "completed"
             if doc.entity_id is None:
                 entities = {d["entity_id"] for d in drafts}
@@ -299,6 +316,9 @@ def process(job_id, scope_dict: dict, *, raise_transient: bool = False) -> str:
                 "row_failures": len(failures),
                 "review_required": sum(d["review_required"] for d in drafts),
                 "skipped_rows": len(parsed.skipped_rows),
+                "narrative_chunks": narrative["chunks"],
+                "suspicious_chunks": len(narrative["suspicious"]),
+                "pii_masked": narrative["pii_masked"],
                 **({"diff": diff} if diff else {}),
             }
             job.errors = [f.to_dict() for f in failures[:200]]
@@ -308,6 +328,10 @@ def process(job_id, scope_dict: dict, *, raise_transient: bool = False) -> str:
                     "restricted columns dropped at ingestion: "
                     + ", ".join(parsed.restricted_columns)
                 )
+            warnings += [
+                f"possible prompt injection at {loc} ({', '.join(rules)}): stored as data, flagged"
+                for loc, rules in narrative["suspicious"]
+            ]
             job.warnings = warnings
             _set_stage(db, job, "completed", "completed")
         return "completed"
@@ -358,6 +382,48 @@ def _persist(db: Session, scope: DbScope, doc_id, filename, checksum, method, dr
     db.execute(stmt.on_conflict_do_nothing(index_elements=["source_document_id", "source_locator"]))
 
 
+def _persist_narrative(db: Session, scope: DbScope, doc: SourceDocument, checksum, blocks) -> dict:
+    """Narrative text -> document_chunks (embedded in Step 9).
+
+    Raw text is kept for audit (never readable by rag_reader); retrieval only ever
+    sees text_masked. Injection attempts are flagged, not removed.
+    """
+    stats = {"chunks": 0, "suspicious": [], "pii_masked": 0}
+    rows = []
+    for b in blocks:
+        masked, counts = pii.mask_text(b.text)
+        rules = injection.detect(b.text)
+        if rules:
+            stats["suspicious"].append((b.locator, rules))
+        stats["pii_masked"] += sum(counts.values())
+        confidential = any(k in b.section.lower() for k in CONFIDENTIAL_SECTIONS)
+        rows.append(
+            {
+                "chunk_id": uuid.uuid5(NS_RECORD, f"{checksum}|narrative|{b.locator}"),
+                "source_document_id": doc.document_id,
+                "product_id": scope.product_id,
+                "tenant_id": scope.tenant_id,
+                "module": scope.module,
+                "entity_id": doc.entity_id,
+                "classification": "confidential" if confidential else "internal",
+                "chunk_type": "narrative",
+                "text": b.text,
+                "text_masked": masked,
+                "locator": b.locator,
+                "suspicious": bool(rules),
+                "is_active": True,
+            }
+        )
+    if rows:
+        db.execute(
+            pg_insert(DocumentChunk)
+            .values(rows)
+            .on_conflict_do_nothing(index_elements=["chunk_id"])
+        )
+    stats["chunks"] = len(rows)
+    return stats
+
+
 def _supersede(db: Session, prev_doc_id, drafts) -> dict:
     """Deactivate the previous version's records and describe what changed."""
     old = {
@@ -382,6 +448,11 @@ def _supersede(db: Session, prev_doc_id, drafts) -> dict:
     db.execute(
         update(AttendanceRecord)
         .where(AttendanceRecord.source_document_id == prev_doc_id)
+        .values(is_active=False)
+    )
+    db.execute(
+        update(DocumentChunk)
+        .where(DocumentChunk.source_document_id == prev_doc_id)
         .values(is_active=False)
     )
     db.execute(

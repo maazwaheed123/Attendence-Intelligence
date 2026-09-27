@@ -18,9 +18,13 @@ def test_rows_outside_entity_scope_become_failures(ingest_api, auth):
 
 
 def test_records_always_get_token_tenant(ingest_api, auth):
-    upload(ingest_api, auth("b_manager"), "tenant_b_sep.pdf")  # pdf parser not enabled yet
+    upload(ingest_api, auth("b_manager"), "tenant_b_sep.pdf")
     upload(ingest_api, auth("a_hr_admin"), "tenant_a_sales_sep.xlsx")
-    assert {(r["tenant_id"], r["product_id"]) for r in records()} == {("tenant_a", "attendance_ai")}
+    by_file = {(r["source_file"], r["tenant_id"], r["product_id"]) for r in records()}
+    assert by_file == {
+        ("tenant_b_sep.pdf", "tenant_b", "attendance_ai"),
+        ("tenant_a_sales_sep.xlsx", "tenant_a", "attendance_ai"),
+    }
 
 
 def test_tenant_b_cannot_ingest_tenant_a_employees(ingest_api, auth):
