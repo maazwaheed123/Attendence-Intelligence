@@ -16,6 +16,7 @@ pyyaml>=6.0
 python-dateutil>=2.9
 rapidfuzz>=3.9
 sqlglot>=25.0
+pgvector>=0.3
 
 # Documents / OCR / exports
 pandas>=2.2,<3.0
