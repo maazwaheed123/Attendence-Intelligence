@@ -50,7 +50,9 @@ class Settings(BaseSettings):
     ollama_primary_model: str = "qwen2.5:7b-instruct"
     ollama_fallback_model: str = "qwen2.5:3b-instruct"
     ollama_vision_model: str = "qwen2.5vl:3b"
+    vision_chain: str = "ollama-vision"
     llm_timeout_s: float = 90.0
+    llm_max_tokens: int = 800
     breaker_fails: int = 3
     breaker_reset_s: int = 60
 
@@ -75,6 +77,10 @@ class Settings(BaseSettings):
     @property
     def llm_chain_list(self) -> list[str]:
         return [p.strip() for p in self.llm_chain.split(",") if p.strip()]
+
+    @property
+    def vision_chain_list(self) -> list[str]:
+        return [p.strip() for p in self.vision_chain.split(",") if p.strip()]
 
 
 @lru_cache

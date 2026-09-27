@@ -5,7 +5,8 @@ from app.config import Settings
 pytestmark = pytest.mark.unit
 
 
-def test_defaults_are_local_only():
+def test_defaults_are_local_only(monkeypatch):
+    monkeypatch.delenv("LLM_CHAIN", raising=False)
     s = Settings(_env_file=None)
     assert s.llm_chain_list == ["ollama-primary", "ollama-fallback", "template"]
     assert "11434" in s.ollama_base_url
