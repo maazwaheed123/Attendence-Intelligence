@@ -66,6 +66,17 @@ def _confidence(fmt: str, expected_review: bool) -> float:
     return {"image": 0.85, "pdf_scanned": 0.88}.get(fmt, 0.99)
 
 
+STATE = {"corpus_loaded": False}
+
+
+def reset_empty() -> None:
+    """Truncate everything and re-seed reference data only (for ingestion tests)."""
+    with owner_session() as s:
+        s.execute(text(f"TRUNCATE {MUTABLE_TABLES} RESTART IDENTITY CASCADE"))
+        seed(s)
+    STATE["corpus_loaded"] = False
+
+
 def reset_corpus() -> dict:
     """Truncate, seed, and load every attendance manifest row + chunks + misc rows."""
     manifests = json.loads((GT / "manifests.json").read_text(encoding="utf-8"))
@@ -239,4 +250,5 @@ def reset_corpus() -> dict:
                 ),
                 {"r": f"req_{tenant}", "t": tenant},
             )
+    STATE["corpus_loaded"] = True
     return counts

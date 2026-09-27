@@ -8,6 +8,8 @@ for _var in ("DATABASE_URL_OWNER", "DATABASE_URL_APP", "DATABASE_URL_READER"):
     if os.environ.get(_var):
         os.environ[_var] = re.sub(r"/attendance$", "/attendance_test", os.environ[_var])
 os.environ["APP_ENV"] = "test"
+os.environ["INGEST_SYNC"] = "true"
+os.environ["UPLOAD_DIR"] = "/tmp/attendance_test_uploads"
 os.environ["REDIS_URL"] = re.sub(
     r"/\d+$", "/15", os.environ.get("REDIS_URL", "redis://redis:6379/0")
 )
@@ -40,16 +42,31 @@ def migrated_db():
     dispose_engines()
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture
 def corpus_db(migrated_db):
     """Seeded roster + every sample file's rows loaded as canonical records.
 
     Loaded straight from the generator manifests (no ingestion code involved), so
     DB-layer tests (RLS, view metrics) are independent of the ingestion pipeline.
+    Reloaded lazily only if an ingestion test emptied the database.
     """
-    from tests.support.db import reset_corpus
+    from tests.support.db import STATE, reset_corpus
 
-    return reset_corpus()
+    if not STATE["corpus_loaded"]:
+        reset_corpus()
+
+
+@pytest.fixture
+def clean_db(migrated_db):
+    """Empty database with reference data (tenants, entities, roster) only."""
+    from tests.support.db import reset_empty
+
+    reset_empty()
+
+
+@pytest.fixture
+def ingest_api(clean_db, client):
+    return client
 
 
 @pytest.fixture
