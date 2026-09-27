@@ -8,6 +8,9 @@ for _var in ("DATABASE_URL_OWNER", "DATABASE_URL_APP", "DATABASE_URL_READER"):
     if os.environ.get(_var):
         os.environ[_var] = re.sub(r"/attendance$", "/attendance_test", os.environ[_var])
 os.environ["APP_ENV"] = "test"
+os.environ["REDIS_URL"] = re.sub(
+    r"/\d+$", "/15", os.environ.get("REDIS_URL", "redis://redis:6379/0")
+)
 
 import pytest  # noqa: E402
 from fastapi.testclient import TestClient  # noqa: E402
@@ -47,6 +50,26 @@ def corpus_db(migrated_db):
     from tests.support.db import reset_corpus
 
     return reset_corpus()
+
+
+@pytest.fixture
+def token_for():
+    """token_for("a_eng_manager", role="auditor") -> signed JWT for that persona (+ overrides)."""
+    from tests.support.tokens import token_for as _token_for
+
+    return _token_for
+
+
+@pytest.fixture
+def auth(token_for):
+    """auth("a_eng_manager") -> Authorization header dict."""
+    return lambda persona, **kw: {"Authorization": f"Bearer {token_for(persona, **kw)}"}
+
+
+@pytest.fixture
+def api(corpus_db, client):
+    """TestClient against a seeded database (entities/tenants exist for gateway checks)."""
+    return client
 
 
 @pytest.fixture

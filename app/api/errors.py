@@ -30,11 +30,12 @@ STATUS_CODES = {
 class AppError(Exception):
     """Raise for expected, caller-facing errors with a specific code."""
 
-    def __init__(self, status_code: int, code: str, message: str):
+    def __init__(self, status_code: int, code: str, message: str, headers: dict | None = None):
         super().__init__(message)
         self.status_code = status_code
         self.code = code
         self.message = message
+        self.headers = headers
 
 
 def _rid(request: Request) -> str:
@@ -42,6 +43,9 @@ def _rid(request: Request) -> str:
 
 
 def envelope(request: Request, status: int, code: str, message: str, headers=None):
+    headers = {**(headers or {}), "X-Error-Code": code}  # lets the audit trail record the code
+    if status == 401:
+        headers.setdefault("WWW-Authenticate", "Bearer")
     return JSONResponse(
         status_code=status,
         content={"error": {"code": code, "message": message, "request_id": _rid(request)}},
@@ -52,7 +56,7 @@ def envelope(request: Request, status: int, code: str, message: str, headers=Non
 def register_error_handlers(app: FastAPI) -> None:
     @app.exception_handler(AppError)
     async def _app_error(request: Request, exc: AppError):
-        return envelope(request, exc.status_code, exc.code, exc.message)
+        return envelope(request, exc.status_code, exc.code, exc.message, exc.headers)
 
     @app.exception_handler(StarletteHTTPException)
     async def _http_error(request: Request, exc: StarletteHTTPException):

@@ -23,6 +23,8 @@ class Settings(BaseSettings):
     jwt_secret: SecretStr = SecretStr("change-me")
     jwt_alg: str = "HS256"
     jwt_ttl_min: int = 60
+    allowed_modules: str = "attendance"
+    dev_personas_file: str = "scripts/seed_spec.yaml"  # dev/test only: /v1/auth/dev-token
 
     # --- stores ---
     database_url_owner: SecretStr = SecretStr(
@@ -61,6 +63,14 @@ class Settings(BaseSettings):
     conf_low: float = Field(0.60, ge=0, le=1)
     cache_ttl_s: int = 600
     rate_limit_per_min: int = 60
+
+    @property
+    def allowed_modules_list(self) -> list[str]:
+        return [m.strip() for m in self.allowed_modules.split(",") if m.strip()]
+
+    @property
+    def dev_tokens_enabled(self) -> bool:
+        return self.app_env in ("dev", "test")
 
     @property
     def llm_chain_list(self) -> list[str]:

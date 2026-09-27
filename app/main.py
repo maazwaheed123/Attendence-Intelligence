@@ -2,7 +2,7 @@ import logging
 
 from fastapi import FastAPI
 
-from app.api import routes_health
+from app.api import routes_auth, routes_health, routes_me
 from app.api.errors import register_error_handlers
 from app.api.middleware import RequestIdMiddleware
 from app.config import get_settings
@@ -23,6 +23,9 @@ def create_app() -> FastAPI:
     app.add_middleware(RequestIdMiddleware)
     register_error_handlers(app)
     app.include_router(routes_health.router)
+    app.include_router(routes_me.router)
+    if settings.dev_tokens_enabled:  # never mounted in prod
+        app.include_router(routes_auth.router)
     return app
 
 
