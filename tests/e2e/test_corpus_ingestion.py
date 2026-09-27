@@ -1,12 +1,13 @@
 """End-to-end: ingest every text-based sample file through the REAL pipeline (API ->
-parse -> normalize -> RLS-scoped persist), then check v_attendance against
-expected_results.json for every persona. OCR files join in Step 7."""
+parse/OCR -> normalize -> RLS-scoped persist), then check v_attendance against
+expected_results.json for every persona. Vision output is the recorded fixture."""
 
 import pytest
 from sqlalchemy import text
 
 from app.db.session import scoped_session
 from tests.support.ingest import upload
+from tests.support.vision import use_recorded_vision
 
 pytestmark = pytest.mark.e2e
 
@@ -17,6 +18,10 @@ UPLOADS = [
     ("a_eng_manager", "tenant_a_week2.docx"),
     ("a_hr_admin", "tenant_a_hr_contacts.xlsx"),
     ("b_manager", "tenant_b_sep.pdf"),
+    ("a_hr_admin", "scan_printed.png"),
+    ("a_hr_admin", "scan_printed.pdf"),
+    ("a_hr_admin", "handwritten_sheet.png"),
+    ("a_hr_admin", "handwritten_ambiguous.png"),
     ("a_hr_admin", "conflict_note.pdf"),
     ("a_eng_manager", "injection_memo.docx"),
     ("x_other_product", "other_product.csv"),
@@ -33,9 +38,11 @@ PERSONAS = [
 
 
 @pytest.fixture
-def ingested(ingest_api, auth):
+def ingested(ingest_api, auth, monkeypatch):
     results = {}
     for persona, name in UPLOADS:
+        if name.startswith("handwritten"):
+            use_recorded_vision(monkeypatch, name.removesuffix(".png"))
         body = upload(ingest_api, auth(persona), name).json()
         assert body["status"] == "completed", (name, body)
         results[name] = body
@@ -45,6 +52,9 @@ def ingested(ingest_api, auth):
 def test_every_file_completed_without_row_failures(ingested):
     for name, body in ingested.items():
         assert body["counts"]["row_failures"] == 0, (name, body["failures"][:3])
+    # Exactly the two deliberately ambiguous handwritten rows need review.
+    assert sum(b["counts"]["review_required"] for b in ingested.values()) == 2
+    assert ingested["handwritten_ambiguous.png"]["counts"]["review_required"] == 2
 
 
 def test_view_matches_expected_for_all_personas(ingested, scope_for, expected):

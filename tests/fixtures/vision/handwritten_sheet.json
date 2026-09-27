@@ -1,0 +1,35 @@
+{
+  "sheet_date": "30/09/2026",
+  "rows": [
+    {
+      "employee_id": "E005",
+      "employee_name": "Priya Nair",
+      "status": "Present",
+      "check_in": "09:16",
+      "check_out": "18:07",
+      "confidence": 0.92,
+      "uncertain_fields": [],
+      "notes": ""
+    },
+    {
+      "employee_id": "E006",
+      "employee_name": "Omar Farooq",
+      "status": "Leave",
+      "check_in": null,
+      "check_out": null,
+      "confidence": 0.92,
+      "uncertain_fields": [],
+      "notes": ""
+    },
+    {
+      "employee_id": "E007",
+      "employee_name": "Emma Wilson",
+      "status": "Present",
+      "check_in": "09:04",
+      "check_out": "17:29",
+      "confidence": 0.92,
+      "uncertain_fields": [],
+      "notes": ""
+    }
+  ]
+}

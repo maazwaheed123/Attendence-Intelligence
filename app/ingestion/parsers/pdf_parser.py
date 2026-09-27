@@ -31,7 +31,9 @@ def parse(content: bytes, filename: str) -> ParseResult:
     result = ParseResult(method="pdf_text")
     with pdf:
         if sum(len(p.chars) for p in pdf.pages) < MIN_TEXT_CHARS_PER_PAGE * max(1, len(pdf.pages)):
-            raise PermanentError("scanned PDF (no text layer): OCR is required")
+            from app.ingestion.parsers.ocr_parser import parse_scanned_pdf
+
+            return parse_scanned_pdf(content, filename)  # no text layer -> OCR
 
         page_lines: list[list[str]] = []
         for p_no, page in enumerate(pdf.pages, start=1):

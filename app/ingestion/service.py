@@ -28,7 +28,7 @@ from app.db.models import AttendanceRecord, DocumentChunk, IngestionJob, SourceD
 from app.db.session import scoped_session
 from app.ingestion.detect import detect
 from app.ingestion.normalize.normalizer import Roster, normalize
-from app.ingestion.parsers import csv_parser, docx_parser, pdf_parser, xlsx_parser
+from app.ingestion.parsers import csv_parser, docx_parser, ocr_parser, pdf_parser, xlsx_parser
 from app.ingestion.types import IngestionError, ParseResult, PermanentError
 from app.security import injection, pii
 from app.security.context import SecurityContext
@@ -41,7 +41,8 @@ PARSERS = {
     "csv": csv_parser.parse,
     "xlsx": xlsx_parser.parse,
     "docx": docx_parser.parse,
-    "pdf": pdf_parser.parse,
+    "pdf": pdf_parser.parse,  # routes scanned PDFs to OCR itself
+    "image": ocr_parser.parse,
 }
 CONFIDENTIAL_SECTIONS = ("remark", "comment", "confidential", "disciplinary")
 _VERSION_SUFFIX = re.compile(r"[_\- ]v\d+$", re.I)

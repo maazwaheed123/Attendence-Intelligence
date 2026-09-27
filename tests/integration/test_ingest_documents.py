@@ -73,10 +73,11 @@ def test_text_pdf_tables_and_cleaning(ingest_api, auth, manifests):
     )
 
 
-def test_scanned_pdf_needs_ocr(ingest_api, auth):
+def test_scanned_pdf_routed_to_ocr(ingest_api, auth):
     body = upload(ingest_api, auth("a_hr_admin"), "scan_printed.pdf").json()
-    assert body["status"] == "failed" and body["attempts"] == 1
-    assert "OCR" in body["failures"][-1]["message"]
+    assert body["status"] == "completed" and body["counts"]["records_created"] == 8
+    assert any("printed sheet, engine=ocr_tesseract" in w for w in body["warnings"])
+    assert {r["extraction_method"] for r in records("source_file = 'scan_printed.pdf'")} == {"ocr_tesseract"}
 
 
 def test_conflict_detected_across_formats(ingest_api, auth, scope_for):

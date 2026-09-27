@@ -1,0 +1,50 @@
+{
+  "sheet_date": "30/09/2026",
+  "rows": [
+    {
+      "employee_id": "E008",
+      "employee_name": "Liam Brown",
+      "status": "Present",
+      "check_in": "09:07",
+      "check_out": "18:11",
+      "confidence": 0.9,
+      "uncertain_fields": [],
+      "notes": ""
+    },
+    {
+      "employee_id": "E009",
+      "employee_name": "Noah Garcia",
+      "status": "Present",
+      "check_in": null,
+      "check_out": null,
+      "confidence": 0.6,
+      "uncertain_fields": [
+        "status"
+      ],
+      "notes": "'Absent' is crossed out and 'Present' written next to it"
+    },
+    {
+      "employee_id": "E010",
+      "employee_name": "Mia Chen",
+      "status": "Present",
+      "check_in": "09:20",
+      "check_out": "17:32",
+      "confidence": 0.9,
+      "uncertain_fields": [],
+      "notes": ""
+    },
+    {
+      "employee_id": "E01?",
+      "employee_name": "Lucas Martin",
+      "status": "P?",
+      "check_in": null,
+      "check_out": null,
+      "confidence": 0.3,
+      "uncertain_fields": [
+        "employee_id",
+        "status"
+      ],
+      "notes": "last digit of ID erased; status smudged"
+    }
+  ]
+}
