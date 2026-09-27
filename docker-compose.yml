@@ -1,0 +1,81 @@
+name: attendance-intelligence
+
+x-app-env: &app-env
+  env_file: .env
+  extra_hosts:
+    - "host.docker.internal:host-gateway"   # reach native Ollama on the Windows host
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_DB: attendance
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    ports:
+      - "5433:5432"            # 5432 is often taken by a host Postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./docker/postgres-init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d attendance"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6380:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  api:
+    <<: *app-env
+    build:
+      context: .
+      dockerfile: docker/api.Dockerfile
+    image: attendance-intelligence-api:dev
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload --reload-dir app
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/app                # dev: live code; tests and generator run here too
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/v1/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  worker:
+    <<: *app-env
+    image: attendance-intelligence-api:dev
+    command: rq worker --url redis://redis:6379/0 ingestion
+    volumes:
+      - ./:/app
+    depends_on:
+      api: { condition: service_started }
+      redis: { condition: service_healthy }
+      postgres: { condition: service_healthy }
+
+  ui:
+    build:
+      context: .
+      dockerfile: docker/ui.Dockerfile
+    environment:
+      API_URL: http://api:8000
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./ui:/ui
+    depends_on:
+      api: { condition: service_started }
+
+volumes:
+  pgdata:
