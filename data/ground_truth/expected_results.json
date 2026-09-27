@@ -1,0 +1,5117 @@
+{
+  "by_persona": {
+    "a_auditor": {
+      "by_date": {
+        "2026-09-01": {
+          "absent": [
+            "E004"
+          ],
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E005",
+            "E006",
+            "E007",
+            "E009",
+            "E010",
+            "E011",
+            "E012"
+          ],
+          "wfh": [
+            "E008"
+          ]
+        },
+        "2026-09-02": {
+          "leave": [
+            "E002",
+            "E004",
+            "E009",
+            "E010"
+          ],
+          "present": [
+            "E001",
+            "E003",
+            "E005",
+            "E006",
+            "E007",
+            "E008",
+            "E011",
+            "E012"
+          ]
+        },
+        "2026-09-03": {
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E005",
+            "E006",
+            "E007",
+            "E008",
+            "E009",
+            "E010",
+            "E011",
+            "E012"
+          ]
+        },
+        "2026-09-04": {
+          "absent": [
+            "E003"
+          ],
+          "leave": [
+            "E007",
+            "E009"
+          ],
+          "present": [
+            "E001",
+            "E002",
+            "E004",
+            "E005",
+            "E006",
+            "E008",
+            "E010",
+            "E011",
+            "E012"
+          ]
+        },
+        "2026-09-07": {
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E005",
+            "E006",
+            "E007",
+            "E008",
+            "E009",
+            "E010",
+            "E011",
+            "E012"
+          ]
+        },
+        "2026-09-08": {
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E005",
+            "E006",
+            "E007",
+            "E008",
+            "E009",
+            "E010",
+            "E011",
+            "E012"
+          ]
+        },
+        "2026-09-09": {
+          "absent": [
+            "E002"
+          ],
+          "present": [
+            "E001",
+            "E003",
+            "E004",
+            "E005",
+            "E006",
+            "E007",
+            "E008",
+            "E009",
+            "E010",
+            "E011",
+            "E012"
+          ]
+        },
+        "2026-09-10": {
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E005",
+            "E006",
+            "E007",
+            "E008",
+            "E009",
+            "E010",
+            "E011",
+            "E012"
+          ]
+        },
+        "2026-09-11": {
+          "absent": [
+            "E002"
+          ],
+          "present": [
+            "E001",
+            "E003",
+            "E004",
+            "E005",
+            "E006",
+            "E007",
+            "E008",
+            "E009",
+            "E010",
+            "E011",
+            "E012"
+          ]
+        },
+        "2026-09-14": {
+          "absent": [
+            "E009"
+          ],
+          "half_day": [
+            "E012"
+          ],
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E005",
+            "E006",
+            "E007",
+            "E008",
+            "E010",
+            "E011"
+          ]
+        },
+        "2026-09-15": {
+          "present": [
+            "E001",
+            "E003",
+            "E004",
+            "E005",
+            "E006",
+            "E007",
+            "E008",
+            "E009",
+            "E010",
+            "E011",
+            "E012"
+          ]
+        },
+        "2026-09-16": {
+          "absent": [
+            "E007",
+            "E010"
+          ],
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E005",
+            "E006",
+            "E008",
+            "E009",
+            "E011",
+            "E012"
+          ]
+        },
+        "2026-09-17": {
+          "half_day": [
+            "E011"
+          ],
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E005",
+            "E006",
+            "E007",
+            "E008",
+            "E009",
+            "E010",
+            "E012"
+          ]
+        },
+        "2026-09-18": {
+          "absent": [
+            "E011"
+          ],
+          "present": [
+            "E002",
+            "E003",
+            "E004",
+            "E005",
+            "E006",
+            "E007",
+            "E008",
+            "E009",
+            "E010",
+            "E012"
+          ],
+          "wfh": [
+            "E001"
+          ]
+        },
+        "2026-09-21": {
+          "absent": [
+            "E006"
+          ],
+          "half_day": [
+            "E005"
+          ],
+          "present": [
+            "E001",
+            "E002",
+            "E004",
+            "E007",
+            "E008",
+            "E009",
+            "E010",
+            "E011",
+            "E012"
+          ],
+          "wfh": [
+            "E003"
+          ]
+        },
+        "2026-09-22": {
+          "absent": [
+            "E009"
+          ],
+          "leave": [
+            "E012"
+          ],
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E005",
+            "E006",
+            "E007",
+            "E008",
+            "E010",
+            "E011"
+          ]
+        },
+        "2026-09-23": {
+          "holiday": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E005",
+            "E006",
+            "E007",
+            "E008",
+            "E009",
+            "E010",
+            "E011",
+            "E012"
+          ]
+        },
+        "2026-09-24": {
+          "half_day": [
+            "E004"
+          ],
+          "leave": [
+            "E008"
+          ],
+          "present": [
+            "E002",
+            "E003",
+            "E005",
+            "E006",
+            "E007",
+            "E009",
+            "E010",
+            "E011",
+            "E012"
+          ],
+          "wfh": [
+            "E001"
+          ]
+        },
+        "2026-09-25": {
+          "half_day": [
+            "E007"
+          ],
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E005",
+            "E006",
+            "E008",
+            "E009",
+            "E010",
+            "E011",
+            "E012"
+          ]
+        },
+        "2026-09-28": {
+          "absent": [
+            "E006"
+          ],
+          "half_day": [
+            "E002"
+          ],
+          "leave": [
+            "E007"
+          ],
+          "present": [
+            "E001",
+            "E003",
+            "E004",
+            "E005",
+            "E008",
+            "E009",
+            "E010",
+            "E011",
+            "E012"
+          ]
+        },
+        "2026-09-29": {
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E005",
+            "E006",
+            "E007",
+            "E008",
+            "E009",
+            "E010",
+            "E011",
+            "E012"
+          ]
+        },
+        "2026-09-30": {
+          "leave": [
+            "E006"
+          ],
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E005",
+            "E007",
+            "E008",
+            "E009",
+            "E010",
+            "E012"
+          ]
+        }
+      },
+      "excluded_needs_review": [
+        {
+          "attendance_date": "2026-09-15",
+          "employee_id": "E002",
+          "evidence_status": "conflict",
+          "status": "absent"
+        },
+        {
+          "attendance_date": "2026-09-30",
+          "employee_id": "E011",
+          "evidence_status": "review_only",
+          "status": "present"
+        }
+      ],
+      "periods": {
+        "month": {
+          "attendance_pct": 90.4,
+          "by_department": {
+            "engineering": 91.83,
+            "hr": 88.89,
+            "sales": 89.76
+          },
+          "by_employee": {
+            "E001": 100.0,
+            "E002": 82.5,
+            "E003": 95.24,
+            "E004": 88.1,
+            "E005": 97.62,
+            "E006": 85.71,
+            "E007": 83.33,
+            "E008": 95.24,
+            "E009": 80.95,
+            "E010": 90.48,
+            "E011": 92.5,
+            "E012": 92.86
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 91.83
+            },
+            "lowest": {
+              "keys": [
+                "hr"
+              ],
+              "unique": true,
+              "value": 88.89
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E001"
+              ],
+              "unique": true,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E009"
+              ],
+              "unique": true,
+              "value": 80.95
+            }
+          },
+          "present_days": 226.0,
+          "range": [
+            "2026-09-01",
+            "2026-09-30"
+          ],
+          "scheduled_days": 250
+        },
+        "week1": {
+          "attendance_pct": 83.33,
+          "by_department": {
+            "engineering": 80.0,
+            "hr": 91.67,
+            "sales": 81.25
+          },
+          "by_employee": {
+            "E001": 100.0,
+            "E002": 75.0,
+            "E003": 75.0,
+            "E004": 50.0,
+            "E005": 100.0,
+            "E006": 100.0,
+            "E007": 75.0,
+            "E008": 100.0,
+            "E009": 50.0,
+            "E010": 75.0,
+            "E011": 100.0,
+            "E012": 100.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "hr"
+              ],
+              "unique": true,
+              "value": 91.67
+            },
+            "lowest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 80.0
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E001",
+                "E005",
+                "E006",
+                "E008",
+                "E011",
+                "E012"
+              ],
+              "unique": false,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E004",
+                "E009"
+              ],
+              "unique": false,
+              "value": 50.0
+            }
+          },
+          "present_days": 40.0,
+          "range": [
+            "2026-09-01",
+            "2026-09-04"
+          ],
+          "scheduled_days": 48
+        },
+        "week2": {
+          "attendance_pct": 96.67,
+          "by_department": {
+            "engineering": 92.0,
+            "hr": 100.0,
+            "sales": 100.0
+          },
+          "by_employee": {
+            "E001": 100.0,
+            "E002": 60.0,
+            "E003": 100.0,
+            "E004": 100.0,
+            "E005": 100.0,
+            "E006": 100.0,
+            "E007": 100.0,
+            "E008": 100.0,
+            "E009": 100.0,
+            "E010": 100.0,
+            "E011": 100.0,
+            "E012": 100.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "hr",
+                "sales"
+              ],
+              "unique": false,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 92.0
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E001",
+                "E003",
+                "E004",
+                "E005",
+                "E006",
+                "E007",
+                "E008",
+                "E009",
+                "E010",
+                "E011",
+                "E012"
+              ],
+              "unique": false,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E002"
+              ],
+              "unique": true,
+              "value": 60.0
+            }
+          },
+          "present_days": 58.0,
+          "range": [
+            "2026-09-07",
+            "2026-09-11"
+          ],
+          "scheduled_days": 60
+        },
+        "week3": {
+          "attendance_pct": 91.53,
+          "by_department": {
+            "engineering": 97.92,
+            "hr": 93.33,
+            "sales": 82.5
+          },
+          "by_employee": {
+            "E001": 100.0,
+            "E002": 100.0,
+            "E003": 100.0,
+            "E004": 100.0,
+            "E005": 100.0,
+            "E006": 100.0,
+            "E007": 80.0,
+            "E008": 100.0,
+            "E009": 80.0,
+            "E010": 80.0,
+            "E011": 70.0,
+            "E012": 90.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 97.92
+            },
+            "lowest": {
+              "keys": [
+                "sales"
+              ],
+              "unique": true,
+              "value": 82.5
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E001",
+                "E002",
+                "E003",
+                "E004",
+                "E005",
+                "E006",
+                "E008"
+              ],
+              "unique": false,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E011"
+              ],
+              "unique": true,
+              "value": 70.0
+            }
+          },
+          "present_days": 54.0,
+          "range": [
+            "2026-09-14",
+            "2026-09-18"
+          ],
+          "scheduled_days": 59
+        },
+        "week4": {
+          "attendance_pct": 88.54,
+          "by_department": {
+            "engineering": 92.5,
+            "hr": 83.33,
+            "sales": 87.5
+          },
+          "by_employee": {
+            "E001": 100.0,
+            "E002": 100.0,
+            "E003": 100.0,
+            "E004": 87.5,
+            "E005": 87.5,
+            "E006": 75.0,
+            "E007": 87.5,
+            "E008": 75.0,
+            "E009": 75.0,
+            "E010": 100.0,
+            "E011": 100.0,
+            "E012": 75.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 92.5
+            },
+            "lowest": {
+              "keys": [
+                "hr"
+              ],
+              "unique": true,
+              "value": 83.33
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E001",
+                "E002",
+                "E003",
+                "E010",
+                "E011"
+              ],
+              "unique": false,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E006",
+                "E008",
+                "E009",
+                "E012"
+              ],
+              "unique": false,
+              "value": 75.0
+            }
+          },
+          "present_days": 42.5,
+          "range": [
+            "2026-09-21",
+            "2026-09-25"
+          ],
+          "scheduled_days": 48
+        },
+        "week5": {
+          "attendance_pct": 90.0,
+          "by_department": {
+            "engineering": 96.67,
+            "hr": 66.67,
+            "sales": 100.0
+          },
+          "by_employee": {
+            "E001": 100.0,
+            "E002": 83.33,
+            "E003": 100.0,
+            "E004": 100.0,
+            "E005": 100.0,
+            "E006": 33.33,
+            "E007": 66.67,
+            "E008": 100.0,
+            "E009": 100.0,
+            "E010": 100.0,
+            "E011": 100.0,
+            "E012": 100.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "sales"
+              ],
+              "unique": true,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "hr"
+              ],
+              "unique": true,
+              "value": 66.67
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E001",
+                "E003",
+                "E004",
+                "E005",
+                "E008",
+                "E009",
+                "E010",
+                "E011",
+                "E012"
+              ],
+              "unique": false,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E006"
+              ],
+              "unique": true,
+              "value": 33.33
+            }
+          },
+          "present_days": 31.5,
+          "range": [
+            "2026-09-28",
+            "2026-09-30"
+          ],
+          "scheduled_days": 35
+        }
+      },
+      "record_count": 262,
+      "role": "auditor",
+      "scope": {
+        "entities": [
+          "*"
+        ],
+        "product": "attendance_ai",
+        "tenant": "tenant_a"
+      }
+    },
+    "a_employee_e001": {
+      "by_date": {
+        "2026-09-01": {
+          "present": [
+            "E001"
+          ]
+        },
+        "2026-09-02": {
+          "present": [
+            "E001"
+          ]
+        },
+        "2026-09-03": {
+          "present": [
+            "E001"
+          ]
+        },
+        "2026-09-04": {
+          "present": [
+            "E001"
+          ]
+        },
+        "2026-09-07": {
+          "present": [
+            "E001"
+          ]
+        },
+        "2026-09-08": {
+          "present": [
+            "E001"
+          ]
+        },
+        "2026-09-09": {
+          "present": [
+            "E001"
+          ]
+        },
+        "2026-09-10": {
+          "present": [
+            "E001"
+          ]
+        },
+        "2026-09-11": {
+          "present": [
+            "E001"
+          ]
+        },
+        "2026-09-14": {
+          "present": [
+            "E001"
+          ]
+        },
+        "2026-09-15": {
+          "present": [
+            "E001"
+          ]
+        },
+        "2026-09-16": {
+          "present": [
+            "E001"
+          ]
+        },
+        "2026-09-17": {
+          "present": [
+            "E001"
+          ]
+        },
+        "2026-09-18": {
+          "wfh": [
+            "E001"
+          ]
+        },
+        "2026-09-21": {
+          "present": [
+            "E001"
+          ]
+        },
+        "2026-09-22": {
+          "present": [
+            "E001"
+          ]
+        },
+        "2026-09-23": {
+          "holiday": [
+            "E001"
+          ]
+        },
+        "2026-09-24": {
+          "wfh": [
+            "E001"
+          ]
+        },
+        "2026-09-25": {
+          "present": [
+            "E001"
+          ]
+        },
+        "2026-09-28": {
+          "present": [
+            "E001"
+          ]
+        },
+        "2026-09-29": {
+          "present": [
+            "E001"
+          ]
+        },
+        "2026-09-30": {
+          "present": [
+            "E001"
+          ]
+        }
+      },
+      "excluded_needs_review": [],
+      "periods": {
+        "month": {
+          "attendance_pct": 100.0,
+          "by_department": {
+            "engineering": 100.0
+          },
+          "by_employee": {
+            "E001": 100.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 100.0
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E001"
+              ],
+              "unique": true,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E001"
+              ],
+              "unique": true,
+              "value": 100.0
+            }
+          },
+          "present_days": 21.0,
+          "range": [
+            "2026-09-01",
+            "2026-09-30"
+          ],
+          "scheduled_days": 21
+        },
+        "week1": {
+          "attendance_pct": 100.0,
+          "by_department": {
+            "engineering": 100.0
+          },
+          "by_employee": {
+            "E001": 100.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 100.0
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E001"
+              ],
+              "unique": true,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E001"
+              ],
+              "unique": true,
+              "value": 100.0
+            }
+          },
+          "present_days": 4.0,
+          "range": [
+            "2026-09-01",
+            "2026-09-04"
+          ],
+          "scheduled_days": 4
+        },
+        "week2": {
+          "attendance_pct": 100.0,
+          "by_department": {
+            "engineering": 100.0
+          },
+          "by_employee": {
+            "E001": 100.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 100.0
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E001"
+              ],
+              "unique": true,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E001"
+              ],
+              "unique": true,
+              "value": 100.0
+            }
+          },
+          "present_days": 5.0,
+          "range": [
+            "2026-09-07",
+            "2026-09-11"
+          ],
+          "scheduled_days": 5
+        },
+        "week3": {
+          "attendance_pct": 100.0,
+          "by_department": {
+            "engineering": 100.0
+          },
+          "by_employee": {
+            "E001": 100.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 100.0
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E001"
+              ],
+              "unique": true,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E001"
+              ],
+              "unique": true,
+              "value": 100.0
+            }
+          },
+          "present_days": 5.0,
+          "range": [
+            "2026-09-14",
+            "2026-09-18"
+          ],
+          "scheduled_days": 5
+        },
+        "week4": {
+          "attendance_pct": 100.0,
+          "by_department": {
+            "engineering": 100.0
+          },
+          "by_employee": {
+            "E001": 100.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 100.0
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E001"
+              ],
+              "unique": true,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E001"
+              ],
+              "unique": true,
+              "value": 100.0
+            }
+          },
+          "present_days": 4.0,
+          "range": [
+            "2026-09-21",
+            "2026-09-25"
+          ],
+          "scheduled_days": 4
+        },
+        "week5": {
+          "attendance_pct": 100.0,
+          "by_department": {
+            "engineering": 100.0
+          },
+          "by_employee": {
+            "E001": 100.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 100.0
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E001"
+              ],
+              "unique": true,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E001"
+              ],
+              "unique": true,
+              "value": 100.0
+            }
+          },
+          "present_days": 3.0,
+          "range": [
+            "2026-09-28",
+            "2026-09-30"
+          ],
+          "scheduled_days": 3
+        }
+      },
+      "record_count": 22,
+      "role": "employee",
+      "scope": {
+        "employee_id": "E001",
+        "entities": [
+          "engineering"
+        ],
+        "product": "attendance_ai",
+        "tenant": "tenant_a"
+      }
+    },
+    "a_eng_manager": {
+      "by_date": {
+        "2026-09-01": {
+          "absent": [
+            "E004"
+          ],
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E012"
+          ]
+        },
+        "2026-09-02": {
+          "leave": [
+            "E002",
+            "E004"
+          ],
+          "present": [
+            "E001",
+            "E003",
+            "E012"
+          ]
+        },
+        "2026-09-03": {
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E012"
+          ]
+        },
+        "2026-09-04": {
+          "absent": [
+            "E003"
+          ],
+          "present": [
+            "E001",
+            "E002",
+            "E004",
+            "E012"
+          ]
+        },
+        "2026-09-07": {
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E012"
+          ]
+        },
+        "2026-09-08": {
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E012"
+          ]
+        },
+        "2026-09-09": {
+          "absent": [
+            "E002"
+          ],
+          "present": [
+            "E001",
+            "E003",
+            "E004",
+            "E012"
+          ]
+        },
+        "2026-09-10": {
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E012"
+          ]
+        },
+        "2026-09-11": {
+          "absent": [
+            "E002"
+          ],
+          "present": [
+            "E001",
+            "E003",
+            "E004",
+            "E012"
+          ]
+        },
+        "2026-09-14": {
+          "half_day": [
+            "E012"
+          ],
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004"
+          ]
+        },
+        "2026-09-15": {
+          "present": [
+            "E001",
+            "E003",
+            "E004",
+            "E012"
+          ]
+        },
+        "2026-09-16": {
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E012"
+          ]
+        },
+        "2026-09-17": {
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E012"
+          ]
+        },
+        "2026-09-18": {
+          "present": [
+            "E002",
+            "E003",
+            "E004",
+            "E012"
+          ],
+          "wfh": [
+            "E001"
+          ]
+        },
+        "2026-09-21": {
+          "present": [
+            "E001",
+            "E002",
+            "E004",
+            "E012"
+          ],
+          "wfh": [
+            "E003"
+          ]
+        },
+        "2026-09-22": {
+          "leave": [
+            "E012"
+          ],
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004"
+          ]
+        },
+        "2026-09-23": {
+          "holiday": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E012"
+          ]
+        },
+        "2026-09-24": {
+          "half_day": [
+            "E004"
+          ],
+          "present": [
+            "E002",
+            "E003",
+            "E012"
+          ],
+          "wfh": [
+            "E001"
+          ]
+        },
+        "2026-09-25": {
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E012"
+          ]
+        },
+        "2026-09-28": {
+          "half_day": [
+            "E002"
+          ],
+          "present": [
+            "E001",
+            "E003",
+            "E004",
+            "E012"
+          ]
+        },
+        "2026-09-29": {
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E012"
+          ]
+        },
+        "2026-09-30": {
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E012"
+          ]
+        }
+      },
+      "excluded_needs_review": [
+        {
+          "attendance_date": "2026-09-15",
+          "employee_id": "E002",
+          "evidence_status": "conflict",
+          "status": "absent"
+        }
+      ],
+      "periods": {
+        "month": {
+          "attendance_pct": 91.83,
+          "by_department": {
+            "engineering": 91.83
+          },
+          "by_employee": {
+            "E001": 100.0,
+            "E002": 82.5,
+            "E003": 95.24,
+            "E004": 88.1,
+            "E012": 92.86
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 91.83
+            },
+            "lowest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 91.83
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E001"
+              ],
+              "unique": true,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E002"
+              ],
+              "unique": true,
+              "value": 82.5
+            }
+          },
+          "present_days": 95.5,
+          "range": [
+            "2026-09-01",
+            "2026-09-30"
+          ],
+          "scheduled_days": 104
+        },
+        "week1": {
+          "attendance_pct": 80.0,
+          "by_department": {
+            "engineering": 80.0
+          },
+          "by_employee": {
+            "E001": 100.0,
+            "E002": 75.0,
+            "E003": 75.0,
+            "E004": 50.0,
+            "E012": 100.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 80.0
+            },
+            "lowest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 80.0
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E001",
+                "E012"
+              ],
+              "unique": false,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E004"
+              ],
+              "unique": true,
+              "value": 50.0
+            }
+          },
+          "present_days": 16.0,
+          "range": [
+            "2026-09-01",
+            "2026-09-04"
+          ],
+          "scheduled_days": 20
+        },
+        "week2": {
+          "attendance_pct": 92.0,
+          "by_department": {
+            "engineering": 92.0
+          },
+          "by_employee": {
+            "E001": 100.0,
+            "E002": 60.0,
+            "E003": 100.0,
+            "E004": 100.0,
+            "E012": 100.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 92.0
+            },
+            "lowest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 92.0
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E001",
+                "E003",
+                "E004",
+                "E012"
+              ],
+              "unique": false,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E002"
+              ],
+              "unique": true,
+              "value": 60.0
+            }
+          },
+          "present_days": 23.0,
+          "range": [
+            "2026-09-07",
+            "2026-09-11"
+          ],
+          "scheduled_days": 25
+        },
+        "week3": {
+          "attendance_pct": 97.92,
+          "by_department": {
+            "engineering": 97.92
+          },
+          "by_employee": {
+            "E001": 100.0,
+            "E002": 100.0,
+            "E003": 100.0,
+            "E004": 100.0,
+            "E012": 90.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 97.92
+            },
+            "lowest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 97.92
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E001",
+                "E002",
+                "E003",
+                "E004"
+              ],
+              "unique": false,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E012"
+              ],
+              "unique": true,
+              "value": 90.0
+            }
+          },
+          "present_days": 23.5,
+          "range": [
+            "2026-09-14",
+            "2026-09-18"
+          ],
+          "scheduled_days": 24
+        },
+        "week4": {
+          "attendance_pct": 92.5,
+          "by_department": {
+            "engineering": 92.5
+          },
+          "by_employee": {
+            "E001": 100.0,
+            "E002": 100.0,
+            "E003": 100.0,
+            "E004": 87.5,
+            "E012": 75.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 92.5
+            },
+            "lowest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 92.5
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E001",
+                "E002",
+                "E003"
+              ],
+              "unique": false,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E012"
+              ],
+              "unique": true,
+              "value": 75.0
+            }
+          },
+          "present_days": 18.5,
+          "range": [
+            "2026-09-21",
+            "2026-09-25"
+          ],
+          "scheduled_days": 20
+        },
+        "week5": {
+          "attendance_pct": 96.67,
+          "by_department": {
+            "engineering": 96.67
+          },
+          "by_employee": {
+            "E001": 100.0,
+            "E002": 83.33,
+            "E003": 100.0,
+            "E004": 100.0,
+            "E012": 100.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 96.67
+            },
+            "lowest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 96.67
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E001",
+                "E003",
+                "E004",
+                "E012"
+              ],
+              "unique": false,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E002"
+              ],
+              "unique": true,
+              "value": 83.33
+            }
+          },
+          "present_days": 14.5,
+          "range": [
+            "2026-09-28",
+            "2026-09-30"
+          ],
+          "scheduled_days": 15
+        }
+      },
+      "record_count": 109,
+      "role": "manager",
+      "scope": {
+        "entities": [
+          "engineering"
+        ],
+        "product": "attendance_ai",
+        "tenant": "tenant_a"
+      }
+    },
+    "a_hr_admin": {
+      "by_date": {
+        "2026-09-01": {
+          "absent": [
+            "E004"
+          ],
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E005",
+            "E006",
+            "E007",
+            "E009",
+            "E010",
+            "E011",
+            "E012"
+          ],
+          "wfh": [
+            "E008"
+          ]
+        },
+        "2026-09-02": {
+          "leave": [
+            "E002",
+            "E004",
+            "E009",
+            "E010"
+          ],
+          "present": [
+            "E001",
+            "E003",
+            "E005",
+            "E006",
+            "E007",
+            "E008",
+            "E011",
+            "E012"
+          ]
+        },
+        "2026-09-03": {
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E005",
+            "E006",
+            "E007",
+            "E008",
+            "E009",
+            "E010",
+            "E011",
+            "E012"
+          ]
+        },
+        "2026-09-04": {
+          "absent": [
+            "E003"
+          ],
+          "leave": [
+            "E007",
+            "E009"
+          ],
+          "present": [
+            "E001",
+            "E002",
+            "E004",
+            "E005",
+            "E006",
+            "E008",
+            "E010",
+            "E011",
+            "E012"
+          ]
+        },
+        "2026-09-07": {
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E005",
+            "E006",
+            "E007",
+            "E008",
+            "E009",
+            "E010",
+            "E011",
+            "E012"
+          ]
+        },
+        "2026-09-08": {
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E005",
+            "E006",
+            "E007",
+            "E008",
+            "E009",
+            "E010",
+            "E011",
+            "E012"
+          ]
+        },
+        "2026-09-09": {
+          "absent": [
+            "E002"
+          ],
+          "present": [
+            "E001",
+            "E003",
+            "E004",
+            "E005",
+            "E006",
+            "E007",
+            "E008",
+            "E009",
+            "E010",
+            "E011",
+            "E012"
+          ]
+        },
+        "2026-09-10": {
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E005",
+            "E006",
+            "E007",
+            "E008",
+            "E009",
+            "E010",
+            "E011",
+            "E012"
+          ]
+        },
+        "2026-09-11": {
+          "absent": [
+            "E002"
+          ],
+          "present": [
+            "E001",
+            "E003",
+            "E004",
+            "E005",
+            "E006",
+            "E007",
+            "E008",
+            "E009",
+            "E010",
+            "E011",
+            "E012"
+          ]
+        },
+        "2026-09-14": {
+          "absent": [
+            "E009"
+          ],
+          "half_day": [
+            "E012"
+          ],
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E005",
+            "E006",
+            "E007",
+            "E008",
+            "E010",
+            "E011"
+          ]
+        },
+        "2026-09-15": {
+          "present": [
+            "E001",
+            "E003",
+            "E004",
+            "E005",
+            "E006",
+            "E007",
+            "E008",
+            "E009",
+            "E010",
+            "E011",
+            "E012"
+          ]
+        },
+        "2026-09-16": {
+          "absent": [
+            "E007",
+            "E010"
+          ],
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E005",
+            "E006",
+            "E008",
+            "E009",
+            "E011",
+            "E012"
+          ]
+        },
+        "2026-09-17": {
+          "half_day": [
+            "E011"
+          ],
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E005",
+            "E006",
+            "E007",
+            "E008",
+            "E009",
+            "E010",
+            "E012"
+          ]
+        },
+        "2026-09-18": {
+          "absent": [
+            "E011"
+          ],
+          "present": [
+            "E002",
+            "E003",
+            "E004",
+            "E005",
+            "E006",
+            "E007",
+            "E008",
+            "E009",
+            "E010",
+            "E012"
+          ],
+          "wfh": [
+            "E001"
+          ]
+        },
+        "2026-09-21": {
+          "absent": [
+            "E006"
+          ],
+          "half_day": [
+            "E005"
+          ],
+          "present": [
+            "E001",
+            "E002",
+            "E004",
+            "E007",
+            "E008",
+            "E009",
+            "E010",
+            "E011",
+            "E012"
+          ],
+          "wfh": [
+            "E003"
+          ]
+        },
+        "2026-09-22": {
+          "absent": [
+            "E009"
+          ],
+          "leave": [
+            "E012"
+          ],
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E005",
+            "E006",
+            "E007",
+            "E008",
+            "E010",
+            "E011"
+          ]
+        },
+        "2026-09-23": {
+          "holiday": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E005",
+            "E006",
+            "E007",
+            "E008",
+            "E009",
+            "E010",
+            "E011",
+            "E012"
+          ]
+        },
+        "2026-09-24": {
+          "half_day": [
+            "E004"
+          ],
+          "leave": [
+            "E008"
+          ],
+          "present": [
+            "E002",
+            "E003",
+            "E005",
+            "E006",
+            "E007",
+            "E009",
+            "E010",
+            "E011",
+            "E012"
+          ],
+          "wfh": [
+            "E001"
+          ]
+        },
+        "2026-09-25": {
+          "half_day": [
+            "E007"
+          ],
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E005",
+            "E006",
+            "E008",
+            "E009",
+            "E010",
+            "E011",
+            "E012"
+          ]
+        },
+        "2026-09-28": {
+          "absent": [
+            "E006"
+          ],
+          "half_day": [
+            "E002"
+          ],
+          "leave": [
+            "E007"
+          ],
+          "present": [
+            "E001",
+            "E003",
+            "E004",
+            "E005",
+            "E008",
+            "E009",
+            "E010",
+            "E011",
+            "E012"
+          ]
+        },
+        "2026-09-29": {
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E005",
+            "E006",
+            "E007",
+            "E008",
+            "E009",
+            "E010",
+            "E011",
+            "E012"
+          ]
+        },
+        "2026-09-30": {
+          "leave": [
+            "E006"
+          ],
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E005",
+            "E007",
+            "E008",
+            "E009",
+            "E010",
+            "E012"
+          ]
+        }
+      },
+      "excluded_needs_review": [
+        {
+          "attendance_date": "2026-09-15",
+          "employee_id": "E002",
+          "evidence_status": "conflict",
+          "status": "absent"
+        },
+        {
+          "attendance_date": "2026-09-30",
+          "employee_id": "E011",
+          "evidence_status": "review_only",
+          "status": "present"
+        }
+      ],
+      "periods": {
+        "month": {
+          "attendance_pct": 90.4,
+          "by_department": {
+            "engineering": 91.83,
+            "hr": 88.89,
+            "sales": 89.76
+          },
+          "by_employee": {
+            "E001": 100.0,
+            "E002": 82.5,
+            "E003": 95.24,
+            "E004": 88.1,
+            "E005": 97.62,
+            "E006": 85.71,
+            "E007": 83.33,
+            "E008": 95.24,
+            "E009": 80.95,
+            "E010": 90.48,
+            "E011": 92.5,
+            "E012": 92.86
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 91.83
+            },
+            "lowest": {
+              "keys": [
+                "hr"
+              ],
+              "unique": true,
+              "value": 88.89
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E001"
+              ],
+              "unique": true,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E009"
+              ],
+              "unique": true,
+              "value": 80.95
+            }
+          },
+          "present_days": 226.0,
+          "range": [
+            "2026-09-01",
+            "2026-09-30"
+          ],
+          "scheduled_days": 250
+        },
+        "week1": {
+          "attendance_pct": 83.33,
+          "by_department": {
+            "engineering": 80.0,
+            "hr": 91.67,
+            "sales": 81.25
+          },
+          "by_employee": {
+            "E001": 100.0,
+            "E002": 75.0,
+            "E003": 75.0,
+            "E004": 50.0,
+            "E005": 100.0,
+            "E006": 100.0,
+            "E007": 75.0,
+            "E008": 100.0,
+            "E009": 50.0,
+            "E010": 75.0,
+            "E011": 100.0,
+            "E012": 100.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "hr"
+              ],
+              "unique": true,
+              "value": 91.67
+            },
+            "lowest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 80.0
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E001",
+                "E005",
+                "E006",
+                "E008",
+                "E011",
+                "E012"
+              ],
+              "unique": false,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E004",
+                "E009"
+              ],
+              "unique": false,
+              "value": 50.0
+            }
+          },
+          "present_days": 40.0,
+          "range": [
+            "2026-09-01",
+            "2026-09-04"
+          ],
+          "scheduled_days": 48
+        },
+        "week2": {
+          "attendance_pct": 96.67,
+          "by_department": {
+            "engineering": 92.0,
+            "hr": 100.0,
+            "sales": 100.0
+          },
+          "by_employee": {
+            "E001": 100.0,
+            "E002": 60.0,
+            "E003": 100.0,
+            "E004": 100.0,
+            "E005": 100.0,
+            "E006": 100.0,
+            "E007": 100.0,
+            "E008": 100.0,
+            "E009": 100.0,
+            "E010": 100.0,
+            "E011": 100.0,
+            "E012": 100.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "hr",
+                "sales"
+              ],
+              "unique": false,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 92.0
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E001",
+                "E003",
+                "E004",
+                "E005",
+                "E006",
+                "E007",
+                "E008",
+                "E009",
+                "E010",
+                "E011",
+                "E012"
+              ],
+              "unique": false,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E002"
+              ],
+              "unique": true,
+              "value": 60.0
+            }
+          },
+          "present_days": 58.0,
+          "range": [
+            "2026-09-07",
+            "2026-09-11"
+          ],
+          "scheduled_days": 60
+        },
+        "week3": {
+          "attendance_pct": 91.53,
+          "by_department": {
+            "engineering": 97.92,
+            "hr": 93.33,
+            "sales": 82.5
+          },
+          "by_employee": {
+            "E001": 100.0,
+            "E002": 100.0,
+            "E003": 100.0,
+            "E004": 100.0,
+            "E005": 100.0,
+            "E006": 100.0,
+            "E007": 80.0,
+            "E008": 100.0,
+            "E009": 80.0,
+            "E010": 80.0,
+            "E011": 70.0,
+            "E012": 90.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 97.92
+            },
+            "lowest": {
+              "keys": [
+                "sales"
+              ],
+              "unique": true,
+              "value": 82.5
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E001",
+                "E002",
+                "E003",
+                "E004",
+                "E005",
+                "E006",
+                "E008"
+              ],
+              "unique": false,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E011"
+              ],
+              "unique": true,
+              "value": 70.0
+            }
+          },
+          "present_days": 54.0,
+          "range": [
+            "2026-09-14",
+            "2026-09-18"
+          ],
+          "scheduled_days": 59
+        },
+        "week4": {
+          "attendance_pct": 88.54,
+          "by_department": {
+            "engineering": 92.5,
+            "hr": 83.33,
+            "sales": 87.5
+          },
+          "by_employee": {
+            "E001": 100.0,
+            "E002": 100.0,
+            "E003": 100.0,
+            "E004": 87.5,
+            "E005": 87.5,
+            "E006": 75.0,
+            "E007": 87.5,
+            "E008": 75.0,
+            "E009": 75.0,
+            "E010": 100.0,
+            "E011": 100.0,
+            "E012": 75.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 92.5
+            },
+            "lowest": {
+              "keys": [
+                "hr"
+              ],
+              "unique": true,
+              "value": 83.33
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E001",
+                "E002",
+                "E003",
+                "E010",
+                "E011"
+              ],
+              "unique": false,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E006",
+                "E008",
+                "E009",
+                "E012"
+              ],
+              "unique": false,
+              "value": 75.0
+            }
+          },
+          "present_days": 42.5,
+          "range": [
+            "2026-09-21",
+            "2026-09-25"
+          ],
+          "scheduled_days": 48
+        },
+        "week5": {
+          "attendance_pct": 90.0,
+          "by_department": {
+            "engineering": 96.67,
+            "hr": 66.67,
+            "sales": 100.0
+          },
+          "by_employee": {
+            "E001": 100.0,
+            "E002": 83.33,
+            "E003": 100.0,
+            "E004": 100.0,
+            "E005": 100.0,
+            "E006": 33.33,
+            "E007": 66.67,
+            "E008": 100.0,
+            "E009": 100.0,
+            "E010": 100.0,
+            "E011": 100.0,
+            "E012": 100.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "sales"
+              ],
+              "unique": true,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "hr"
+              ],
+              "unique": true,
+              "value": 66.67
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E001",
+                "E003",
+                "E004",
+                "E005",
+                "E008",
+                "E009",
+                "E010",
+                "E011",
+                "E012"
+              ],
+              "unique": false,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E006"
+              ],
+              "unique": true,
+              "value": 33.33
+            }
+          },
+          "present_days": 31.5,
+          "range": [
+            "2026-09-28",
+            "2026-09-30"
+          ],
+          "scheduled_days": 35
+        }
+      },
+      "record_count": 262,
+      "role": "hr_admin",
+      "scope": {
+        "entities": [
+          "*"
+        ],
+        "product": "attendance_ai",
+        "tenant": "tenant_a"
+      }
+    },
+    "a_hr_manager": {
+      "by_date": {
+        "2026-09-01": {
+          "present": [
+            "E005",
+            "E006",
+            "E007"
+          ]
+        },
+        "2026-09-02": {
+          "present": [
+            "E005",
+            "E006",
+            "E007"
+          ]
+        },
+        "2026-09-03": {
+          "present": [
+            "E005",
+            "E006",
+            "E007"
+          ]
+        },
+        "2026-09-04": {
+          "leave": [
+            "E007"
+          ],
+          "present": [
+            "E005",
+            "E006"
+          ]
+        },
+        "2026-09-07": {
+          "present": [
+            "E005",
+            "E006",
+            "E007"
+          ]
+        },
+        "2026-09-08": {
+          "present": [
+            "E005",
+            "E006",
+            "E007"
+          ]
+        },
+        "2026-09-09": {
+          "present": [
+            "E005",
+            "E006",
+            "E007"
+          ]
+        },
+        "2026-09-10": {
+          "present": [
+            "E005",
+            "E006",
+            "E007"
+          ]
+        },
+        "2026-09-11": {
+          "present": [
+            "E005",
+            "E006",
+            "E007"
+          ]
+        },
+        "2026-09-14": {
+          "present": [
+            "E005",
+            "E006",
+            "E007"
+          ]
+        },
+        "2026-09-15": {
+          "present": [
+            "E005",
+            "E006",
+            "E007"
+          ]
+        },
+        "2026-09-16": {
+          "absent": [
+            "E007"
+          ],
+          "present": [
+            "E005",
+            "E006"
+          ]
+        },
+        "2026-09-17": {
+          "present": [
+            "E005",
+            "E006",
+            "E007"
+          ]
+        },
+        "2026-09-18": {
+          "present": [
+            "E005",
+            "E006",
+            "E007"
+          ]
+        },
+        "2026-09-21": {
+          "absent": [
+            "E006"
+          ],
+          "half_day": [
+            "E005"
+          ],
+          "present": [
+            "E007"
+          ]
+        },
+        "2026-09-22": {
+          "present": [
+            "E005",
+            "E006",
+            "E007"
+          ]
+        },
+        "2026-09-23": {
+          "holiday": [
+            "E005",
+            "E006",
+            "E007"
+          ]
+        },
+        "2026-09-24": {
+          "present": [
+            "E005",
+            "E006",
+            "E007"
+          ]
+        },
+        "2026-09-25": {
+          "half_day": [
+            "E007"
+          ],
+          "present": [
+            "E005",
+            "E006"
+          ]
+        },
+        "2026-09-28": {
+          "absent": [
+            "E006"
+          ],
+          "leave": [
+            "E007"
+          ],
+          "present": [
+            "E005"
+          ]
+        },
+        "2026-09-29": {
+          "present": [
+            "E005",
+            "E006",
+            "E007"
+          ]
+        },
+        "2026-09-30": {
+          "leave": [
+            "E006"
+          ],
+          "present": [
+            "E005",
+            "E007"
+          ]
+        }
+      },
+      "excluded_needs_review": [],
+      "periods": {
+        "month": {
+          "attendance_pct": 88.89,
+          "by_department": {
+            "hr": 88.89
+          },
+          "by_employee": {
+            "E005": 97.62,
+            "E006": 85.71,
+            "E007": 83.33
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "hr"
+              ],
+              "unique": true,
+              "value": 88.89
+            },
+            "lowest": {
+              "keys": [
+                "hr"
+              ],
+              "unique": true,
+              "value": 88.89
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E005"
+              ],
+              "unique": true,
+              "value": 97.62
+            },
+            "lowest": {
+              "keys": [
+                "E007"
+              ],
+              "unique": true,
+              "value": 83.33
+            }
+          },
+          "present_days": 56.0,
+          "range": [
+            "2026-09-01",
+            "2026-09-30"
+          ],
+          "scheduled_days": 63
+        },
+        "week1": {
+          "attendance_pct": 91.67,
+          "by_department": {
+            "hr": 91.67
+          },
+          "by_employee": {
+            "E005": 100.0,
+            "E006": 100.0,
+            "E007": 75.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "hr"
+              ],
+              "unique": true,
+              "value": 91.67
+            },
+            "lowest": {
+              "keys": [
+                "hr"
+              ],
+              "unique": true,
+              "value": 91.67
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E005",
+                "E006"
+              ],
+              "unique": false,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E007"
+              ],
+              "unique": true,
+              "value": 75.0
+            }
+          },
+          "present_days": 11.0,
+          "range": [
+            "2026-09-01",
+            "2026-09-04"
+          ],
+          "scheduled_days": 12
+        },
+        "week2": {
+          "attendance_pct": 100.0,
+          "by_department": {
+            "hr": 100.0
+          },
+          "by_employee": {
+            "E005": 100.0,
+            "E006": 100.0,
+            "E007": 100.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "hr"
+              ],
+              "unique": true,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "hr"
+              ],
+              "unique": true,
+              "value": 100.0
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E005",
+                "E006",
+                "E007"
+              ],
+              "unique": false,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E005",
+                "E006",
+                "E007"
+              ],
+              "unique": false,
+              "value": 100.0
+            }
+          },
+          "present_days": 15.0,
+          "range": [
+            "2026-09-07",
+            "2026-09-11"
+          ],
+          "scheduled_days": 15
+        },
+        "week3": {
+          "attendance_pct": 93.33,
+          "by_department": {
+            "hr": 93.33
+          },
+          "by_employee": {
+            "E005": 100.0,
+            "E006": 100.0,
+            "E007": 80.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "hr"
+              ],
+              "unique": true,
+              "value": 93.33
+            },
+            "lowest": {
+              "keys": [
+                "hr"
+              ],
+              "unique": true,
+              "value": 93.33
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E005",
+                "E006"
+              ],
+              "unique": false,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E007"
+              ],
+              "unique": true,
+              "value": 80.0
+            }
+          },
+          "present_days": 14.0,
+          "range": [
+            "2026-09-14",
+            "2026-09-18"
+          ],
+          "scheduled_days": 15
+        },
+        "week4": {
+          "attendance_pct": 83.33,
+          "by_department": {
+            "hr": 83.33
+          },
+          "by_employee": {
+            "E005": 87.5,
+            "E006": 75.0,
+            "E007": 87.5
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "hr"
+              ],
+              "unique": true,
+              "value": 83.33
+            },
+            "lowest": {
+              "keys": [
+                "hr"
+              ],
+              "unique": true,
+              "value": 83.33
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E005",
+                "E007"
+              ],
+              "unique": false,
+              "value": 87.5
+            },
+            "lowest": {
+              "keys": [
+                "E006"
+              ],
+              "unique": true,
+              "value": 75.0
+            }
+          },
+          "present_days": 10.0,
+          "range": [
+            "2026-09-21",
+            "2026-09-25"
+          ],
+          "scheduled_days": 12
+        },
+        "week5": {
+          "attendance_pct": 66.67,
+          "by_department": {
+            "hr": 66.67
+          },
+          "by_employee": {
+            "E005": 100.0,
+            "E006": 33.33,
+            "E007": 66.67
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "hr"
+              ],
+              "unique": true,
+              "value": 66.67
+            },
+            "lowest": {
+              "keys": [
+                "hr"
+              ],
+              "unique": true,
+              "value": 66.67
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E005"
+              ],
+              "unique": true,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E006"
+              ],
+              "unique": true,
+              "value": 33.33
+            }
+          },
+          "present_days": 6.0,
+          "range": [
+            "2026-09-28",
+            "2026-09-30"
+          ],
+          "scheduled_days": 9
+        }
+      },
+      "record_count": 66,
+      "role": "manager",
+      "scope": {
+        "entities": [
+          "hr"
+        ],
+        "product": "attendance_ai",
+        "tenant": "tenant_a"
+      }
+    },
+    "a_reviewer": {
+      "by_date": {
+        "2026-09-01": {
+          "absent": [
+            "E004"
+          ],
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E012"
+          ]
+        },
+        "2026-09-02": {
+          "leave": [
+            "E002",
+            "E004"
+          ],
+          "present": [
+            "E001",
+            "E003",
+            "E012"
+          ]
+        },
+        "2026-09-03": {
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E012"
+          ]
+        },
+        "2026-09-04": {
+          "absent": [
+            "E003"
+          ],
+          "present": [
+            "E001",
+            "E002",
+            "E004",
+            "E012"
+          ]
+        },
+        "2026-09-07": {
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E012"
+          ]
+        },
+        "2026-09-08": {
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E012"
+          ]
+        },
+        "2026-09-09": {
+          "absent": [
+            "E002"
+          ],
+          "present": [
+            "E001",
+            "E003",
+            "E004",
+            "E012"
+          ]
+        },
+        "2026-09-10": {
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E012"
+          ]
+        },
+        "2026-09-11": {
+          "absent": [
+            "E002"
+          ],
+          "present": [
+            "E001",
+            "E003",
+            "E004",
+            "E012"
+          ]
+        },
+        "2026-09-14": {
+          "half_day": [
+            "E012"
+          ],
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004"
+          ]
+        },
+        "2026-09-15": {
+          "present": [
+            "E001",
+            "E003",
+            "E004",
+            "E012"
+          ]
+        },
+        "2026-09-16": {
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E012"
+          ]
+        },
+        "2026-09-17": {
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E012"
+          ]
+        },
+        "2026-09-18": {
+          "present": [
+            "E002",
+            "E003",
+            "E004",
+            "E012"
+          ],
+          "wfh": [
+            "E001"
+          ]
+        },
+        "2026-09-21": {
+          "present": [
+            "E001",
+            "E002",
+            "E004",
+            "E012"
+          ],
+          "wfh": [
+            "E003"
+          ]
+        },
+        "2026-09-22": {
+          "leave": [
+            "E012"
+          ],
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004"
+          ]
+        },
+        "2026-09-23": {
+          "holiday": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E012"
+          ]
+        },
+        "2026-09-24": {
+          "half_day": [
+            "E004"
+          ],
+          "present": [
+            "E002",
+            "E003",
+            "E012"
+          ],
+          "wfh": [
+            "E001"
+          ]
+        },
+        "2026-09-25": {
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E012"
+          ]
+        },
+        "2026-09-28": {
+          "half_day": [
+            "E002"
+          ],
+          "present": [
+            "E001",
+            "E003",
+            "E004",
+            "E012"
+          ]
+        },
+        "2026-09-29": {
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E012"
+          ]
+        },
+        "2026-09-30": {
+          "present": [
+            "E001",
+            "E002",
+            "E003",
+            "E004",
+            "E012"
+          ]
+        }
+      },
+      "excluded_needs_review": [
+        {
+          "attendance_date": "2026-09-15",
+          "employee_id": "E002",
+          "evidence_status": "conflict",
+          "status": "absent"
+        }
+      ],
+      "periods": {
+        "month": {
+          "attendance_pct": 91.83,
+          "by_department": {
+            "engineering": 91.83
+          },
+          "by_employee": {
+            "E001": 100.0,
+            "E002": 82.5,
+            "E003": 95.24,
+            "E004": 88.1,
+            "E012": 92.86
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 91.83
+            },
+            "lowest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 91.83
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E001"
+              ],
+              "unique": true,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E002"
+              ],
+              "unique": true,
+              "value": 82.5
+            }
+          },
+          "present_days": 95.5,
+          "range": [
+            "2026-09-01",
+            "2026-09-30"
+          ],
+          "scheduled_days": 104
+        },
+        "week1": {
+          "attendance_pct": 80.0,
+          "by_department": {
+            "engineering": 80.0
+          },
+          "by_employee": {
+            "E001": 100.0,
+            "E002": 75.0,
+            "E003": 75.0,
+            "E004": 50.0,
+            "E012": 100.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 80.0
+            },
+            "lowest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 80.0
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E001",
+                "E012"
+              ],
+              "unique": false,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E004"
+              ],
+              "unique": true,
+              "value": 50.0
+            }
+          },
+          "present_days": 16.0,
+          "range": [
+            "2026-09-01",
+            "2026-09-04"
+          ],
+          "scheduled_days": 20
+        },
+        "week2": {
+          "attendance_pct": 92.0,
+          "by_department": {
+            "engineering": 92.0
+          },
+          "by_employee": {
+            "E001": 100.0,
+            "E002": 60.0,
+            "E003": 100.0,
+            "E004": 100.0,
+            "E012": 100.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 92.0
+            },
+            "lowest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 92.0
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E001",
+                "E003",
+                "E004",
+                "E012"
+              ],
+              "unique": false,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E002"
+              ],
+              "unique": true,
+              "value": 60.0
+            }
+          },
+          "present_days": 23.0,
+          "range": [
+            "2026-09-07",
+            "2026-09-11"
+          ],
+          "scheduled_days": 25
+        },
+        "week3": {
+          "attendance_pct": 97.92,
+          "by_department": {
+            "engineering": 97.92
+          },
+          "by_employee": {
+            "E001": 100.0,
+            "E002": 100.0,
+            "E003": 100.0,
+            "E004": 100.0,
+            "E012": 90.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 97.92
+            },
+            "lowest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 97.92
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E001",
+                "E002",
+                "E003",
+                "E004"
+              ],
+              "unique": false,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E012"
+              ],
+              "unique": true,
+              "value": 90.0
+            }
+          },
+          "present_days": 23.5,
+          "range": [
+            "2026-09-14",
+            "2026-09-18"
+          ],
+          "scheduled_days": 24
+        },
+        "week4": {
+          "attendance_pct": 92.5,
+          "by_department": {
+            "engineering": 92.5
+          },
+          "by_employee": {
+            "E001": 100.0,
+            "E002": 100.0,
+            "E003": 100.0,
+            "E004": 87.5,
+            "E012": 75.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 92.5
+            },
+            "lowest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 92.5
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E001",
+                "E002",
+                "E003"
+              ],
+              "unique": false,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E012"
+              ],
+              "unique": true,
+              "value": 75.0
+            }
+          },
+          "present_days": 18.5,
+          "range": [
+            "2026-09-21",
+            "2026-09-25"
+          ],
+          "scheduled_days": 20
+        },
+        "week5": {
+          "attendance_pct": 96.67,
+          "by_department": {
+            "engineering": 96.67
+          },
+          "by_employee": {
+            "E001": 100.0,
+            "E002": 83.33,
+            "E003": 100.0,
+            "E004": 100.0,
+            "E012": 100.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 96.67
+            },
+            "lowest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 96.67
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E001",
+                "E003",
+                "E004",
+                "E012"
+              ],
+              "unique": false,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E002"
+              ],
+              "unique": true,
+              "value": 83.33
+            }
+          },
+          "present_days": 14.5,
+          "range": [
+            "2026-09-28",
+            "2026-09-30"
+          ],
+          "scheduled_days": 15
+        }
+      },
+      "record_count": 109,
+      "role": "reviewer",
+      "scope": {
+        "entities": [
+          "engineering"
+        ],
+        "product": "attendance_ai",
+        "tenant": "tenant_a"
+      }
+    },
+    "b_manager": {
+      "by_date": {
+        "2026-09-01": {
+          "half_day": [
+            "E103"
+          ],
+          "present": [
+            "E101",
+            "E102",
+            "E104",
+            "E105",
+            "E106"
+          ]
+        },
+        "2026-09-02": {
+          "present": [
+            "E101",
+            "E102",
+            "E103",
+            "E104",
+            "E105",
+            "E106"
+          ]
+        },
+        "2026-09-03": {
+          "absent": [
+            "E106"
+          ],
+          "present": [
+            "E101",
+            "E102",
+            "E103",
+            "E104",
+            "E105"
+          ]
+        },
+        "2026-09-04": {
+          "present": [
+            "E101",
+            "E102",
+            "E103",
+            "E104",
+            "E105",
+            "E106"
+          ]
+        },
+        "2026-09-07": {
+          "present": [
+            "E101",
+            "E102",
+            "E103",
+            "E104",
+            "E105",
+            "E106"
+          ]
+        },
+        "2026-09-08": {
+          "present": [
+            "E101",
+            "E102",
+            "E103",
+            "E104",
+            "E105",
+            "E106"
+          ]
+        },
+        "2026-09-09": {
+          "present": [
+            "E101",
+            "E102",
+            "E103",
+            "E104",
+            "E105",
+            "E106"
+          ]
+        },
+        "2026-09-10": {
+          "present": [
+            "E101",
+            "E102",
+            "E103",
+            "E104",
+            "E105",
+            "E106"
+          ]
+        },
+        "2026-09-11": {
+          "present": [
+            "E101",
+            "E102",
+            "E103",
+            "E104",
+            "E105",
+            "E106"
+          ]
+        },
+        "2026-09-14": {
+          "present": [
+            "E101",
+            "E103",
+            "E104",
+            "E105",
+            "E106"
+          ],
+          "wfh": [
+            "E102"
+          ]
+        },
+        "2026-09-15": {
+          "present": [
+            "E101",
+            "E102",
+            "E103",
+            "E104",
+            "E105",
+            "E106"
+          ]
+        },
+        "2026-09-16": {
+          "present": [
+            "E101",
+            "E102",
+            "E103",
+            "E104",
+            "E105",
+            "E106"
+          ]
+        },
+        "2026-09-17": {
+          "leave": [
+            "E103"
+          ],
+          "present": [
+            "E101",
+            "E102",
+            "E104",
+            "E105",
+            "E106"
+          ]
+        },
+        "2026-09-18": {
+          "absent": [
+            "E105"
+          ],
+          "present": [
+            "E101",
+            "E102",
+            "E103",
+            "E104",
+            "E106"
+          ]
+        },
+        "2026-09-21": {
+          "absent": [
+            "E101"
+          ],
+          "present": [
+            "E102",
+            "E103",
+            "E104",
+            "E105"
+          ],
+          "wfh": [
+            "E106"
+          ]
+        },
+        "2026-09-22": {
+          "leave": [
+            "E101"
+          ],
+          "present": [
+            "E102",
+            "E103",
+            "E104",
+            "E105",
+            "E106"
+          ]
+        },
+        "2026-09-23": {
+          "holiday": [
+            "E101",
+            "E102",
+            "E103",
+            "E104",
+            "E105",
+            "E106"
+          ]
+        },
+        "2026-09-24": {
+          "absent": [
+            "E103"
+          ],
+          "present": [
+            "E101",
+            "E102",
+            "E104",
+            "E105",
+            "E106"
+          ]
+        },
+        "2026-09-25": {
+          "absent": [
+            "E106"
+          ],
+          "half_day": [
+            "E104"
+          ],
+          "present": [
+            "E101",
+            "E102",
+            "E103",
+            "E105"
+          ]
+        },
+        "2026-09-28": {
+          "half_day": [
+            "E106"
+          ],
+          "present": [
+            "E101",
+            "E102",
+            "E103",
+            "E104",
+            "E105"
+          ]
+        },
+        "2026-09-29": {
+          "absent": [
+            "E103"
+          ],
+          "present": [
+            "E101",
+            "E102",
+            "E104",
+            "E105",
+            "E106"
+          ]
+        },
+        "2026-09-30": {
+          "absent": [
+            "E103"
+          ],
+          "leave": [
+            "E104"
+          ],
+          "present": [
+            "E101",
+            "E102",
+            "E105",
+            "E106"
+          ]
+        }
+      },
+      "excluded_needs_review": [],
+      "periods": {
+        "month": {
+          "attendance_pct": 90.87,
+          "by_department": {
+            "engineering": 89.68,
+            "finance": 92.06
+          },
+          "by_employee": {
+            "E101": 90.48,
+            "E102": 100.0,
+            "E103": 78.57,
+            "E104": 92.86,
+            "E105": 95.24,
+            "E106": 88.1
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "finance"
+              ],
+              "unique": true,
+              "value": 92.06
+            },
+            "lowest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 89.68
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E102"
+              ],
+              "unique": true,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E103"
+              ],
+              "unique": true,
+              "value": 78.57
+            }
+          },
+          "present_days": 114.5,
+          "range": [
+            "2026-09-01",
+            "2026-09-30"
+          ],
+          "scheduled_days": 126
+        },
+        "week1": {
+          "attendance_pct": 93.75,
+          "by_department": {
+            "engineering": 95.83,
+            "finance": 91.67
+          },
+          "by_employee": {
+            "E101": 100.0,
+            "E102": 100.0,
+            "E103": 87.5,
+            "E104": 100.0,
+            "E105": 100.0,
+            "E106": 75.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 95.83
+            },
+            "lowest": {
+              "keys": [
+                "finance"
+              ],
+              "unique": true,
+              "value": 91.67
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E101",
+                "E102",
+                "E104",
+                "E105"
+              ],
+              "unique": false,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E106"
+              ],
+              "unique": true,
+              "value": 75.0
+            }
+          },
+          "present_days": 22.5,
+          "range": [
+            "2026-09-01",
+            "2026-09-04"
+          ],
+          "scheduled_days": 24
+        },
+        "week2": {
+          "attendance_pct": 100.0,
+          "by_department": {
+            "engineering": 100.0,
+            "finance": 100.0
+          },
+          "by_employee": {
+            "E101": 100.0,
+            "E102": 100.0,
+            "E103": 100.0,
+            "E104": 100.0,
+            "E105": 100.0,
+            "E106": 100.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "engineering",
+                "finance"
+              ],
+              "unique": false,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "engineering",
+                "finance"
+              ],
+              "unique": false,
+              "value": 100.0
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E101",
+                "E102",
+                "E103",
+                "E104",
+                "E105",
+                "E106"
+              ],
+              "unique": false,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E101",
+                "E102",
+                "E103",
+                "E104",
+                "E105",
+                "E106"
+              ],
+              "unique": false,
+              "value": 100.0
+            }
+          },
+          "present_days": 30.0,
+          "range": [
+            "2026-09-07",
+            "2026-09-11"
+          ],
+          "scheduled_days": 30
+        },
+        "week3": {
+          "attendance_pct": 93.33,
+          "by_department": {
+            "engineering": 93.33,
+            "finance": 93.33
+          },
+          "by_employee": {
+            "E101": 100.0,
+            "E102": 100.0,
+            "E103": 80.0,
+            "E104": 100.0,
+            "E105": 80.0,
+            "E106": 100.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "engineering",
+                "finance"
+              ],
+              "unique": false,
+              "value": 93.33
+            },
+            "lowest": {
+              "keys": [
+                "engineering",
+                "finance"
+              ],
+              "unique": false,
+              "value": 93.33
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E101",
+                "E102",
+                "E104",
+                "E106"
+              ],
+              "unique": false,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E103",
+                "E105"
+              ],
+              "unique": false,
+              "value": 80.0
+            }
+          },
+          "present_days": 28.0,
+          "range": [
+            "2026-09-14",
+            "2026-09-18"
+          ],
+          "scheduled_days": 30
+        },
+        "week4": {
+          "attendance_pct": 81.25,
+          "by_department": {
+            "engineering": 75.0,
+            "finance": 87.5
+          },
+          "by_employee": {
+            "E101": 50.0,
+            "E102": 100.0,
+            "E103": 75.0,
+            "E104": 87.5,
+            "E105": 100.0,
+            "E106": 75.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "finance"
+              ],
+              "unique": true,
+              "value": 87.5
+            },
+            "lowest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 75.0
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E102",
+                "E105"
+              ],
+              "unique": false,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E101"
+              ],
+              "unique": true,
+              "value": 50.0
+            }
+          },
+          "present_days": 19.5,
+          "range": [
+            "2026-09-21",
+            "2026-09-25"
+          ],
+          "scheduled_days": 24
+        },
+        "week5": {
+          "attendance_pct": 80.56,
+          "by_department": {
+            "engineering": 77.78,
+            "finance": 83.33
+          },
+          "by_employee": {
+            "E101": 100.0,
+            "E102": 100.0,
+            "E103": 33.33,
+            "E104": 66.67,
+            "E105": 100.0,
+            "E106": 83.33
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "finance"
+              ],
+              "unique": true,
+              "value": 83.33
+            },
+            "lowest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 77.78
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E101",
+                "E102",
+                "E105"
+              ],
+              "unique": false,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E103"
+              ],
+              "unique": true,
+              "value": 33.33
+            }
+          },
+          "present_days": 14.5,
+          "range": [
+            "2026-09-28",
+            "2026-09-30"
+          ],
+          "scheduled_days": 18
+        }
+      },
+      "record_count": 132,
+      "role": "manager",
+      "scope": {
+        "entities": [
+          "*"
+        ],
+        "product": "attendance_ai",
+        "tenant": "tenant_b"
+      }
+    },
+    "b_reviewer": {
+      "by_date": {
+        "2026-09-01": {
+          "half_day": [
+            "E103"
+          ],
+          "present": [
+            "E101",
+            "E102",
+            "E104",
+            "E105",
+            "E106"
+          ]
+        },
+        "2026-09-02": {
+          "present": [
+            "E101",
+            "E102",
+            "E103",
+            "E104",
+            "E105",
+            "E106"
+          ]
+        },
+        "2026-09-03": {
+          "absent": [
+            "E106"
+          ],
+          "present": [
+            "E101",
+            "E102",
+            "E103",
+            "E104",
+            "E105"
+          ]
+        },
+        "2026-09-04": {
+          "present": [
+            "E101",
+            "E102",
+            "E103",
+            "E104",
+            "E105",
+            "E106"
+          ]
+        },
+        "2026-09-07": {
+          "present": [
+            "E101",
+            "E102",
+            "E103",
+            "E104",
+            "E105",
+            "E106"
+          ]
+        },
+        "2026-09-08": {
+          "present": [
+            "E101",
+            "E102",
+            "E103",
+            "E104",
+            "E105",
+            "E106"
+          ]
+        },
+        "2026-09-09": {
+          "present": [
+            "E101",
+            "E102",
+            "E103",
+            "E104",
+            "E105",
+            "E106"
+          ]
+        },
+        "2026-09-10": {
+          "present": [
+            "E101",
+            "E102",
+            "E103",
+            "E104",
+            "E105",
+            "E106"
+          ]
+        },
+        "2026-09-11": {
+          "present": [
+            "E101",
+            "E102",
+            "E103",
+            "E104",
+            "E105",
+            "E106"
+          ]
+        },
+        "2026-09-14": {
+          "present": [
+            "E101",
+            "E103",
+            "E104",
+            "E105",
+            "E106"
+          ],
+          "wfh": [
+            "E102"
+          ]
+        },
+        "2026-09-15": {
+          "present": [
+            "E101",
+            "E102",
+            "E103",
+            "E104",
+            "E105",
+            "E106"
+          ]
+        },
+        "2026-09-16": {
+          "present": [
+            "E101",
+            "E102",
+            "E103",
+            "E104",
+            "E105",
+            "E106"
+          ]
+        },
+        "2026-09-17": {
+          "leave": [
+            "E103"
+          ],
+          "present": [
+            "E101",
+            "E102",
+            "E104",
+            "E105",
+            "E106"
+          ]
+        },
+        "2026-09-18": {
+          "absent": [
+            "E105"
+          ],
+          "present": [
+            "E101",
+            "E102",
+            "E103",
+            "E104",
+            "E106"
+          ]
+        },
+        "2026-09-21": {
+          "absent": [
+            "E101"
+          ],
+          "present": [
+            "E102",
+            "E103",
+            "E104",
+            "E105"
+          ],
+          "wfh": [
+            "E106"
+          ]
+        },
+        "2026-09-22": {
+          "leave": [
+            "E101"
+          ],
+          "present": [
+            "E102",
+            "E103",
+            "E104",
+            "E105",
+            "E106"
+          ]
+        },
+        "2026-09-23": {
+          "holiday": [
+            "E101",
+            "E102",
+            "E103",
+            "E104",
+            "E105",
+            "E106"
+          ]
+        },
+        "2026-09-24": {
+          "absent": [
+            "E103"
+          ],
+          "present": [
+            "E101",
+            "E102",
+            "E104",
+            "E105",
+            "E106"
+          ]
+        },
+        "2026-09-25": {
+          "absent": [
+            "E106"
+          ],
+          "half_day": [
+            "E104"
+          ],
+          "present": [
+            "E101",
+            "E102",
+            "E103",
+            "E105"
+          ]
+        },
+        "2026-09-28": {
+          "half_day": [
+            "E106"
+          ],
+          "present": [
+            "E101",
+            "E102",
+            "E103",
+            "E104",
+            "E105"
+          ]
+        },
+        "2026-09-29": {
+          "absent": [
+            "E103"
+          ],
+          "present": [
+            "E101",
+            "E102",
+            "E104",
+            "E105",
+            "E106"
+          ]
+        },
+        "2026-09-30": {
+          "absent": [
+            "E103"
+          ],
+          "leave": [
+            "E104"
+          ],
+          "present": [
+            "E101",
+            "E102",
+            "E105",
+            "E106"
+          ]
+        }
+      },
+      "excluded_needs_review": [],
+      "periods": {
+        "month": {
+          "attendance_pct": 90.87,
+          "by_department": {
+            "engineering": 89.68,
+            "finance": 92.06
+          },
+          "by_employee": {
+            "E101": 90.48,
+            "E102": 100.0,
+            "E103": 78.57,
+            "E104": 92.86,
+            "E105": 95.24,
+            "E106": 88.1
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "finance"
+              ],
+              "unique": true,
+              "value": 92.06
+            },
+            "lowest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 89.68
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E102"
+              ],
+              "unique": true,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E103"
+              ],
+              "unique": true,
+              "value": 78.57
+            }
+          },
+          "present_days": 114.5,
+          "range": [
+            "2026-09-01",
+            "2026-09-30"
+          ],
+          "scheduled_days": 126
+        },
+        "week1": {
+          "attendance_pct": 93.75,
+          "by_department": {
+            "engineering": 95.83,
+            "finance": 91.67
+          },
+          "by_employee": {
+            "E101": 100.0,
+            "E102": 100.0,
+            "E103": 87.5,
+            "E104": 100.0,
+            "E105": 100.0,
+            "E106": 75.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 95.83
+            },
+            "lowest": {
+              "keys": [
+                "finance"
+              ],
+              "unique": true,
+              "value": 91.67
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E101",
+                "E102",
+                "E104",
+                "E105"
+              ],
+              "unique": false,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E106"
+              ],
+              "unique": true,
+              "value": 75.0
+            }
+          },
+          "present_days": 22.5,
+          "range": [
+            "2026-09-01",
+            "2026-09-04"
+          ],
+          "scheduled_days": 24
+        },
+        "week2": {
+          "attendance_pct": 100.0,
+          "by_department": {
+            "engineering": 100.0,
+            "finance": 100.0
+          },
+          "by_employee": {
+            "E101": 100.0,
+            "E102": 100.0,
+            "E103": 100.0,
+            "E104": 100.0,
+            "E105": 100.0,
+            "E106": 100.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "engineering",
+                "finance"
+              ],
+              "unique": false,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "engineering",
+                "finance"
+              ],
+              "unique": false,
+              "value": 100.0
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E101",
+                "E102",
+                "E103",
+                "E104",
+                "E105",
+                "E106"
+              ],
+              "unique": false,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E101",
+                "E102",
+                "E103",
+                "E104",
+                "E105",
+                "E106"
+              ],
+              "unique": false,
+              "value": 100.0
+            }
+          },
+          "present_days": 30.0,
+          "range": [
+            "2026-09-07",
+            "2026-09-11"
+          ],
+          "scheduled_days": 30
+        },
+        "week3": {
+          "attendance_pct": 93.33,
+          "by_department": {
+            "engineering": 93.33,
+            "finance": 93.33
+          },
+          "by_employee": {
+            "E101": 100.0,
+            "E102": 100.0,
+            "E103": 80.0,
+            "E104": 100.0,
+            "E105": 80.0,
+            "E106": 100.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "engineering",
+                "finance"
+              ],
+              "unique": false,
+              "value": 93.33
+            },
+            "lowest": {
+              "keys": [
+                "engineering",
+                "finance"
+              ],
+              "unique": false,
+              "value": 93.33
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E101",
+                "E102",
+                "E104",
+                "E106"
+              ],
+              "unique": false,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E103",
+                "E105"
+              ],
+              "unique": false,
+              "value": 80.0
+            }
+          },
+          "present_days": 28.0,
+          "range": [
+            "2026-09-14",
+            "2026-09-18"
+          ],
+          "scheduled_days": 30
+        },
+        "week4": {
+          "attendance_pct": 81.25,
+          "by_department": {
+            "engineering": 75.0,
+            "finance": 87.5
+          },
+          "by_employee": {
+            "E101": 50.0,
+            "E102": 100.0,
+            "E103": 75.0,
+            "E104": 87.5,
+            "E105": 100.0,
+            "E106": 75.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "finance"
+              ],
+              "unique": true,
+              "value": 87.5
+            },
+            "lowest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 75.0
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E102",
+                "E105"
+              ],
+              "unique": false,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E101"
+              ],
+              "unique": true,
+              "value": 50.0
+            }
+          },
+          "present_days": 19.5,
+          "range": [
+            "2026-09-21",
+            "2026-09-25"
+          ],
+          "scheduled_days": 24
+        },
+        "week5": {
+          "attendance_pct": 80.56,
+          "by_department": {
+            "engineering": 77.78,
+            "finance": 83.33
+          },
+          "by_employee": {
+            "E101": 100.0,
+            "E102": 100.0,
+            "E103": 33.33,
+            "E104": 66.67,
+            "E105": 100.0,
+            "E106": 83.33
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "finance"
+              ],
+              "unique": true,
+              "value": 83.33
+            },
+            "lowest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 77.78
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E101",
+                "E102",
+                "E105"
+              ],
+              "unique": false,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E103"
+              ],
+              "unique": true,
+              "value": 33.33
+            }
+          },
+          "present_days": 14.5,
+          "range": [
+            "2026-09-28",
+            "2026-09-30"
+          ],
+          "scheduled_days": 18
+        }
+      },
+      "record_count": 132,
+      "role": "reviewer",
+      "scope": {
+        "entities": [
+          "*"
+        ],
+        "product": "attendance_ai",
+        "tenant": "tenant_b"
+      }
+    },
+    "x_other_product": {
+      "by_date": {
+        "2026-09-01": {
+          "absent": [
+            "E001"
+          ],
+          "present": [
+            "E002"
+          ]
+        },
+        "2026-09-02": {
+          "present": [
+            "E001",
+            "E002"
+          ]
+        }
+      },
+      "excluded_needs_review": [],
+      "periods": {
+        "month": {
+          "attendance_pct": 75.0,
+          "by_department": {
+            "engineering": 75.0
+          },
+          "by_employee": {
+            "E001": 50.0,
+            "E002": 100.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 75.0
+            },
+            "lowest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 75.0
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E002"
+              ],
+              "unique": true,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E001"
+              ],
+              "unique": true,
+              "value": 50.0
+            }
+          },
+          "present_days": 3.0,
+          "range": [
+            "2026-09-01",
+            "2026-09-30"
+          ],
+          "scheduled_days": 4
+        },
+        "week1": {
+          "attendance_pct": 75.0,
+          "by_department": {
+            "engineering": 75.0
+          },
+          "by_employee": {
+            "E001": 50.0,
+            "E002": 100.0
+          },
+          "department_rank": {
+            "highest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 75.0
+            },
+            "lowest": {
+              "keys": [
+                "engineering"
+              ],
+              "unique": true,
+              "value": 75.0
+            }
+          },
+          "employee_rank": {
+            "highest": {
+              "keys": [
+                "E002"
+              ],
+              "unique": true,
+              "value": 100.0
+            },
+            "lowest": {
+              "keys": [
+                "E001"
+              ],
+              "unique": true,
+              "value": 50.0
+            }
+          },
+          "present_days": 3.0,
+          "range": [
+            "2026-09-01",
+            "2026-09-04"
+          ],
+          "scheduled_days": 4
+        },
+        "week2": {
+          "attendance_pct": null,
+          "by_department": {},
+          "by_employee": {},
+          "department_rank": {},
+          "employee_rank": {},
+          "present_days": 0,
+          "range": [
+            "2026-09-07",
+            "2026-09-11"
+          ],
+          "scheduled_days": 0
+        },
+        "week3": {
+          "attendance_pct": null,
+          "by_department": {},
+          "by_employee": {},
+          "department_rank": {},
+          "employee_rank": {},
+          "present_days": 0,
+          "range": [
+            "2026-09-14",
+            "2026-09-18"
+          ],
+          "scheduled_days": 0
+        },
+        "week4": {
+          "attendance_pct": null,
+          "by_department": {},
+          "by_employee": {},
+          "department_rank": {},
+          "employee_rank": {},
+          "present_days": 0,
+          "range": [
+            "2026-09-21",
+            "2026-09-25"
+          ],
+          "scheduled_days": 0
+        },
+        "week5": {
+          "attendance_pct": null,
+          "by_department": {},
+          "by_employee": {},
+          "department_rank": {},
+          "employee_rank": {},
+          "present_days": 0,
+          "range": [
+            "2026-09-28",
+            "2026-09-30"
+          ],
+          "scheduled_days": 0
+        }
+      },
+      "record_count": 4,
+      "role": "manager",
+      "scope": {
+        "entities": [
+          "*"
+        ],
+        "product": "hrms_ai",
+        "tenant": "tenant_a"
+      }
+    }
+  },
+  "evidence_summary": {
+    "clean": 398,
+    "conflict": 1,
+    "review_only": 1
+  },
+  "metric_rules": {
+    "attendance_pct": "100 * sum(present_value) / sum(scheduled), pooled employee-days",
+    "counted_facts": "evidence_status == clean only",
+    "present_value": {
+      "half_day": 0.5,
+      "present": 1.0,
+      "wfh": 1.0
+    },
+    "scheduled_day": "status != holiday"
+  },
+  "periods": {
+    "month": [
+      "2026-09-01",
+      "2026-09-30"
+    ],
+    "week1": [
+      "2026-09-01",
+      "2026-09-04"
+    ],
+    "week2": [
+      "2026-09-07",
+      "2026-09-11"
+    ],
+    "week3": [
+      "2026-09-14",
+      "2026-09-18"
+    ],
+    "week4": [
+      "2026-09-21",
+      "2026-09-25"
+    ],
+    "week5": [
+      "2026-09-28",
+      "2026-09-30"
+    ]
+  }
+}

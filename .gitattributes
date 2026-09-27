@@ -1,0 +1,10 @@
+# Normalize source to LF; never touch generated sample data (checksums must stay stable).
+* text=auto eol=lf
+*.ps1 text eol=crlf
+data/generated/** -text
+data/ground_truth/** -text
+*.png binary
+*.pdf binary
+*.xlsx binary
+*.docx binary
+*.ttf binary

@@ -1,0 +1,90 @@
+# Single source of truth for all synthetic data. Fictional companies and people only.
+# Status counts are chosen so that highest/lowest questions have UNIQUE answers
+# (the generator asserts this).
+
+seed: 42
+reference_today: "2026-10-05"        # "last month" == September 2026 in tests
+period: { start: "2026-09-01", end: "2026-09-30" }
+holidays: ["2026-09-23"]
+module: attendance
+default_product: attendance_ai
+
+products:
+  attendance_ai: "Attendance Intelligence"
+  hrms_ai: "HRMS Assistant (decoy product for isolation tests)"
+
+# Week definitions used by questions like "week 2"
+weeks:
+  week1: ["2026-09-01", "2026-09-04"]
+  week2: ["2026-09-07", "2026-09-11"]
+  week3: ["2026-09-14", "2026-09-18"]
+  week4: ["2026-09-21", "2026-09-25"]
+  week5: ["2026-09-28", "2026-09-30"]
+
+tenants:
+  tenant_a:
+    name: "Acme Corp"
+    date_format: "DD/MM/YYYY"
+    entities: { engineering: "Engineering", hr: "Human Resources", sales: "Sales" }
+  tenant_b:
+    name: "Globex Ltd."
+    date_format: "DD/MM/YYYY"
+    entities: { engineering: "Engineering", finance: "Finance" }
+
+# counts = randomly placed non-present days (absent, leave, wfh, half_day)
+# fixed  = explicit statuses on explicit dates (placed first)
+# late   = dates with a late check-in (> 09:30)
+employees:
+  tenant_a:
+    - { id: E001, name: "Alice Johnson", entity: engineering, counts: [0, 0, 2, 0], fixed: { "2026-09-03": present } }
+    - { id: E002, name: "Bob Smith",     entity: engineering, counts: [0, 1, 0, 1],
+        fixed: { "2026-09-09": absent, "2026-09-11": absent, "2026-09-15": absent },
+        late: ["2026-09-07", "2026-09-08", "2026-09-10"] }
+    - { id: E003, name: "Sarah Khan",    entity: engineering, counts: [1, 0, 1, 0] }
+    - { id: E004, name: "David Lee",     entity: engineering, counts: [1, 1, 0, 1] }
+    - { id: E012, name: "Zoe Adams",     entity: engineering, counts: [0, 1, 0, 1] }
+    - { id: E005, name: "Priya Nair",    entity: hr,          counts: [0, 0, 0, 1] }
+    - { id: E006, name: "Omar Farooq",   entity: hr,          counts: [2, 1, 0, 0] }
+    - { id: E007, name: "Emma Wilson",   entity: hr,          counts: [1, 2, 0, 1] }
+    - { id: E008, name: "Liam Brown",    entity: sales,       counts: [0, 1, 1, 0] }
+    - { id: E009, name: "Noah Garcia",   entity: sales,       counts: [2, 2, 0, 0] }
+    - { id: E010, name: "Mia Chen",      entity: sales,       counts: [1, 1, 0, 0] }
+    - { id: E011, name: "Lucas Martin",  entity: sales,       counts: [1, 0, 0, 1], fixed: { "2026-09-30": present } }
+  tenant_b:
+    - { id: E101, name: "John Carter",   entity: engineering, counts: [1, 1, 0, 0] }
+    - { id: E102, name: "Maria Lopez",   entity: engineering, counts: [0, 0, 1, 0] }
+    - { id: E103, name: "Ahmed Hassan",  entity: engineering, counts: [3, 1, 0, 1] }
+    - { id: E104, name: "Grace Kim",     entity: finance,     counts: [0, 1, 0, 1] }
+    - { id: E105, name: "Peter Novak",   entity: finance,     counts: [1, 0, 0, 0] }
+    - { id: E106, name: "Hannah Scott",  entity: finance,     counts: [2, 0, 1, 1] }
+
+# Nobody except Bob has a non-present day in week 2 -> Bob is the unique week-2 low.
+protected_ranges: [["2026-09-07", "2026-09-11"]]
+
+# Rows deliberately wrong in tenant_a_sep.csv (v1) and corrected in tenant_a_sep_v2.csv
+v1_errors:
+  - { employee_id: E006, date: "2026-09-10" }
+  - { employee_id: E007, date: "2026-09-17" }
+  - { employee_id: E003, date: "2026-09-22" }
+
+# conflict_note.pdf claims this person was PRESENT; the attendance files say ABSENT
+conflict: { tenant_id: tenant_a, employee_id: E002, date: "2026-09-15", claimed_status: present }
+
+# Decoy product data (same tenant, different product) for product-isolation tests
+other_product_rows:
+  - { employee_id: E001, date: "2026-09-01", status: absent }
+  - { employee_id: E001, date: "2026-09-02", status: present }
+  - { employee_id: E002, date: "2026-09-01", status: present }
+  - { employee_id: E002, date: "2026-09-02", status: present }
+
+# Test personas -> the scope each one can see (used for expected results)
+personas:
+  a_hr_admin:      { tenant: tenant_a, product: attendance_ai, role: hr_admin, entities: ["*"],         clearance: restricted }
+  a_eng_manager:   { tenant: tenant_a, product: attendance_ai, role: manager,  entities: [engineering], clearance: internal }
+  a_hr_manager:    { tenant: tenant_a, product: attendance_ai, role: manager,  entities: [hr],          clearance: internal }
+  a_employee_e001: { tenant: tenant_a, product: attendance_ai, role: employee, entities: [engineering], clearance: internal, employee_id: E001 }
+  a_reviewer:      { tenant: tenant_a, product: attendance_ai, role: reviewer, entities: [engineering], clearance: internal }
+  a_auditor:       { tenant: tenant_a, product: attendance_ai, role: auditor,  entities: ["*"],         clearance: internal }
+  b_manager:       { tenant: tenant_b, product: attendance_ai, role: manager,  entities: ["*"],         clearance: internal }
+  b_reviewer:      { tenant: tenant_b, product: attendance_ai, role: reviewer, entities: ["*"],         clearance: internal }
+  x_other_product: { tenant: tenant_a, product: hrms_ai,       role: manager,  entities: ["*"],         clearance: internal }

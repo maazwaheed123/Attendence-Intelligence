@@ -1,0 +1,177 @@
+date,employee_id,employee_name,department,status,check_in,check_out
+2026-09-01,E001,Alice Johnson,Engineering,Present,09:14,17:57
+2026-09-01,E002,Bob Smith,Engineering,Present,09:12,18:09
+2026-09-01,E003,Sarah Khan,Engineering,Present,08:42,17:44
+2026-09-01,E004,David Lee,Engineering,Absent,,
+2026-09-01,E005,Priya Nair,Human Resources,Present,08:50,17:23
+2026-09-01,E006,Omar Farooq,Human Resources,Present,09:10,18:32
+2026-09-01,E007,Emma Wilson,Human Resources,Present,09:06,18:25
+2026-09-01,E012,Zoe Adams,Engineering,Present,08:52,18:15
+2026-09-02,E001,Alice Johnson,Engineering,Present,08:42,17:59
+2026-09-02,E002,Bob Smith,Engineering,Leave,,
+2026-09-02,E003,Sarah Khan,Engineering,Present,08:53,18:33
+2026-09-02,E004,David Lee,Engineering,Leave,,
+2026-09-02,E005,Priya Nair,Human Resources,Present,08:52,18:35
+2026-09-02,E006,Omar Farooq,Human Resources,Present,09:04,18:14
+2026-09-02,E007,Emma Wilson,Human Resources,Present,09:01,18:19
+2026-09-02,E012,Zoe Adams,Engineering,Present,08:44,17:29
+2026-09-03,E001,Alice Johnson,Engineering,Present,09:13,18:33
+2026-09-03,E002,Bob Smith,Engineering,Present,08:55,18:07
+2026-09-03,E003,Sarah Khan,Engineering,Present,09:16,18:27
+2026-09-03,E004,David Lee,Engineering,Present,09:13,17:45
+2026-09-03,E005,Priya Nair,Human Resources,Present,08:54,17:30
+2026-09-03,E006,Omar Farooq,Human Resources,Present,09:20,18:35
+2026-09-03,E007,Emma Wilson,Human Resources,Present,09:09,18:32
+2026-09-03,E012,Zoe Adams,Engineering,Present,08:57,17:46
+2026-09-04,E001,Alice Johnson,Engineering,Present,09:13,18:25
+2026-09-04,E002,Bob Smith,Engineering,Present,09:09,18:24
+2026-09-04,E003,Sarah Khan,Engineering,Absent,,
+2026-09-04,E004,David Lee,Engineering,Present,08:53,18:09
+2026-09-04,E005,Priya Nair,Human Resources,Present,09:20,17:24
+2026-09-04,E006,Omar Farooq,Human Resources,Present,08:46,18:32
+2026-09-04,E007,Emma Wilson,Human Resources,Leave,,
+2026-09-04,E012,Zoe Adams,Engineering,Present,08:40,17:54
+2026-09-07,E001,Alice Johnson,Engineering,Present,09:07,18:24
+2026-09-07,E002,Bob Smith,Engineering,Present,09:41,17:53
+2026-09-07,E003,Sarah Khan,Engineering,Present,08:51,18:15
+2026-09-07,E004,David Lee,Engineering,Present,09:17,17:20
+2026-09-07,E005,Priya Nair,Human Resources,Present,08:55,17:51
+2026-09-07,E006,Omar Farooq,Human Resources,Present,09:08,18:25
+2026-09-07,E007,Emma Wilson,Human Resources,Present,09:06,17:32
+2026-09-07,E012,Zoe Adams,Engineering,Present,09:08,18:26
+2026-09-08,E001,Alice Johnson,Engineering,Present,08:40,17:56
+2026-09-08,E002,Bob Smith,Engineering,Present,09:58,17:57
+2026-09-08,E003,Sarah Khan,Engineering,Present,08:58,17:33
+2026-09-08,E004,David Lee,Engineering,Present,09:01,18:26
+2026-09-08,E005,Priya Nair,Human Resources,Present,09:05,18:33
+2026-09-08,E006,Omar Farooq,Human Resources,Present,09:20,17:48
+2026-09-08,E007,Emma Wilson,Human Resources,Present,08:49,17:56
+2026-09-08,E012,Zoe Adams,Engineering,Present,09:01,17:47
+2026-09-09,E001,Alice Johnson,Engineering,Present,08:50,17:48
+2026-09-09,E002,Bob Smith,Engineering,Absent,,
+2026-09-09,E003,Sarah Khan,Engineering,Present,08:44,18:10
+2026-09-09,E004,David Lee,Engineering,Present,09:02,18:21
+2026-09-09,E005,Priya Nair,Human Resources,Present,09:13,18:28
+2026-09-09,E006,Omar Farooq,Human Resources,Present,08:41,18:17
+2026-09-09,E007,Emma Wilson,Human Resources,Present,08:52,18:38
+2026-09-09,E012,Zoe Adams,Engineering,Present,09:00,18:04
+2026-09-10,E001,Alice Johnson,Engineering,Present,09:07,18:00
+2026-09-10,E002,Bob Smith,Engineering,Present,09:56,18:25
+2026-09-10,E003,Sarah Khan,Engineering,Present,08:45,17:51
+2026-09-10,E004,David Lee,Engineering,Present,09:11,17:44
+2026-09-10,E005,Priya Nair,Human Resources,Present,09:16,17:59
+2026-09-10,E006,Omar Farooq,Human Resources,Absent,,
+2026-09-10,E007,Emma Wilson,Human Resources,Present,09:13,17:34
+2026-09-10,E012,Zoe Adams,Engineering,Present,08:47,17:45
+2026-09-11,E001,Alice Johnson,Engineering,Present,09:11,17:35
+2026-09-11,E002,Bob Smith,Engineering,Absent,,
+2026-09-11,E003,Sarah Khan,Engineering,Present,08:48,18:10
+2026-09-11,E004,David Lee,Engineering,Present,08:44,17:21
+2026-09-11,E005,Priya Nair,Human Resources,Present,08:54,17:53
+2026-09-11,E006,Omar Farooq,Human Resources,Present,08:54,17:48
+2026-09-11,E007,Emma Wilson,Human Resources,Present,09:02,18:02
+2026-09-11,E012,Zoe Adams,Engineering,Present,09:08,17:23
+2026-09-14,E001,Alice Johnson,Engineering,Present,09:01,17:41
+2026-09-14,E002,Bob Smith,Engineering,Present,08:40,17:48
+2026-09-14,E003,Sarah Khan,Engineering,Present,08:45,18:25
+2026-09-14,E004,David Lee,Engineering,Present,08:42,17:22
+2026-09-14,E005,Priya Nair,Human Resources,Present,08:51,17:25
+2026-09-14,E006,Omar Farooq,Human Resources,Present,09:05,17:53
+2026-09-14,E007,Emma Wilson,Human Resources,Present,08:48,18:32
+2026-09-14,E012,Zoe Adams,Engineering,Half Day,09:03,13:04
+2026-09-15,E001,Alice Johnson,Engineering,Present,08:53,18:26
+2026-09-15,E002,Bob Smith,Engineering,Absent,,
+2026-09-15,E003,Sarah Khan,Engineering,Present,08:41,18:13
+2026-09-15,E004,David Lee,Engineering,Present,08:58,18:05
+2026-09-15,E005,Priya Nair,Human Resources,Present,08:52,18:12
+2026-09-15,E006,Omar Farooq,Human Resources,Present,09:07,17:22
+2026-09-15,E007,Emma Wilson,Human Resources,Present,08:49,17:49
+2026-09-15,E012,Zoe Adams,Engineering,Present,08:54,17:34
+2026-09-16,E001,Alice Johnson,Engineering,Present,08:40,18:22
+2026-09-16,E002,Bob Smith,Engineering,Present,09:17,18:38
+2026-09-16,E003,Sarah Khan,Engineering,Present,08:57,17:57
+2026-09-16,E004,David Lee,Engineering,Present,09:10,17:30
+2026-09-16,E005,Priya Nair,Human Resources,Present,09:20,17:46
+2026-09-16,E006,Omar Farooq,Human Resources,Present,09:06,17:56
+2026-09-16,E007,Emma Wilson,Human Resources,Absent,,
+2026-09-16,E012,Zoe Adams,Engineering,Present,08:52,18:31
+2026-09-17,E001,Alice Johnson,Engineering,Present,09:06,18:32
+2026-09-17,E002,Bob Smith,Engineering,Present,09:15,17:40
+2026-09-17,E003,Sarah Khan,Engineering,Present,09:03,17:45
+2026-09-17,E004,David Lee,Engineering,Present,09:18,18:35
+2026-09-17,E005,Priya Nair,Human Resources,Present,09:03,18:21
+2026-09-17,E006,Omar Farooq,Human Resources,Present,08:46,17:28
+2026-09-17,E007,Emma Wilson,Human Resources,Absent,,
+2026-09-17,E012,Zoe Adams,Engineering,Present,09:16,17:59
+2026-09-18,E001,Alice Johnson,Engineering,Work From Home,09:07,18:33
+2026-09-18,E002,Bob Smith,Engineering,Present,09:12,18:27
+2026-09-18,E003,Sarah Khan,Engineering,Present,09:08,17:36
+2026-09-18,E004,David Lee,Engineering,Present,09:17,17:59
+2026-09-18,E005,Priya Nair,Human Resources,Present,09:17,17:25
+2026-09-18,E006,Omar Farooq,Human Resources,Present,09:08,17:37
+2026-09-18,E007,Emma Wilson,Human Resources,Present,08:55,17:38
+2026-09-18,E012,Zoe Adams,Engineering,Present,09:07,17:24
+2026-09-21,E001,Alice Johnson,Engineering,Present,08:54,17:47
+2026-09-21,E002,Bob Smith,Engineering,Present,09:09,18:09
+2026-09-21,E003,Sarah Khan,Engineering,Work From Home,09:13,18:22
+2026-09-21,E004,David Lee,Engineering,Present,09:01,18:25
+2026-09-21,E005,Priya Nair,Human Resources,Half Day,08:51,13:27
+2026-09-21,E006,Omar Farooq,Human Resources,Absent,,
+2026-09-21,E007,Emma Wilson,Human Resources,Present,09:00,18:36
+2026-09-21,E012,Zoe Adams,Engineering,Present,08:42,17:29
+2026-09-22,E001,Alice Johnson,Engineering,Present,08:51,18:04
+2026-09-22,E002,Bob Smith,Engineering,Present,08:47,18:05
+2026-09-22,E003,Sarah Khan,Engineering,Absent,,
+2026-09-22,E004,David Lee,Engineering,Present,08:54,17:50
+2026-09-22,E005,Priya Nair,Human Resources,Present,09:16,18:16
+2026-09-22,E006,Omar Farooq,Human Resources,Present,08:46,17:39
+2026-09-22,E007,Emma Wilson,Human Resources,Present,08:53,17:49
+2026-09-22,E012,Zoe Adams,Engineering,Leave,,
+2026-09-23,E001,Alice Johnson,Engineering,Holiday,,
+2026-09-23,E002,Bob Smith,Engineering,Holiday,,
+2026-09-23,E003,Sarah Khan,Engineering,Holiday,,
+2026-09-23,E004,David Lee,Engineering,Holiday,,
+2026-09-23,E005,Priya Nair,Human Resources,Holiday,,
+2026-09-23,E006,Omar Farooq,Human Resources,Holiday,,
+2026-09-23,E007,Emma Wilson,Human Resources,Holiday,,
+2026-09-23,E012,Zoe Adams,Engineering,Holiday,,
+2026-09-24,E001,Alice Johnson,Engineering,Work From Home,08:58,17:38
+2026-09-24,E002,Bob Smith,Engineering,Present,08:44,17:58
+2026-09-24,E003,Sarah Khan,Engineering,Present,08:51,18:38
+2026-09-24,E004,David Lee,Engineering,Half Day,09:10,13:14
+2026-09-24,E005,Priya Nair,Human Resources,Present,08:53,17:39
+2026-09-24,E006,Omar Farooq,Human Resources,Present,08:52,17:27
+2026-09-24,E007,Emma Wilson,Human Resources,Present,09:19,18:04
+2026-09-24,E012,Zoe Adams,Engineering,Present,08:53,17:37
+2026-09-25,E001,Alice Johnson,Engineering,Present,09:02,17:28
+2026-09-25,E002,Bob Smith,Engineering,Present,08:49,18:36
+2026-09-25,E003,Sarah Khan,Engineering,Present,08:50,17:37
+2026-09-25,E004,David Lee,Engineering,Present,08:42,17:23
+2026-09-25,E005,Priya Nair,Human Resources,Present,08:51,17:55
+2026-09-25,E006,Omar Farooq,Human Resources,Present,08:51,18:18
+2026-09-25,E007,Emma Wilson,Human Resources,Half Day,08:55,13:16
+2026-09-25,E012,Zoe Adams,Engineering,Present,08:55,18:29
+2026-09-28,E001,Alice Johnson,Engineering,Present,09:13,18:04
+2026-09-28,E002,Bob Smith,Engineering,Half Day,09:00,13:02
+2026-09-28,E003,Sarah Khan,Engineering,Present,08:48,18:18
+2026-09-28,E004,David Lee,Engineering,Present,09:18,18:03
+2026-09-28,E005,Priya Nair,Human Resources,Present,09:07,17:46
+2026-09-28,E006,Omar Farooq,Human Resources,Absent,,
+2026-09-28,E007,Emma Wilson,Human Resources,Leave,,
+2026-09-28,E012,Zoe Adams,Engineering,Present,08:41,17:29
+2026-09-29,E001,Alice Johnson,Engineering,Present,08:46,18:09
+2026-09-29,E002,Bob Smith,Engineering,Present,08:40,18:18
+2026-09-29,E003,Sarah Khan,Engineering,Present,09:11,18:15
+2026-09-29,E004,David Lee,Engineering,Present,09:12,17:26
+2026-09-29,E005,Priya Nair,Human Resources,Present,09:13,18:35
+2026-09-29,E006,Omar Farooq,Human Resources,Present,08:54,17:25
+2026-09-29,E007,Emma Wilson,Human Resources,Present,08:47,17:37
+2026-09-29,E012,Zoe Adams,Engineering,Present,08:54,18:20
+2026-09-30,E001,Alice Johnson,Engineering,Present,08:51,18:02
+2026-09-30,E002,Bob Smith,Engineering,Present,09:11,18:33
+2026-09-30,E003,Sarah Khan,Engineering,Present,08:52,18:29
+2026-09-30,E004,David Lee,Engineering,Present,09:09,17:46
+2026-09-30,E005,Priya Nair,Human Resources,Present,09:16,18:07
+2026-09-30,E006,Omar Farooq,Human Resources,Leave,,
+2026-09-30,E007,Emma Wilson,Human Resources,Present,09:04,17:29
+2026-09-30,E012,Zoe Adams,Engineering,Present,09:05,17:41

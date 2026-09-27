@@ -1,0 +1,5 @@
+date,employee_id,employee_name,department,status,check_in,check_out
+2026-09-01,E001,Alice Johnson,Engineering,Absent,,
+2026-09-02,E001,Alice Johnson,Engineering,Present,09:00,17:00
+2026-09-01,E002,Bob Smith,Engineering,Present,09:00,17:00
+2026-09-02,E002,Bob Smith,Engineering,Present,09:00,17:00
