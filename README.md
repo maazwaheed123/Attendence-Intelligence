@@ -13,6 +13,7 @@ every call, falls back when a model fails, learns from approved reviewer feedbac
 Everything runs locally: Docker Compose + [Ollama](https://ollama.com) on the host. No API
 keys.
 
+- **Step-by-step setup from a fresh clone: [SETUP.md](SETUP.md)**
 - Architecture and isolation boundary: [docs/architecture.md](docs/architecture.md)
 - Test summary (mandatory scenarios, live evaluation): [docs/TEST_SUMMARY.md](docs/TEST_SUMMARY.md)
 - Design decisions: [docs/DECISIONS.md](docs/DECISIONS.md)
@@ -109,6 +110,9 @@ queue, query cache, rate limits and breaker state.
   change and export.
 
 ## Setup
+
+The full step-by-step guide, with Windows PowerShell commands and troubleshooting, is in
+[SETUP.md](SETUP.md). Short version:
 
 Requirements: Docker Desktop, [Ollama](https://ollama.com) on the host, ~16 GB RAM.
 
