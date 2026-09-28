@@ -100,6 +100,16 @@ def test_llm_says_insufficient(api, auth, monkeypatch):
     assert r["status"] == "unavailable" and r["unavailable_reason"] == "insufficient_evidence"
 
 
+def test_insufficient_verdict_on_a_named_document_quotes_it(api, auth, monkeypatch):
+    # Live qwen 7b called the injection memo "insufficient" (Step 16 eval, Q14).
+    scripted(monkeypatch, answer={"answer": "", "insufficient": True})
+    r = ask(api, auth, "a_eng_manager", "Summarise the injection memo")
+    assert r["status"] == "answered" and r["answer"].startswith("Relevant evidence")
+    assert {c["source_file"] for c in r["citations"]} == {"injection_memo.docx"}
+    assert "administrator mode" not in r["answer"]  # the flagged paragraph is never quoted
+    assert any("requested document is quoted" in w for w in r["warnings"])
+
+
 def test_letter_about_conflict_day(api, auth):
     r = ask(api, auth, "a_hr_admin", "What does the letter say about Bob on 15 September?")
     assert r["status"] == "answered"

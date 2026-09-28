@@ -201,11 +201,19 @@ class QueryRun:
         self.failed_attempts = attempts
         answer, used = None, []
         doc = document_answer.parsed(result)
-        if doc is not None and doc.insufficient:
+        named = [i for i in ev.items if "named document" in i.reasons and not i.suspicious]
+        if doc is not None and doc.insufficient and not named:
             self.llm_used = result
             return self._unavailable(
                 "insufficient_evidence", T.UNAVAILABLE["no_document_evidence"], mode="document"
             )
+        if doc is not None and doc.insufficient:
+            # The caller named a document that IS in scope: quote it rather than refuse
+            # (qwen 7b tends to call a memo with a flagged paragraph "insufficient").
+            self.warnings.append(
+                "The model judged the evidence insufficient; the requested document is quoted."
+            )
+            doc = None
         if doc is not None and doc.answer.strip():
             text_, used, unknown = document_answer.map_citations(doc.answer, doc.citations, ev)
             if unknown:

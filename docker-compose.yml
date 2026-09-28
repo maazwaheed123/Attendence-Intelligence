@@ -56,7 +56,8 @@ services:
   worker:
     <<: *app-env
     image: attendance-intelligence-api:dev
-    command: rq worker --url redis://redis:6379/0 ingestion
+    # --with-scheduler: RQ only runs delayed retries (Retry(interval=...)) with a scheduler
+    command: rq worker --with-scheduler --url redis://redis:6379/0 ingestion
     volumes:
       - ./:/app
     depends_on:
