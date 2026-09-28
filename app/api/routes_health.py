@@ -2,7 +2,9 @@
 
 /v1/health/deep reports each dependency without exposing URLs or secrets. LLM
 providers being down makes the service 'degraded', not 'down': structured answers
-still work through the deterministic template fallback.
+still work through the deterministic template fallback. Redis down is also only
+'degraded': rate limiting, circuit breakers and the query cache all fail open
+(only async ingestion waits). The database is the one hard dependency.
 """
 
 import time
@@ -39,9 +41,11 @@ def _database():
 
 
 def _redis():
+    from app import cache
     from app.security.ratelimit import get_redis
 
     get_redis().ping()
+    return {"query_cache": cache.stats()}
 
 
 def _queue():
@@ -111,10 +115,12 @@ def health_deep() -> dict:
         "enabled": "template" in s.llm_chain_list,
     }
 
-    core_ok = all(components[k]["status"] == "ok" for k in ("database", "cache"))
+    core_ok = components["database"]["status"] == "ok"
     llm_ok = any(p["status"] == "ok" for p in llm)
-    # Models down = degraded, not down: structured answers use the template engine and
-    # ingestion defers embeddings.
-    optional_ok = llm_ok and components["embeddings"]["status"] == "ok"
+    # Models or Redis down = degraded, not down: structured answers use the template
+    # engine, ingestion defers embeddings, cache/rate limit/breakers fail open.
+    optional_ok = llm_ok and all(
+        components[k]["status"] == "ok" for k in ("embeddings", "cache", "queue")
+    )
     status = "ok" if core_ok and optional_ok else ("degraded" if core_ok else "down")
     return {"status": status, "components": components}

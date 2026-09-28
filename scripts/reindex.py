@@ -11,6 +11,7 @@ import argparse
 
 from sqlalchemy import text
 
+from app import cache
 from app.db.session import owner_session
 from app.retrieval import indexing
 from app.retrieval.embeddings import get_embedder
@@ -39,6 +40,9 @@ def reindex(reset: bool = False) -> dict:
             break
     with owner_session() as s:
         pending = indexing.count_pending(s)
+        scopes = s.execute(text("SELECT tenant_id, product_id FROM tenant_products")).all()
+    for tenant, product in scopes:  # new vectors change document answers
+        cache.bump_data_version(tenant, product)
     return {"row_cards": cards, "embedded": total, "pending": pending, "model": embedder.model}
 
 

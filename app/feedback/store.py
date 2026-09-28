@@ -11,6 +11,7 @@ import uuid
 from rapidfuzz import fuzz
 from sqlalchemy import text
 
+from app import cache
 from app.config import get_settings
 from app.db.session import scoped_session
 from app.retrieval.indexing import to_pgvector
@@ -82,6 +83,7 @@ def insert(scope: DbScope, row: dict, vector: list[float] | None) -> dict:
             ),
             {**row, "vec": to_pgvector(vector) if vector else None},
         )
+    cache.bump_feedback_version(scope.tenant_id, scope.product_id)
     return get(scope, row["example_id"])
 
 
@@ -124,6 +126,7 @@ def set_status(scope: DbScope, example_id, status: str) -> None:
             ),
             {"st": status, "e": str(example_id)},
         )
+    cache.bump_feedback_version(scope.tenant_id, scope.product_id)
 
 
 def rollback(scope: DbScope, example: dict) -> dict | None:
@@ -153,6 +156,7 @@ def rollback(scope: DbScope, example: dict) -> dict | None:
             ),
             {"e": target},
         )
+    cache.bump_feedback_version(scope.tenant_id, scope.product_id)
     return get(scope, target)
 
 

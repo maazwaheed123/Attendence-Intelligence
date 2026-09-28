@@ -30,6 +30,22 @@ assert get_settings().database_url_owner.get_secret_value().endswith("/attendanc
 from app.main import create_app  # noqa: E402
 
 
+@pytest.fixture(autouse=True)
+def _fresh_query_cache():
+    """Tests script different mock models for the same question: never share cache entries."""
+    from app.cache import PREFIX
+    from app.security.ratelimit import get_redis
+
+    try:
+        r = get_redis()
+        keys = list(r.scan_iter(f"{PREFIX}*", count=1000))
+        if keys:
+            r.delete(*keys)
+    except Exception:  # noqa: BLE001, S110 - Redis-down tests handle their own state
+        pass
+    yield
+
+
 @pytest.fixture(scope="session")
 def client() -> TestClient:
     return TestClient(create_app(), raise_server_exceptions=False)

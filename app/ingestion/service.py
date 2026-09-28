@@ -24,6 +24,7 @@ from sqlalchemy.dialects.postgresql import insert as pg_insert
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
+from app import cache
 from app.api.errors import AppError
 from app.config import get_settings
 from app.db.models import AttendanceRecord, DocumentChunk, IngestionJob, SourceDocument
@@ -392,6 +393,8 @@ def _index(scope: DbScope, job_id, doc_id) -> None:
             _set_stage(db, job, "index_pending", error=str(exc)[:200])
         job.counts = {**job.counts, "embedding_pending": pending}
         _set_stage(db, job, "completed", "completed")
+    # new/superseded records change answers: invalidate this tenant's cached queries
+    cache.bump_data_version(scope.tenant_id, scope.product_id)
 
 
 def _persist(db: Session, scope: DbScope, doc_id, filename, checksum, method, drafts):

@@ -11,10 +11,14 @@ Pipeline (structured mode, Step 8):
      records awaiting review -> warnings (or needs_review when they are the only evidence)
   6. LLM phrasing, grounded against the rows; template text on any mismatch
   7. confidence, persistence (question redacted + hashed), audit
+Repeat questions are served from the Redis query cache (app/cache.py, keyed by
+the full scope + data/feedback versions); a hit is still re-finalized under the
+caller's scope, persisted and audited under its own request id.
 The model never sees data from outside the caller's scope: every prompt is built
 from the question and rows that RLS already filtered.
 """
 
+import copy
 import hashlib
 import json
 import logging
@@ -23,6 +27,7 @@ from dataclasses import dataclass, field
 
 from sqlalchemy import text
 
+from app import cache
 from app.config import get_settings
 from app.db.session import scoped_session
 from app.feedback import store as feedback_store
@@ -72,16 +77,24 @@ class QueryRun:
         self.retrieved: set[str] = set()  # ids retrieval returned for THIS request
         self.flagged: list[str] = []  # texts of flagged (possible injection) chunks
         self.applied: dict | None = None  # feedback example used for this answer
+        self.cache_status = "off"  # off | miss | hit
 
     # ------------------------------------------------------------------ entry
     def execute(self) -> dict:
         start = time.perf_counter()
+        key = cache.key_for(self.ctx, self.question, self.filters)
+        hit = cache.get(key)
+        if hit is not None:
+            return self._replay(hit, start)
+        self.cache_status = "miss" if key else "off"
         self.directory = rewrite.load_directory(self.scope)
         cls = classifier.classify(self.question, self.directory, self.router, self.audit_ctx)
         self.intent = cls.intent
         self.slots = cls.slots
         self._apply_filters()
-        self.debug.update(mode=cls.mode, intent=cls.intent, classified_by=cls.source)
+        self.debug.update(
+            mode=cls.mode, intent=cls.intent, classified_by=cls.source, cache=self.cache_status
+        )
         if cls.flags:
             self.warnings.append(
                 "The question contained instructions aimed at the system; they were ignored."
@@ -98,6 +111,44 @@ class QueryRun:
         if response["applied_feedback"]:
             self._record_feedback_use()
         self._persist(response, cls.mode)
+        self._audit(response, int((time.perf_counter() - start) * 1000))
+        if key and cache.cacheable(response):
+            cache.put(
+                key,
+                {
+                    "response": response,
+                    "mode": cls.mode,
+                    "intent": self.intent,
+                    "sql": self.sql_executed,
+                    "retrieved": sorted(self.retrieved),
+                    "flagged": self.flagged,
+                    "applied": self.applied,
+                    "debug": self.debug_info,
+                },
+            )
+        return response
+
+    def _replay(self, hit: dict, start: float) -> dict:
+        """A cache hit: same governance as a fresh answer, new request id."""
+        self.cache_status = "hit"
+        self.directory = rewrite.load_directory(self.scope)
+        self.intent, self.sql_executed = hit["intent"], hit["sql"]
+        self.retrieved, self.flagged = set(hit["retrieved"]), hit["flagged"]
+        cached = copy.deepcopy(hit["response"])
+        cached.update(request_id=self.request_id, applied_feedback=None)
+        response = postprocess.finalize(
+            cached,
+            ctx=self.ctx,
+            directory=self.directory,
+            retrieved=self.retrieved,
+            flagged_texts=self.flagged,
+        )
+        self.applied = hit["applied"] if response["status"] != "unavailable" else None
+        response["applied_feedback"] = self.applied
+        if self.applied:
+            self._record_feedback_use()
+        self.debug_info = {**hit["debug"], "cache": "hit"}
+        self._persist(response, hit["mode"])
         self._audit(response, int((time.perf_counter() - start) * 1000))
         return response
 
@@ -625,6 +676,7 @@ class QueryRun:
                 else None,
                 "citation_total": response["citation_total"],
                 "warnings": response["warnings"],
+                "cache": self.cache_status,
             },
             **audit.context_fields(self.ctx),
         )

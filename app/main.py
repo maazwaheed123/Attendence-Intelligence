@@ -1,5 +1,3 @@
-import logging
-
 from fastapi import FastAPI
 
 from app.api import (
@@ -14,11 +12,12 @@ from app.api import (
 from app.api.errors import register_error_handlers
 from app.api.middleware import RequestIdMiddleware
 from app.config import get_settings
+from app.logging_setup import configure as configure_logging
 
 
 def create_app() -> FastAPI:
     settings = get_settings()
-    logging.basicConfig(level=settings.log_level)
+    configure_logging(settings.log_level)
 
     app = FastAPI(
         title="Attendance Intelligence API",
