@@ -1,0 +1,136 @@
+### Attendance Intelligence API examples (VS Code "REST Client" / JetBrains HTTP client)
+# Full spec: docs/openapi.json, Swagger UI at http://localhost:8000/docs
+# Dev tokens exist only when APP_ENV is dev or test.
+
+@base = http://localhost:8000
+
+### Personas (dev/test only)
+GET {{base}}/v1/auth/personas
+
+### Token for a persona -> copy access_token into @token
+# a_hr_admin, a_eng_manager, a_hr_manager, a_employee_e001, a_reviewer, a_auditor,
+# b_manager, b_reviewer, x_other_product
+# @name login
+POST {{base}}/v1/auth/dev-token
+Content-Type: application/json
+
+{"persona": "a_eng_manager"}
+
+###
+@token = {{login.response.body.access_token}}
+
+### Who am I (what the gateway will enforce)
+GET {{base}}/v1/me
+Authorization: Bearer {{token}}
+
+### Health (deep: database, vector, embeddings, cache, queue, OCR, providers + breakers)
+GET {{base}}/v1/health/deep
+
+### Upload a file (async; poll the job). Manager/HR admin only.
+POST {{base}}/v1/ingest
+Authorization: Bearer {{token}}
+Content-Type: multipart/form-data; boundary=b
+
+--b
+Content-Disposition: form-data; name="logical_name"
+
+tenant_a_sep
+--b
+Content-Disposition: form-data; name="file"; filename="tenant_a_sep_v2.csv"
+Content-Type: text/csv
+
+< ../data/generated/tenant_a_sep_v2.csv
+--b--
+
+### Job status (replace the id)
+GET {{base}}/v1/jobs/00000000-0000-0000-0000-000000000000
+Authorization: Bearer {{token}}
+
+### Failed-file queue
+GET {{base}}/v1/jobs?status=failed
+Authorization: Bearer {{token}}
+
+### Structured question (answer + citations + confidence)
+# @name q1
+POST {{base}}/v1/query
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"question": "Who was present on 1 September 2026?"}
+
+### Aggregate
+POST {{base}}/v1/query
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"question": "What was Engineering's average attendance % in September?", "include_debug": true}
+
+### Hybrid evidence question
+POST {{base}}/v1/query
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"question": "Show evidence that Alice was present on 3 Sep"}
+
+### Unavailable (no data in scope)
+POST {{base}}/v1/query
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"question": "What was Alice's attendance in December 2027?"}
+
+### Another tenant's employee: identical to an unknown name
+POST {{base}}/v1/query
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"question": "What was John Carter's attendance?"}
+
+### Entity outside the token -> 403 CONTEXT_MISMATCH
+POST {{base}}/v1/query
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"question": "HR attendance in September?", "filters": {"entity_id": "hr"}}
+
+### Stored answer by request id (404 outside your scope)
+GET {{base}}/v1/query/{{q1.response.body.request_id}}
+Authorization: Bearer {{token}}
+
+### Export the answer's evidence (json | xlsx | pdf); header X-Export-Checksum
+POST {{base}}/v1/export
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"source": "query", "request_id": "{{q1.response.body.request_id}}", "format": "json"}
+
+### Export records with filters
+POST {{base}}/v1/export
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"source": "records", "format": "xlsx", "filters": {"date_from": "2026-09-14", "date_to": "2026-09-18", "status": "absent"}}
+
+### Feedback (reviewer or hr_admin token): correction + ideal output for a previous answer
+POST {{base}}/v1/feedback
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "original_request_id": "req_...",
+  "feedback": "State the date range and how the percentage was calculated.",
+  "ideal_final_output": "Engineering attendance from 01/09/2026 to 30/09/2026 was 91.83%, calculated from 95.5 present employee-days out of 104 scheduled employee-days.",
+  "approve": true
+}
+
+### Feedback examples and versions in scope
+GET {{base}}/v1/feedback
+Authorization: Bearer {{token}}
+
+### Deactivate / roll back an example
+POST {{base}}/v1/feedback/00000000-0000-0000-0000-000000000000/rollback
+Authorization: Bearer {{token}}
+
+### Audit trail for one request (auditor or hr_admin token)
+GET {{base}}/v1/audit?request_id={{q1.response.body.request_id}}
+Authorization: Bearer {{token}}
