@@ -4,6 +4,7 @@ from fastapi import FastAPI
 
 from app.api import (
     routes_auth,
+    routes_export,
     routes_feedback,
     routes_health,
     routes_ingest,
@@ -34,6 +35,7 @@ def create_app() -> FastAPI:
     app.include_router(routes_ingest.router)
     app.include_router(routes_query.router)
     app.include_router(routes_feedback.router)
+    app.include_router(routes_export.router)
     if settings.dev_tokens_enabled:  # never mounted in prod
         app.include_router(routes_auth.router)
     return app
