@@ -30,7 +30,7 @@ from app.generation import document_answer
 from app.generation.phrasing import phrase
 from app.generation.prompts import PROMPT_VERSION
 from app.generation.router import TEMPLATE, get_router
-from app.governance import audit, confidence, grounding
+from app.governance import audit, confidence, grounding, postprocess
 from app.retrieval import RETRIEVAL_VERSION, classifier, documents, fusion, rewrite
 from app.retrieval.sql import executor, generator, lineage, templates
 from app.retrieval.sql.executor import SqlExecutionError
@@ -67,6 +67,8 @@ class QueryRun:
         self.sql_executed: str | None = None
         self.debug: dict = {}
         self.intent: str | None = None
+        self.retrieved: set[str] = set()  # ids retrieval returned for THIS request
+        self.flagged: list[str] = []  # texts of flagged (possible injection) chunks
 
     # ------------------------------------------------------------------ entry
     def execute(self) -> dict:
@@ -82,7 +84,13 @@ class QueryRun:
                 "The question contained instructions aimed at the system; they were ignored."
             )
         result = self._route(cls)
-        response = self._response(result)
+        response = postprocess.finalize(
+            self._response(result),
+            ctx=self.ctx,
+            directory=self.directory,
+            retrieved=self.retrieved,
+            flagged_texts=self.flagged,
+        )
         self._persist(response, cls.mode)
         self._audit(response, int((time.perf_counter() - start) * 1000))
         return response
@@ -110,6 +118,7 @@ class QueryRun:
         if s.unresolved_person or s.unresolved_entity:
             return self._no_data(s.date_from is not None)
         ev = documents.retrieve(self.scope, self.question, s)
+        self._track(ev)
         self.warnings += ev.warnings
         self.debug["evidence"] = [
             {"tag": i.tag, "chunk_id": i.chunk_id, "score": i.score, "reasons": i.reasons}
@@ -139,15 +148,22 @@ class QueryRun:
                 self.warnings.append(
                     f"Removed citation tags not present in the evidence: {', '.join(unknown)}."
                 )
-            check = grounding.check(
-                text_, [], question=self.question, allowed_text=" ".join(i.text for i in ev.items)
-            )
-            if used and check.ok:
-                answer, self.llm_used = text_, result
+            kept, dropped = document_answer.supported_sentences(text_, ev, self.question)
+            unsafe = postprocess.injected({"answer": text_}, self.flagged)
+            if used and kept and not unsafe:
+                answer, self.llm_used = kept, result
+                used = document_answer.cited_items(kept, ev) or used
+                if dropped:
+                    self.warnings.append(
+                        f"{dropped} statement(s) not supported by the cited evidence were removed."
+                    )
             else:
-                self.debug["grounding_problems"] = check.problems or ["no valid citation"]
+                self.debug["grounding_problems"] = ["unsafe output"] if unsafe else ["unsupported"]
                 self.warnings.append(
-                    "The generated answer was not supported by the cited evidence; "
+                    "The generated answer repeated flagged instructions; the evidence is quoted "
+                    "instead."
+                    if unsafe
+                    else "The generated answer was not supported by the cited evidence; "
                     "the evidence is quoted instead."
                 )
         if answer is None:
@@ -169,10 +185,15 @@ class QueryRun:
             citation_total=len(citations), conf=conf,
         )  # fmt: skip
 
+    def _track(self, ev) -> None:
+        self.retrieved |= {i.chunk_id for i in ev.items}
+        self.flagged += [i.text for i in ev.items if i.suspicious]
+
     def _attach_evidence(self, a: _Answer) -> _Answer:
         """Hybrid: the structured answer plus the narrative text that supports it."""
         s = self.slots
         ev = documents.retrieve(self.scope, self.question, s, top=4, narrative_only=True)
+        self._track(ev)
         self.warnings += ev.warnings
         usable = [
             i
@@ -295,6 +316,7 @@ class QueryRun:
             )
 
         lin = self._lineage(rows, tq, gen)
+        self.retrieved |= {c["record_id"] for c in lin.citations}
         needs_review = self.intent == "employee_status_on_date" and bool(rows[0].get("conflict"))
         if lin.conflict_days and not needs_review:
             self.warnings.append(
@@ -324,6 +346,7 @@ class QueryRun:
                 citation_coverage=coverage,
                 mean_extraction_confidence=lin.mean_confidence,
                 needs_review=needs_review,
+                conflict_days=lin.conflict_days,
             ),
             high=self.settings.conf_high,
             low=self.settings.conf_low,
@@ -391,6 +414,7 @@ class QueryRun:
         return self._unavailable("no_data_in_scope", text_)
 
     def _pending_only(self, pending: list[dict]) -> _Answer:
+        self.retrieved |= {p["record_id"] for p in pending}
         citations = [
             {
                 "record_id": p["record_id"],
@@ -499,7 +523,9 @@ class QueryRun:
             "query",
             self.request_id,
             query_mode=response["retrieval_mode"],
-            retrieved_source_ids=[c["record_id"] for c in response["citations"]],
+            retrieved_source_ids=[
+                c.get("chunk_id") or c["record_id"] for c in response["citations"]
+            ],
             provider=response["provider"],
             model=response["model"],
             fallback_path=response["fallback_path"],

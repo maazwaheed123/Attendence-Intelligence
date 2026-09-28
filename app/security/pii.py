@@ -21,8 +21,11 @@ def _digits(s: str) -> int:
     return sum(c.isdigit() for c in s)
 
 
-def mask_text(text: str) -> tuple[str, dict[str, int]]:
-    """Returns (masked_text, {kind: count})."""
+def mask_text(text: str, *, keep_tail: bool = False) -> tuple[str, dict[str, int]]:
+    """Returns (masked_text, {kind: count}).
+
+    keep_tail=True (restricted clearance) keeps the last 4 digits of phone and ID
+    values, e.g. "[PHONE ******0100]", so an HR admin can tell records apart."""
     counts: dict[str, int] = {}
 
     def sub(kind):
@@ -33,6 +36,9 @@ def mask_text(text: str) -> tuple[str, dict[str, int]]:
             ):
                 return value
             counts[kind] = counts.get(kind, 0) + 1
+            digits = re.sub(r"\D", "", value)
+            if keep_tail and kind in ("PHONE", "NATIONAL_ID") and len(digits) >= 6:
+                return f"[{kind} ******{digits[-4:]}]"
             return f"[{kind}]"
 
         return _r

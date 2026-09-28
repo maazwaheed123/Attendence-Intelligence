@@ -21,6 +21,7 @@ WEIGHTS = {
 }
 DUAL_PATH = {"agree": 1.0, "template_only": 1.0, "llm_only": 0.5, "disagree": 0.3}
 REVIEW_CAP = 0.5
+CONFLICT_PENALTY = 0.05  # the answer excludes days whose sources disagree
 
 
 @dataclass
@@ -31,6 +32,7 @@ class Signals:
     citation_coverage: float  # 0..1
     mean_extraction_confidence: float | None
     needs_review: bool = False
+    conflict_days: int = 0  # conflicting employee-days excluded from the result
 
 
 @dataclass
@@ -53,6 +55,8 @@ def score(sig: Signals, *, high: float = 0.85, low: float = 0.60) -> Confidence:
         "extraction": max(0.0, min(1.0, sig.mean_extraction_confidence or 0.0)),
     }
     value = sum(WEIGHTS[k] * v for k, v in parts.items())
+    if sig.conflict_days:
+        value -= CONFLICT_PENALTY
     if sig.needs_review:
         value = min(value, REVIEW_CAP)
     value = round(value, 3)
@@ -70,6 +74,8 @@ def score(sig: Signals, *, high: float = 0.85, low: float = 0.60) -> Confidence:
     ]
     if sig.mean_extraction_confidence is not None:
         reasons.append(f"mean extraction confidence {sig.mean_extraction_confidence:.2f}")
+    if sig.conflict_days:
+        reasons.append(f"{sig.conflict_days} conflicting employee-day(s) excluded")
     if sig.needs_review:
         reasons.append("evidence needs human review")
     return Confidence(value, band(value, high, low), "; ".join(reasons) + ".")

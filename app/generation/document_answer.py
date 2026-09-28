@@ -83,3 +83,30 @@ def flagged_note(evidence: Evidence) -> str | None:
 
 def parsed(result: LLMResult | None) -> DocAnswer | None:
     return result.parsed if result is not None else None
+
+
+_SENTENCE = re.compile(r"(?<=[.!?])\s+(?=[A-Z0-9\"'(])")
+
+
+def supported_sentences(answer: str, evidence: Evidence, question: str) -> tuple[str, int]:
+    """Sentence-level grounding: each sentence is checked against the evidence it
+    cites (or, without a tag, against every cited item). Unsupported sentences are
+    dropped. Returns (kept text, number dropped)."""
+    from app.governance import grounding  # local: governance imports generation modules
+
+    by_tag = evidence.by_tag()
+    cited_all = [by_tag[t] for t in dict.fromkeys(_TAG.findall(answer)) if t in by_tag]
+    kept, dropped = [], 0
+    for sentence in _SENTENCE.split(answer.strip()):
+        items = [by_tag[t] for t in _TAG.findall(sentence) if t in by_tag] or cited_all
+        pool = " ".join(i.text for i in items)
+        if items and grounding.check(sentence, [], question=question, allowed_text=pool).ok:
+            kept.append(sentence)
+        else:
+            dropped += 1
+    return " ".join(kept), dropped
+
+
+def cited_items(answer: str, evidence: Evidence) -> list[EvidenceItem]:
+    by_tag = evidence.by_tag()
+    return [by_tag[t] for t in dict.fromkeys(_TAG.findall(answer)) if t in by_tag]
