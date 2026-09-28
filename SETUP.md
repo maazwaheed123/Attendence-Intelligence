@@ -63,7 +63,7 @@ Check: `ollama list` shows the models.
 ## 3. Clone the repository
 
 ```bash
-git clone <repository-url> attendance-intelligence
+git clone https://github.com/maazwaheed123/Attendence-Intelligence.git attendance-intelligence
 cd attendance-intelligence
 ```
 
