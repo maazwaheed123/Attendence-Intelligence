@@ -17,6 +17,7 @@ Q2_SQL = (
     "WHERE attendance_date BETWEEN '2026-09-01' AND '2026-09-30' AND entity_id = 'engineering'"
 )
 KEYS = {
+    "applied_feedback",
     "request_id", "status", "answer", "retrieval_mode", "context", "citations", "citation_total",
     "confidence", "confidence_band", "confidence_explanation", "unavailable_reason", "provider",
     "model", "fallback_path", "prompt_version", "retrieval_version", "warnings",

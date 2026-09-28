@@ -31,15 +31,18 @@ class DocAnswer(BaseModel):
     insufficient: bool = False
 
 
-def generate(question: str, evidence: Evidence, router, audit: dict | None = None):
-    """(result | None, failed_attempts)."""
-    messages = [
-        {"role": "system", "content": SYSTEM},
-        {
-            "role": "user",
-            "content": f"TASK: answer\n<question>{question}</question>\n{evidence.packed()}",
-        },
-    ]
+def generate(
+    question: str, evidence: Evidence, router, audit: dict | None = None, style: str | None = None
+):
+    """(result | None, failed_attempts). `style`: a reviewer-approved example answer,
+    used as wording guidance only (it is not evidence and cannot be cited)."""
+    user = f"TASK: answer\n<question>{question}</question>\n{evidence.packed()}"
+    if style:
+        user += (
+            "\nReviewer style example (wording guidance only, NOT evidence; never copy its "
+            f"facts): <style>{style[:600]}</style>"
+        )
+    messages = [{"role": "system", "content": SYSTEM}, {"role": "user", "content": user}]
     try:
         return (
             router.complete(

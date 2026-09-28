@@ -25,6 +25,8 @@ from sqlalchemy import text
 
 from app.config import get_settings
 from app.db.session import scoped_session
+from app.feedback import store as feedback_store
+from app.feedback import templating as tpl
 from app.generation import answer_templates as T
 from app.generation import document_answer
 from app.generation.phrasing import phrase
@@ -69,6 +71,7 @@ class QueryRun:
         self.intent: str | None = None
         self.retrieved: set[str] = set()  # ids retrieval returned for THIS request
         self.flagged: list[str] = []  # texts of flagged (possible injection) chunks
+        self.applied: dict | None = None  # feedback example used for this answer
 
     # ------------------------------------------------------------------ entry
     def execute(self) -> dict:
@@ -91,6 +94,9 @@ class QueryRun:
             retrieved=self.retrieved,
             flagged_texts=self.flagged,
         )
+        response["applied_feedback"] = self.applied if response["status"] != "unavailable" else None
+        if response["applied_feedback"]:
+            self._record_feedback_use()
         self._persist(response, cls.mode)
         self._audit(response, int((time.perf_counter() - start) * 1000))
         return response
@@ -131,8 +137,15 @@ class QueryRun:
         note = document_answer.flagged_note(ev)
         if note:
             self.warnings.append(note)
+        style = feedback_store.match(self.scope, "document", self.question, self._question_vector())
+        if style:
+            self.applied = {k: style[k] for k in ("example_id", "version", "similarity")}
         result, attempts = document_answer.generate(
-            self.question, ev, self.router, audit=self.audit_ctx
+            self.question,
+            ev,
+            self.router,
+            audit=self.audit_ctx,
+            style=style["style_notes"] if style else None,
         )
         self.failed_attempts = attempts
         answer, used = None, []
@@ -326,10 +339,14 @@ class QueryRun:
 
         reference = T.render(self.intent, s, rows, fmt) if tq is not None else T.generic(rows)
         answer = reference
-        if not needs_review:
+        improved = self._apply_feedback(rows) if tq is not None and not needs_review else None
+        if improved:
+            answer = improved  # reviewer-approved wording, values recomputed from these rows
+        elif not needs_review:
             answer = self._phrase(rows, reference if tq is not None else None) or reference
         check = self._ground(answer, rows)
         if not check.ok and answer != reference:
+            self.applied = None
             self.warnings.append(
                 "The phrased answer was not supported by the data; a deterministic answer was used."
             )
@@ -355,6 +372,72 @@ class QueryRun:
         if status == "answered" and conf.band == "low":
             answer = f"Low confidence: {answer} ({conf.explanation})"
         return _Answer(status, answer, citations=lin.citations, citation_total=lin.total, conf=conf)
+
+    # ------------------------------------------------------------------ feedback
+    def _question_vector(self) -> list[float] | None:
+        from app.retrieval.embeddings import EmbeddingUnavailable, get_embedder
+
+        try:
+            return get_embedder().embed_query(self.question)
+        except EmbeddingUnavailable:
+            return None
+
+    def _apply_feedback(self, rows) -> str | None:
+        if self.intent not in tpl.FEEDBACK_INTENTS:
+            return None
+        sig = tpl.signature(self.intent, self.slots)
+        ex = feedback_store.match(self.scope, sig, self.question, self._question_vector())
+        if not ex or not ex.get("answer_template"):
+            return None
+        facts = tpl.facts(self.intent, self.slots, rows, self.directory.date_format)
+        text_ = tpl.render(ex["answer_template"], facts)
+        if not text_:
+            return None
+        self.applied = {
+            "example_id": ex["example_id"],
+            "version": ex["version"],
+            "similarity": ex["similarity"],
+        }
+        return text_
+
+    def _record_feedback_use(self) -> None:
+        feedback_store.record_applied(self.scope, self.applied["example_id"], self.request_id)
+        audit.record(
+            "feedback_applied",
+            self.request_id,
+            outcome="applied",
+            details=dict(self.applied),
+            **audit.context_fields(self.ctx),
+        )
+
+    def analyze(self) -> dict:
+        """Rules-only understanding + the live template result for this question (no
+        model calls). Used by feedback submission to templatize an ideal output."""
+        self.directory = rewrite.load_directory(self.scope)
+        cls = classifier.classify(self.question, self.directory, None)
+        self.intent, self.slots = cls.intent, cls.slots
+        self._apply_filters()
+        s = self.slots
+        out = {
+            "mode": cls.mode,
+            "intent": cls.intent,
+            "slots": s,
+            "template": None,
+            "rows": [],
+            "answerable": False,
+            "date_format": self.directory.date_format,
+        }
+        cov_min, cov_max = self.directory.coverage
+        if cls.intent is None or s.unresolved_person or s.unresolved_entity or cov_min is None:
+            return out
+        if s.date_from is None:
+            s.date_from, s.date_to = cov_min, cov_max
+        tq = templates.build(cls.intent, s)
+        if tq is None:
+            return out
+        rows = executor.run(self.scope, tq.sql, tq.params).rows
+        out.update(template=tq, rows=rows, answerable=templates.has_answer(cls.intent, rows))
+        return out
 
     def _lineage(self, rows, tq, gen) -> lineage.Lineage:
         s = self.slots

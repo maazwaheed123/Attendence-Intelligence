@@ -75,6 +75,7 @@ class QueryResponse(BaseModel):
     prompt_version: str
     retrieval_version: str
     warnings: list[str]
+    applied_feedback: dict | None = None
 
 
 def _cid(c: dict) -> str | None:
