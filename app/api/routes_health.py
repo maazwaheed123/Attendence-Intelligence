@@ -60,6 +60,22 @@ def _ocr():
     return {"tesseract": str(pytesseract.get_tesseract_version())}
 
 
+def _vector():
+    with get_engine("app").connect() as c:
+        index = c.execute(
+            text("SELECT 1 FROM pg_indexes WHERE indexname = 'ix_chunks_embedding'")
+        ).scalar()
+    return {"engine": "pgvector hnsw (cosine)", "status": "ok" if index else "down"}
+
+
+def _embedder():
+    from app.retrieval.embeddings import get_embedder
+
+    e = get_embedder()
+    info = {"provider": e.name, "model": e.model, "dim": e.dim, **e.ping()}
+    return {**info, "status": "ok" if info.get("model_available") else "down"}
+
+
 def _providers(router_getter):
     try:
         return router_getter().health(ping=True)
@@ -77,7 +93,8 @@ def health_deep() -> dict:
         "service": {"status": "ok", "version": s.app_version},
         "database": db,
         "search": {"status": db["status"], "engine": "postgres full-text + pg_trgm"},
-        "vector": {"status": "ok" if db.get("pgvector") else "down", "engine": "pgvector"},
+        "vector": _timed(_vector) if db.get("pgvector") else {"status": "down"},
+        "embeddings": _timed(_embedder),
         "cache": _timed(_redis),
         "queue": _timed(_queue),
         "ocr": _timed(_ocr),
@@ -96,5 +113,8 @@ def health_deep() -> dict:
 
     core_ok = all(components[k]["status"] == "ok" for k in ("database", "cache"))
     llm_ok = any(p["status"] == "ok" for p in llm)
-    status = "ok" if core_ok and llm_ok else ("degraded" if core_ok else "down")
+    # Models down = degraded, not down: structured answers use the template engine and
+    # ingestion defers embeddings.
+    optional_ok = llm_ok and components["embeddings"]["status"] == "ok"
+    status = "ok" if core_ok and optional_ok else ("degraded" if core_ok else "down")
     return {"status": status, "components": components}

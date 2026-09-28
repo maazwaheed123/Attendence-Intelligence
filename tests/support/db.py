@@ -10,6 +10,9 @@ from sqlalchemy import text
 
 from app.config import get_settings
 from app.db.session import owner_session
+from app.ingestion.chunking import row_card_text
+from app.retrieval.embeddings import FakeEmbedder
+from app.retrieval.indexing import embed_pending
 from app.security.scope import DbScope
 from scripts.datagen.truth import load_spec
 from scripts.seed import seed
@@ -182,7 +185,20 @@ def reset_corpus() -> dict:
                         "t": row["tenant_id"],
                         "e": t["entity_id"],
                         "emp": row["employee_id"],
-                        "txt": f"{row['attendance_date']} {row['employee_id']} {t['employee_name']} {row['status']}",
+                        "txt": row_card_text(
+                            {
+                                "attendance_date": row["attendance_date"],
+                                "employee_id": row["employee_id"],
+                                "employee_name": t["employee_name"],
+                                "department": t["department"],
+                                "status": row["status"],
+                                "check_in": t["check_in"] if same else None,
+                                "check_out": t["check_out"] if same else None,
+                                "source_file": name,
+                                "source_locator": row["locator"],
+                                "review_required": row["expected_review"],
+                            }
+                        ),
                         "loc": row["locator"],
                         "active": not superseded,
                     },
@@ -250,5 +266,6 @@ def reset_corpus() -> dict:
                 ),
                 {"r": f"req_{tenant}", "t": tenant},
             )
+        counts["embedded"] = embed_pending(s, FakeEmbedder(get_settings().embed_dim))["embedded"]
     STATE["corpus_loaded"] = True
     return counts

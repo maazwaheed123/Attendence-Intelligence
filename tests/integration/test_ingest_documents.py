@@ -51,7 +51,8 @@ def test_docx_narrative_chunks(ingest_api, auth, manifests):
         k: v for k, v in expected.items() if k.startswith("section=Manager remarks")
     }
     assert {c["classification"] for c in remarks} == {"confidential"}
-    assert all(c["entity_id"] == "engineering" and c["embedding"] is None for c in remarks)
+    assert all(c["entity_id"] == "engineering" for c in remarks)
+    assert all(c["embedding"] is not None for c in remarks)  # embedded since Step 9
     notes = chunks("locator = 'section=Notes;para=1'")
     assert notes[0]["classification"] == "internal"
     assert not chunks("text LIKE '%Acme Corp - Internal%'")  # page header excluded

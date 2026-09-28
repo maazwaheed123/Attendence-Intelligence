@@ -57,7 +57,13 @@ class Settings(BaseSettings):
     breaker_reset_s: int = 60
 
     # --- retrieval / governance thresholds ---
-    embed_model: str = "BAAI/bge-small-en-v1.5"
+    # Embeddings: local Ollama nomic-embed-text (768-dim, already installed, no
+    # download). "fake" = deterministic hashing embedder for tests / offline use.
+    embedder: Literal["ollama", "fake"] = "ollama"
+    ollama_embed_model: str = "nomic-embed-text"
+    embed_dim: int = 768  # must match vector(768) in the schema (migration 0004)
+    embed_batch: int = 32
+    embed_timeout_s: float = 60.0
     rerank_model: str = "BAAI/bge-reranker-base"
     ocr_review_threshold: float = Field(0.75, ge=0, le=1)
     feedback_match_threshold: float = Field(0.85, ge=0, le=1)

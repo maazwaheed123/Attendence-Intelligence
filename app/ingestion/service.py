@@ -2,8 +2,10 @@
 
 submit()  - validate, checksum, idempotency, versioning, store file, create
             document + job, then run synchronously (INGEST_SYNC) or enqueue (RQ).
-process() - stages: parsed -> normalized -> persisted -> completed. Each stage is
-            recorded on the job; errors are permanent (fail now) or transient (retry).
+process() - stages: parsed -> normalized -> persisted -> indexed -> completed. Each
+            stage is recorded on the job; errors are permanent (fail now) or
+            transient (retry). An embedding outage does NOT fail the job: the data is
+            stored and queryable, chunks wait for `python -m scripts.reindex`.
 
 Every database write runs under the uploader's DbScope with the app_rw role, so
 RLS WITH CHECK guarantees ingestion can only create data inside that scope.
@@ -26,10 +28,13 @@ from app.api.errors import AppError
 from app.config import get_settings
 from app.db.models import AttendanceRecord, DocumentChunk, IngestionJob, SourceDocument
 from app.db.session import scoped_session
+from app.ingestion.chunking import split_block
 from app.ingestion.detect import detect
 from app.ingestion.normalize.normalizer import Roster, normalize
 from app.ingestion.parsers import csv_parser, docx_parser, ocr_parser, pdf_parser, xlsx_parser
 from app.ingestion.types import IngestionError, ParseResult, PermanentError
+from app.retrieval import indexing
+from app.retrieval.embeddings import EmbeddingUnavailable, get_embedder
 from app.security import injection, pii
 from app.security.context import SecurityContext
 from app.security.scope import DbScope
@@ -311,6 +316,7 @@ def process(job_id, scope_dict: dict, *, raise_transient: bool = False) -> str:
             if _newer_version_completed(db, doc_id):
                 # Retries can finish an older version after its successor: it is history.
                 _deactivate(db, doc_id)
+            row_cards = indexing.create_row_cards(db, doc_id)  # after (de)activation
             if doc.entity_id is None:
                 entities = {d["entity_id"] for d in drafts}
                 if len(entities) == 1:
@@ -323,6 +329,7 @@ def process(job_id, scope_dict: dict, *, raise_transient: bool = False) -> str:
                 "review_required": sum(d["review_required"] for d in drafts),
                 "skipped_rows": len(parsed.skipped_rows),
                 "narrative_chunks": narrative["chunks"],
+                "row_cards": row_cards,
                 "suspicious_chunks": len(narrative["suspicious"]),
                 "pii_masked": narrative["pii_masked"],
                 **({"diff": diff} if diff else {}),
@@ -339,7 +346,7 @@ def process(job_id, scope_dict: dict, *, raise_transient: bool = False) -> str:
                 for loc, rules in narrative["suspicious"]
             ]
             job.warnings = warnings
-            _set_stage(db, job, "completed", "completed")
+        _index(scope, job_id, doc_id)
         return "completed"
 
     except Exception as exc:  # noqa: BLE001 - classify every failure onto the job
@@ -366,6 +373,27 @@ def process(job_id, scope_dict: dict, *, raise_transient: bool = False) -> str:
         return "retry" if will_retry else "failed"
 
 
+def _index(scope: DbScope, job_id, doc_id) -> None:
+    """Embed the document's new chunks; an unavailable embedder only defers this."""
+    embedder = get_embedder()
+    with scoped_session(scope, role="app") as db:
+        job = db.get(IngestionJob, job_id)
+        try:
+            stats = indexing.embed_pending(db, embedder, document_id=doc_id)
+            _set_stage(db, job, "indexed", **stats)
+            pending = 0
+        except EmbeddingUnavailable as exc:
+            log.warning("embedding deferred for job %s: %s", job_id, exc)
+            pending = indexing.count_pending(db, doc_id)
+            job.warnings = [
+                *job.warnings,
+                f"embeddings pending for {pending} chunks ({exc}); run scripts.reindex later",
+            ]
+            _set_stage(db, job, "index_pending", error=str(exc)[:200])
+        job.counts = {**job.counts, "embedding_pending": pending}
+        _set_stage(db, job, "completed", "completed")
+
+
 def _persist(db: Session, scope: DbScope, doc_id, filename, checksum, method, drafts):
     if not drafts:
         return
@@ -389,14 +417,14 @@ def _persist(db: Session, scope: DbScope, doc_id, filename, checksum, method, dr
 
 
 def _persist_narrative(db: Session, scope: DbScope, doc: SourceDocument, checksum, blocks) -> dict:
-    """Narrative text -> document_chunks (embedded in Step 9).
+    """Narrative text -> document_chunks (section-aware windows, embedded at "indexed").
 
     Raw text is kept for audit (never readable by rag_reader); retrieval only ever
     sees text_masked. Injection attempts are flagged, not removed.
     """
     stats = {"chunks": 0, "suspicious": [], "pii_masked": 0}
     rows = []
-    for b in blocks:
+    for b in (chunk for block in blocks for chunk in split_block(block)):
         masked, counts = pii.mask_text(b.text)
         rules = injection.detect(b.text)
         if rules:

@@ -53,6 +53,7 @@ def test_csv(ingest_api, auth, manifests, truth):
         "parsed",
         "normalized",
         "persisted",
+        "indexed",  # Step 9: row cards + embeddings
         "completed",
     ]
     recs = records("source_file = 'tenant_a_sep_v2.csv'")

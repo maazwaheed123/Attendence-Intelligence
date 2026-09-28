@@ -11,6 +11,7 @@ os.environ["APP_ENV"] = "test"
 os.environ["INGEST_SYNC"] = "true"
 os.environ["LLM_CHAIN"] = "mock,template"  # the gate never calls a real model
 os.environ["VISION_CHAIN"] = "mock"
+os.environ["EMBEDDER"] = "fake"  # deterministic vectors; the real model runs only under "live"
 os.environ["UPLOAD_DIR"] = "/tmp/attendance_test_uploads"
 # Query suites send many requests per persona; test_rate_limit sets its own limit.
 os.environ["RATE_LIMIT_PER_MIN"] = "100000"
