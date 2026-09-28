@@ -1,7 +1,7 @@
 import pytest
 from sqlalchemy import text
 
-from app.db.session import scoped_session
+from app.db.session import owner_session, scoped_session
 from tests.support.ingest import GENERATED, records, upload
 
 pytestmark = pytest.mark.integration
@@ -74,3 +74,27 @@ def test_explicit_logical_name(ingest_api, auth):
         logical_name="hr_monthly",
     ).json()
     assert body["logical_name"] == "hr_monthly"
+
+
+@pytest.mark.parametrize("order", ["v1_first", "v2_first"])
+def test_async_uploads_in_quick_succession_version_correctly(ingest_api, auth, monkeypatch, order):
+    """Found while ingesting the corpus into the dev server (worker mode): v2 uploaded
+    while v1 was still queued became a second "v1" and both stayed active."""
+    from app.config import get_settings
+    from app.ingestion import service
+
+    queued = []
+    monkeypatch.setattr(get_settings(), "ingest_sync", False)
+    monkeypatch.setattr(service, "enqueue", lambda job_id, scope: queued.append((job_id, scope)))
+    v1 = upload(ingest_api, auth("a_hr_admin"), "tenant_a_sep.csv").json()
+    v2 = upload(ingest_api, auth("a_hr_admin"), "tenant_a_sep_v2.csv").json()
+    assert (v1["version"], v2["version"]) == (1, 2)
+    assert v2["supersedes_document_id"] == v1["document_id"]
+
+    for job_id, scope in queued if order == "v1_first" else reversed(queued):
+        assert service.process(job_id, scope) == "completed"
+    assert all(not r["is_active"] for r in records("source_file = 'tenant_a_sep.csv'"))
+    assert all(r["is_active"] for r in records("source_file = 'tenant_a_sep_v2.csv'"))
+    with owner_session() as s:
+        docs = dict(s.execute(text("SELECT filename, status FROM source_documents")).all())
+    assert docs == {"tenant_a_sep.csv": "superseded", "tenant_a_sep_v2.csv": "completed"}

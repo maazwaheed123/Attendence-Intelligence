@@ -126,7 +126,9 @@ def submit(
         prev = db.execute(
             text(
                 "SELECT document_id, version FROM source_documents "
-                "WHERE logical_name = :ln AND status IN ('completed', 'superseded') "
+                # in-flight versions count too: async uploads of v1 and v2 in quick
+                # succession must still become v1 -> v2, not two active "v1"s
+                "WHERE logical_name = :ln AND status <> 'failed' "
                 "ORDER BY version DESC LIMIT 1"
             ),
             {"ln": logical},
@@ -306,6 +308,9 @@ def process(job_id, scope_dict: dict, *, raise_transient: bool = False) -> str:
             narrative = _persist_narrative(db, scope, doc, checksum, parsed.narrative)
             diff = _supersede(db, prev_doc_id, drafts) if prev_doc_id else None
             doc.status = "completed"
+            if _newer_version_completed(db, doc_id):
+                # Retries can finish an older version after its successor: it is history.
+                _deactivate(db, doc_id)
             if doc.entity_id is None:
                 entities = {d["entity_id"] for d in drafts}
                 if len(entities) == 1:
@@ -425,6 +430,36 @@ def _persist_narrative(db: Session, scope: DbScope, doc: SourceDocument, checksu
     return stats
 
 
+def _newer_version_completed(db: Session, doc_id) -> bool:
+    return bool(
+        db.execute(
+            text(
+                "SELECT 1 FROM source_documents "
+                "WHERE supersedes_document_id = :d AND status IN ('completed', 'superseded')"
+            ),
+            {"d": doc_id},
+        ).first()
+    )
+
+
+def _deactivate(db: Session, doc_id) -> None:
+    db.execute(
+        update(AttendanceRecord)
+        .where(AttendanceRecord.source_document_id == doc_id)
+        .values(is_active=False)
+    )
+    db.execute(
+        update(DocumentChunk)
+        .where(DocumentChunk.source_document_id == doc_id)
+        .values(is_active=False)
+    )
+    db.execute(
+        update(SourceDocument)
+        .where(SourceDocument.document_id == doc_id)
+        .values(status="superseded")
+    )
+
+
 def _supersede(db: Session, prev_doc_id, drafts) -> dict:
     """Deactivate the previous version's records and describe what changed."""
     old = {
@@ -446,21 +481,7 @@ def _supersede(db: Session, prev_doc_id, drafts) -> dict:
         for k in sorted(new.keys() & old.keys())
         if new[k] != old[k]
     ]
-    db.execute(
-        update(AttendanceRecord)
-        .where(AttendanceRecord.source_document_id == prev_doc_id)
-        .values(is_active=False)
-    )
-    db.execute(
-        update(DocumentChunk)
-        .where(DocumentChunk.source_document_id == prev_doc_id)
-        .values(is_active=False)
-    )
-    db.execute(
-        update(SourceDocument)
-        .where(SourceDocument.document_id == prev_doc_id)
-        .values(status="superseded")
-    )
+    _deactivate(db, prev_doc_id)
     return {
         "previous_document_id": str(prev_doc_id),
         "added": len(new.keys() - old.keys()),

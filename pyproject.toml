@@ -19,6 +19,9 @@ ignore = [
 [tool.ruff.lint.per-file-ignores]
 "tests/**" = ["S", "B", "E501", "SIM117"]  # long SQL literals; pytest.raises + session nesting
 "scripts/**" = ["S311"]  # non-crypto RNG is intended for synthetic data
+# SQL assembled from fixed fragments; every value is a bind parameter or validated AST text.
+"app/retrieval/sql/{templates,lineage}.py" = ["S608"]
+"app/retrieval/sql/schema_prompt.py" = ["E501"]  # few-shot JSON examples are one line each
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

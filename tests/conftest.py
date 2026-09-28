@@ -12,6 +12,8 @@ os.environ["INGEST_SYNC"] = "true"
 os.environ["LLM_CHAIN"] = "mock,template"  # the gate never calls a real model
 os.environ["VISION_CHAIN"] = "mock"
 os.environ["UPLOAD_DIR"] = "/tmp/attendance_test_uploads"
+# Query suites send many requests per persona; test_rate_limit sets its own limit.
+os.environ["RATE_LIMIT_PER_MIN"] = "100000"
 os.environ["REDIS_URL"] = re.sub(
     r"/\d+$", "/15", os.environ.get("REDIS_URL", "redis://redis:6379/0")
 )
