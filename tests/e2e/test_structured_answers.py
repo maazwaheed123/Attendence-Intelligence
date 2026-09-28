@@ -168,5 +168,6 @@ def test_q5_hybrid_answers_the_structured_part(api, auth):
     r = ask(api, auth, "a_eng_manager", "Show evidence that Alice was present on 3 Sep")
     assert r["status"] == "answered"
     assert r["answer"].startswith("Alice Johnson (E001) was present on 03/09/2026")
-    assert any("Document evidence" in w for w in r["warnings"])
+    # remarks are confidential; this persona has internal clearance (Step 10 hybrid)
+    assert any("No supporting document text" in w for w in r["warnings"])
     assert r["citations"] and r["citations"][0]["source_file"].endswith((".csv", ".xlsx"))

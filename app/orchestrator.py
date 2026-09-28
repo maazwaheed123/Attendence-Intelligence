@@ -26,11 +26,12 @@ from sqlalchemy import text
 from app.config import get_settings
 from app.db.session import scoped_session
 from app.generation import answer_templates as T
+from app.generation import document_answer
 from app.generation.phrasing import phrase
 from app.generation.prompts import PROMPT_VERSION
 from app.generation.router import TEMPLATE, get_router
 from app.governance import audit, confidence, grounding
-from app.retrieval import RETRIEVAL_VERSION, classifier, rewrite
+from app.retrieval import RETRIEVAL_VERSION, classifier, documents, fusion, rewrite
 from app.retrieval.sql import executor, generator, lineage, templates
 from app.retrieval.sql.executor import SqlExecutionError
 from app.security import pii
@@ -93,14 +94,103 @@ class QueryRun:
             reason = "not_permitted" if cls.reason == "pii" else "out_of_scope"
             return self._unavailable(reason, T.UNAVAILABLE[key], mode="none")
         if cls.intent is None:
-            key = "document" if cls.mode in ("document", "hybrid") else "unsupported"
-            return self._unavailable("insufficient_evidence", T.UNAVAILABLE[key], mode="none")
-        if cls.mode == "hybrid":
-            self.warnings.append(
-                "Document evidence (notes, remarks, letters) was not searched; "
-                "this answer uses attendance records only."
+            if cls.mode in ("document", "hybrid"):
+                return self._document()
+            return self._unavailable(
+                "insufficient_evidence", T.UNAVAILABLE["unsupported"], mode="none"
             )
-        return self._structured()
+        answer = self._structured()
+        if cls.mode == "hybrid" and answer.status != "unavailable":
+            answer = self._attach_evidence(answer)
+        return answer
+
+    # ------------------------------------------------------------------ documents
+    def _document(self) -> _Answer:
+        s = self.slots
+        if s.unresolved_person or s.unresolved_entity:
+            return self._no_data(s.date_from is not None)
+        ev = documents.retrieve(self.scope, self.question, s)
+        self.warnings += ev.warnings
+        self.debug["evidence"] = [
+            {"tag": i.tag, "chunk_id": i.chunk_id, "score": i.score, "reasons": i.reasons}
+            for i in ev.items
+        ]
+        if not ev.sufficient:
+            return self._unavailable(
+                "insufficient_evidence", T.UNAVAILABLE["no_document_evidence"], mode="document"
+            )
+        note = document_answer.flagged_note(ev)
+        if note:
+            self.warnings.append(note)
+        result, attempts = document_answer.generate(
+            self.question, ev, self.router, audit=self.audit_ctx
+        )
+        self.failed_attempts = attempts
+        answer, used = None, []
+        doc = document_answer.parsed(result)
+        if doc is not None and doc.insufficient:
+            self.llm_used = result
+            return self._unavailable(
+                "insufficient_evidence", T.UNAVAILABLE["no_document_evidence"], mode="document"
+            )
+        if doc is not None and doc.answer.strip():
+            text_, used, unknown = document_answer.map_citations(doc.answer, doc.citations, ev)
+            if unknown:
+                self.warnings.append(
+                    f"Removed citation tags not present in the evidence: {', '.join(unknown)}."
+                )
+            check = grounding.check(
+                text_, [], question=self.question, allowed_text=" ".join(i.text for i in ev.items)
+            )
+            if used and check.ok:
+                answer, self.llm_used = text_, result
+            else:
+                self.debug["grounding_problems"] = check.problems or ["no valid citation"]
+                self.warnings.append(
+                    "The generated answer was not supported by the cited evidence; "
+                    "the evidence is quoted instead."
+                )
+        if answer is None:
+            answer, used = document_answer.extractive(ev)
+        conf = confidence.score_document(
+            grounded=True,
+            top_score=max(i.score for i in used) if used else 0.0,
+            cited=len(used),
+            sufficient=ev.sufficient,
+            flagged=sum(i.suspicious for i in ev.items),
+            high=self.settings.conf_high,
+            low=self.settings.conf_low,
+        )
+        if conf.band == "low":
+            answer = f"Low confidence: {answer} ({conf.explanation})"
+        citations = [{**i.citation(), "tag": i.tag} for i in used]
+        return _Answer(
+            "answered", answer, mode="document", citations=citations,
+            citation_total=len(citations), conf=conf,
+        )  # fmt: skip
+
+    def _attach_evidence(self, a: _Answer) -> _Answer:
+        """Hybrid: the structured answer plus the narrative text that supports it."""
+        s = self.slots
+        ev = documents.retrieve(self.scope, self.question, s, top=4, narrative_only=True)
+        self.warnings += ev.warnings
+        usable = [
+            i
+            for i in ev.items
+            if i.chunk_type == "narrative"
+            and not i.suspicious
+            and (not s.employee_id or fusion.mentions_employee(i.text, s))
+            and (not s.single_date or fusion.mentions_date(i.text, s.date_from))
+        ][:2]
+        a.mode = "hybrid"
+        if not usable:
+            self.warnings.append("No supporting document text found in your permitted scope.")
+            return a
+        quotes = "; ".join(f'"{i.text[:200]}" ({i.source_file}, {i.locator})' for i in usable)
+        a.text = f"{a.text} Supporting evidence: {quotes}."
+        a.citations = [*a.citations, *({**i.citation(), "tag": i.tag} for i in usable)]
+        a.citation_total += len(usable)
+        return a
 
     def _apply_filters(self) -> None:
         s, f, d = self.slots, self.filters, self.directory

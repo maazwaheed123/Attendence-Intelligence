@@ -35,6 +35,7 @@ UNAVAILABLE = {
         "Answering from document text (notes, remarks, letters, memos) is not available yet. "
         "Ask about attendance figures instead."
     ),
+    "no_document_evidence": ("No document evidence in your permitted scope answers this question."),
     "unsupported": (
         "The question could not be mapped to an attendance query. Try asking about presence, "
         "absence, attendance % or hours for a person, department, date or period."

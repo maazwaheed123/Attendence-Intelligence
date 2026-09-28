@@ -10,6 +10,7 @@ could starve results for a small tenant. hnsw.iterative_scan = relaxed_order
 (pgvector >= 0.8) keeps scanning until enough rows pass the policy.
 """
 
+import re
 from dataclasses import dataclass
 from typing import Protocol
 
@@ -107,17 +108,37 @@ class PgVectorStore:
         return _hits(rows, "vector")
 
 
-class PgFtsStore:
-    """BM25-like keyword ranking with ts_rank_cd over the generated tsvector."""
+_TERM = re.compile(r"[a-z0-9]+")
 
-    def search(self, session: Session, query: str, k: int = 20, chunk_types=None):
+
+def any_terms(query: str) -> str:
+    """'a | b | c' for to_tsquery: natural questions match on ANY term (ranked by
+    ts_rank_cd), instead of websearch_to_tsquery's AND of every word. Only [a-z0-9]
+    tokens survive, so no tsquery syntax can be injected."""
+    terms = dict.fromkeys(t for t in _TERM.findall(query.lower()) if len(t) > 1)
+    return " | ".join(terms)
+
+
+class PgFtsStore:
+    """BM25-like keyword ranking with ts_rank_cd over the generated tsvector.
+
+    match="all": websearch syntax, every term required; match="any": OR of terms."""
+
+    def search(self, session: Session, query: str, k: int = 20, chunk_types=None, match="all"):
         require_scope(session)
+        if match == "any":
+            query = any_terms(query)
+            if not query:
+                return []
+            tsq = "to_tsquery('english', :q)"
+        else:
+            tsq = "websearch_to_tsquery('english', :q)"
         params = {"q": query, "k": k}
         where = _ACTIVE + " AND tsv @@ q" + _type_filter(chunk_types, params)
         rows = session.execute(
             text(
                 f"SELECT {_COLS}, ts_rank_cd(tsv, q) AS score "  # noqa: S608
-                "FROM document_chunks, websearch_to_tsquery('english', :q) AS q "
+                f"FROM document_chunks, {tsq} AS q "
                 f"WHERE {where} ORDER BY score DESC, chunk_id LIMIT :k"
             ),
             params,

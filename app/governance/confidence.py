@@ -77,3 +77,29 @@ def score(sig: Signals, *, high: float = 0.85, low: float = 0.60) -> Confidence:
 
 def unavailable(reason: str) -> Confidence:
     return Confidence(0.0, "low", f"No answer was produced ({reason}).")
+
+
+def score_document(
+    *,
+    grounded: bool,
+    top_score: float,
+    cited: int,
+    sufficient: bool,
+    flagged: int = 0,
+    high: float = 0.85,
+    low: float = 0.60,
+) -> Confidence:
+    """Document answers: grounding 0.30, retrieval strength 0.30 (top rerank score,
+    0.6+ counts as full), citations 0.20, slot sufficiency 0.20."""
+    strength = max(0.0, min(1.0, top_score / 0.6))
+    value = 0.30 * grounded + 0.30 * strength + 0.20 * (cited > 0) + 0.20 * sufficient
+    value = round(value, 3)
+    reasons = [
+        "answer grounded in the evidence" if grounded else "answer not fully grounded",
+        f"top evidence score {top_score:.2f}",
+        f"{cited} source chunk{'s' if cited != 1 else ''} cited",
+        "evidence covers the question" if sufficient else "evidence does not cover every detail",
+    ]
+    if flagged:
+        reasons.append(f"{flagged} flagged item(s) treated as data")
+    return Confidence(value, band(value, high, low), "; ".join(reasons) + ".")

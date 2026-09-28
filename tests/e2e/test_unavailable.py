@@ -43,14 +43,10 @@ def test_q16_phone_number_not_permitted(api, auth):
     assert not any(ch.isdigit() for ch in r["answer"])
 
 
-def test_document_questions_wait_for_document_retrieval(api, auth):
-    for q in (
-        "What did the manager note about Bob's late arrivals?",
-        "Summarise the injection memo",
-    ):
-        r = ask(api, auth, "a_eng_manager", q)
-        _unavailable(r, "insufficient_evidence")
-        assert "document text" in r["answer"]
+def test_document_question_without_evidence(api, auth):
+    r = ask(api, auth, "a_eng_manager", "What did the letter say about Zoe on 12 September?")
+    _unavailable(r, "insufficient_evidence")
+    assert r["answer"] == "No document evidence in your permitted scope answers this question."
 
 
 def test_week_that_does_not_exist(api, auth):

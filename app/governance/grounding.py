@@ -85,7 +85,7 @@ def check(
                 d = build(m)
             except (ValueError, KeyError):
                 d = None
-            if d is not None and d not in allowed_dates and m.group(0) not in question:
+            if d is not None and d not in allowed_dates and m.group(0) not in text_pool:
                 problems.append(f"date {m.group(0)!r} not in results")
         rest = rx.sub(" ", rest)
 

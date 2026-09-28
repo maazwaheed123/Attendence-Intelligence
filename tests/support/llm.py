@@ -17,10 +17,13 @@ def use_router(monkeypatch, providers, *, template: bool = True) -> LLMRouter:
     return router
 
 
-def scripted(monkeypatch, *, classify=None, sql=None, phrase=None, default="ok") -> MockProvider:
+def scripted(
+    monkeypatch, *, classify=None, sql=None, phrase=None, answer=None, default="ok"
+) -> MockProvider:
     """A mock model. Stages without a script answer `default` (invalid JSON -> fails)."""
     rules = []
-    for task, response in (("classify", classify), ("sql", sql), ("phrase", phrase)):
+    stages = (("classify", classify), ("sql", sql), ("phrase", phrase), ("answer", answer))
+    for task, response in stages:
         if response is not None:
             rules.append((rf"^TASK: {task}\b", response))
     provider = MockProvider("mock", rules=rules, default=default)
