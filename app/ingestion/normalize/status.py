@@ -1,4 +1,4 @@
-"""Status vocabulary -> canonical status (PLAN.txt E.2)."""
+"""Status vocabulary -> canonical status."""
 
 import re
 

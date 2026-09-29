@@ -126,6 +126,10 @@ def submit(
             db.flush()
             return job_view(db, job_id, duplicate_of=existing, checksum=checksum)
 
+        db.execute(
+            text("SELECT pg_advisory_xact_lock(hashtextextended(:k, 0))"),
+            {"k": f"{ctx.product_id}|{ctx.tenant_id}|{ctx.module}|{logical}"},
+        )
         prev = db.execute(
             text(
                 "SELECT document_id, version FROM source_documents "

@@ -1,4 +1,4 @@
-"""Feedback test helpers: Q2 + the reviewer's ideal output (HANDOFF section 12)."""
+"""Feedback test helpers: Q2 + the reviewer's ideal output (the example in docs/api_examples.http)."""
 
 import pytest
 from sqlalchemy import text

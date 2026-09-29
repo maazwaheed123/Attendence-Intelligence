@@ -1,4 +1,4 @@
-"""Role -> permission matrix and role clearance ceilings (PLAN.txt section D.2)."""
+"""Role -> permission matrix and role clearance ceilings."""
 
 from enum import StrEnum
 

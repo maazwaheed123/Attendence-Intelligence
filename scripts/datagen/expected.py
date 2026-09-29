@@ -8,7 +8,7 @@ sample corpus in order:
 Only `clean` facts count in aggregates; the others must be surfaced as
 "needs review", never presented as fact.
 
-Metric rules (identical to the v_attendance view in Step 2):
+Metric rules (identical to the v_attendance view):
   scheduled day   = status != holiday
   present value   = 1 for present/wfh, 0.5 for half_day, 0 otherwise
   attendance %    = 100 * sum(present value) / sum(scheduled)   (pooled employee-days)

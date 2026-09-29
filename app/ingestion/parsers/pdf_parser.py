@@ -1,7 +1,7 @@
 """Text-based PDF: tables per page -> records; text outside tables -> narrative.
 
 Repeated page headers/footers and page numbers are removed. A PDF without a text
-layer is a scan and is routed to OCR (Step 7) instead.
+layer is a scan and is routed to OCR instead.
 """
 
 import io

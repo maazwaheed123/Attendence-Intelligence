@@ -1,6 +1,6 @@
 """Query orchestrator: question -> classification -> scoped retrieval -> answer.
 
-Pipeline (structured mode, Step 8):
+Pipeline (structured mode):
   1. load the caller's directory (roster, entities, data coverage) through RLS
   2. classify (rules, then LLM JSON only if needed) and resolve dates/names in scope
   3. refuse / "no data" early for out-of-scope questions, names that resolve to

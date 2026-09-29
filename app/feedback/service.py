@@ -8,7 +8,7 @@
   4. templatize the ideal output; values not supported by the live data -> rejected
   5. equivalence check: rendering the template on current data must reproduce the
      ideal output exactly
-  6. the intent's template SQL, with this request's values, passes the Step 8 validator
+  6. the intent's template SQL, with this request's values, passes the SQL validator
   7. store as the next version of its lineage (active or rejected), audit, and
      verify by re-running the question through the full pipeline
 Feedback text can change wording only: values are recomputed, scope comes from the

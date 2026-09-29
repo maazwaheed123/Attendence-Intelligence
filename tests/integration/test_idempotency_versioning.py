@@ -98,3 +98,38 @@ def test_async_uploads_in_quick_succession_version_correctly(ingest_api, auth, m
     with owner_session() as s:
         docs = dict(s.execute(text("SELECT filename, status FROM source_documents")).all())
     assert docs == {"tenant_a_sep.csv": "superseded", "tenant_a_sep_v2.csv": "completed"}
+
+
+def test_concurrent_uploads_of_one_logical_name_get_distinct_versions(
+    ingest_api, auth, monkeypatch
+):
+    import threading
+    import time
+    import types
+    import uuid
+
+    from app.ingestion import service
+
+    def slow_uuid4():
+        time.sleep(0.3)
+        return uuid.uuid4()
+
+    monkeypatch.setattr(service, "uuid", types.SimpleNamespace(uuid4=slow_uuid4, UUID=uuid.UUID))
+    headers = auth("a_hr_admin")
+    results = {}
+
+    def send(name):
+        results[name] = upload(ingest_api, headers, name).json()
+
+    threads = [
+        threading.Thread(target=send, args=(n,))
+        for n in ("tenant_a_sep.csv", "tenant_a_sep_v2.csv")
+    ]
+    for t in threads:
+        t.start()
+    for t in threads:
+        t.join()
+
+    bodies = sorted(results.values(), key=lambda b: b["version"])
+    assert [b["version"] for b in bodies] == [1, 2]
+    assert bodies[1]["supersedes_document_id"] == bodies[0]["document_id"]

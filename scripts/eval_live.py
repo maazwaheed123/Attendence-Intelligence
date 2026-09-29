@@ -1,4 +1,4 @@
-"""Live evaluation: the demo questions (HANDOFF section 12) against a RUNNING server.
+"""Live evaluation: the demo questions against a RUNNING server.
 
 Runs over HTTP only (dev tokens), so it measures the real stack: real Ollama
 chain, real nomic embeddings, the corpus as ingested by the real pipeline.

@@ -1,4 +1,4 @@
-"""RBAC matrix (PLAN.txt D.2) and endpoint permission enforcement."""
+"""RBAC matrix and endpoint permission enforcement."""
 
 import pytest
 

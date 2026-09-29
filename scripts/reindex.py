@@ -1,5 +1,5 @@
 """Backfill row cards and embed every active chunk that has no vector yet (after an
-embedding outage, for data ingested before Step 9, or after a model change: --reset).
+embedding outage, or after a model change: --reset).
 
 Usage (inside the api container):
     python -m scripts.reindex            # fill missing embeddings

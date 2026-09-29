@@ -1,4 +1,4 @@
-"""Retrieval: query understanding, structured SQL retrieval (Step 8), documents (Step 10).
+"""Retrieval: query understanding, structured SQL retrieval, documents.
 
 RETRIEVAL_VERSION is stored with every response (and later with feedback examples),
 so a change in retrieval behaviour is always traceable.

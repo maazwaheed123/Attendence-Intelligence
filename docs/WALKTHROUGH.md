@@ -15,7 +15,7 @@ model take ~30-90 s on CPU, so either pre-warm (ask Q1 once) or cut the waits.
 | 7 | 4:15 | As `a_eng_manager`: "What was John Carter's attendance?" (tenant B) vs "What was Jane Doe's attendance?" | Identical responses: a denial never reveals that the person exists. Add filter entity = hr -> 403. |
 | 8 | 4:45 | "Summarise the injection memo" | The memo's instruction paragraph is flagged, never obeyed, never quoted; warning shown. |
 | 9 | 5:15 | Export page: the Q1 request as JSON, XLSX, PDF | Same rows, same checksum; PDF footer shows classification + request id. |
-| 10 | 6:00 | Feedback page as `a_reviewer` on the Q2 answer ("Engineering's average attendance % in September") with the ideal wording from the README | Validated against live data, stored as a new version; ask Q2 as `a_eng_manager` -> the approved wording with recomputed numbers; as `b_manager` -> not applied. Roll back. |
-| 11 | 7:15 | `docs/TEST_SUMMARY.md` | 908 automated tests, 96% coverage, 14 mandatory scenarios, live evaluation 23/24 with the known gap. |
+| 10 | 6:00 | Feedback page as `a_reviewer` on the Q2 answer ("Engineering's average attendance % in September") with the ideal wording from `docs/api_examples.http` | Validated against live data, stored as a new version; ask Q2 as `a_eng_manager` -> the approved wording with recomputed numbers; as `b_manager` -> not applied. Roll back. |
+| 11 | 7:15 | `docs/TEST_SUMMARY.md` | Test counts, coverage, the 14 mandatory scenarios and the live evaluation, all generated from real runs. |
 
 Command-line alternative for the whole flow: `docker compose run --rm -T api python -m scripts.demo`.

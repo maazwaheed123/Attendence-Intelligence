@@ -1,7 +1,7 @@
 """Fixed-window rate limit per subject, backed by Redis.
 
 Fails OPEN if Redis is unavailable (availability over throttling for an MVP);
-the failure is logged and visible in /v1/health/deep (Step 14).
+the failure is logged and visible in /v1/health/deep.
 """
 
 import logging
