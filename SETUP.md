@@ -50,11 +50,15 @@ Also on Linux, the containers run as uid 1000 and write to `data/uploads` and
 ollama pull qwen2.5:7b-instruct      # main answer model (~4.7 GB)
 ollama pull qwen2.5:3b-instruct      # fallback model (~1.9 GB)
 ollama pull nomic-embed-text         # embeddings (~0.3 GB)
-ollama pull qwen2.5vl:3b             # handwriting OCR (~3.2 GB), optional
+ollama pull qwen2.5vl:3b             # handwriting OCR (~3.2 GB)
 ```
 
-Without `qwen2.5vl:3b` everything still works, but handwritten sheets are read by
-Tesseract only and flagged for review.
+`qwen2.5vl:3b` reads the handwritten samples. Without it everything else still works, but
+handwritten sheets are read by Tesseract only (all rows flagged for review) and the messy
+sheet `handwritten_ambiguous.png` cannot be read at all.
+
+Only one model is loaded at a time; Ollama swaps them as needed (7b ~5 GB RAM, vision
+~3.5 GB).
 
 Check: `ollama list` shows the models.
 
@@ -187,9 +191,16 @@ The script then checks the whole flow:
 
 It ends with `N/N checks passed` and exit code 0.
 
-Expect **5-10 minutes**: embedding the sample data takes a couple of minutes, and each
-answer that calls the local model takes ~30-90 s on CPU (the first one, while the model
-loads, up to ~3 min). Refusals and denials are instant.
+Expect **15-25 minutes** on CPU:
+
+- The two handwritten images are read by the vision model, ~4 minutes each (the worker
+  waits up to `VISION_TIMEOUT_S=600` seconds per image).
+- Embedding the sample data takes a couple of minutes.
+- Each answer that calls the local model takes ~30-90 s (the first one, while the model
+  loads, up to ~3 min). Refusals and denials are instant.
+
+Handwritten rows are stored with `review_required` (the vision model is not trusted on its
+own); questions about them answer "needs review" instead of stating a value.
 
 Exported files are written to `data/exports/`.
 
@@ -290,7 +301,8 @@ docker compose down -v       # remove containers AND all data -> redo steps 5-7
 | Answers are slow or time out | Normal on CPU: 30-90 s per model call, up to ~3 min for the first call after a model loads. Use `-m 300` with curl. Repeated questions are answered from the cache. |
 | Jobs stay `index_pending` or answers find no documents | Ollama was unavailable during ingestion. Once it is running: `docker compose run --rm -T api python -m scripts.reindex`. |
 | `corrupt.xlsx` / `empty.csv` rejected (`UNSUPPORTED_FILE` / `VALIDATION_ERROR`) | Expected: these are the deliberately broken sample files. |
-| Handwriting rows show "awaiting review" | Expected without `qwen2.5vl:3b`; uncertain OCR values are never stored as facts. |
+| Handwriting rows show "awaiting review" | Expected: handwritten values are only stored as facts when the vision model reports no doubt and Tesseract agrees; otherwise they wait for review. Uncertain OCR values are never stored as facts. |
+| `handwritten_ambiguous.png` job fails with "vision OCR unavailable" | `qwen2.5vl:3b` is not pulled, or the call timed out (see `docker compose logs worker`). Pull the model, or raise `VISION_TIMEOUT_S` in `.env` and run `docker compose up -d --force-recreate api worker`; then use **Retry** on the Upload page (or `POST /v1/jobs/{id}/retry`). |
 | Changed Python code in `app/ingestion` has no effect | Restart the worker: `docker compose restart worker` (the API reloads by itself). |
 | `docker compose run` seems to hang after finishing (Windows) | Press Ctrl+C; the command has completed. Adding `-T` (as in the commands above) avoids most cases. |
 

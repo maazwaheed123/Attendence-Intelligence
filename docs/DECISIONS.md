@@ -47,6 +47,13 @@ clean-up reads printed scans well; `qwen2.5vl:3b` transcribes handwriting with a
 "copy, don't guess; mark ? and list uncertain fields" prompt. Without the vision model the
 system degrades to Tesseract only (confidence capped at 0.6, always review) and never
 invents values.
+Added after testing with the real model: qwen2.5vl reports doubt in free form ("Status",
+"Check In", or the doubtful value itself such as "Absent") rather than as field names, and
+notes such as "crossed out and rewritten". Both are mapped onto fields, and anything that
+cannot be mapped counts as doubt about the status, so a warning from the model is never
+ignored. An uncertain status only becomes a fact again when Tesseract independently reads
+the same value. Vision calls run in the worker with their own `VISION_TIMEOUT_S` (600 s),
+because one handwritten image takes ~4 minutes on CPU.
 
 **D9. Transient vs permanent failures (step 4, fixed in step 16).** Corrupt/empty/unsupported
 files fail permanently with a reason; transient failures retry (RQ `Retry`, 10 s / 30 s),

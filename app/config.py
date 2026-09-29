@@ -47,6 +47,7 @@ class Settings(BaseSettings):
     ollama_vision_model: str = "qwen2.5vl:3b"
     vision_chain: str = "ollama-vision"
     llm_timeout_s: float = 90.0
+    vision_timeout_s: float = 600.0
     llm_max_tokens: int = 800
     breaker_fails: int = 3
     breaker_reset_s: int = 60

@@ -123,8 +123,10 @@ ollama pull nomic-embed-text
 ollama pull qwen2.5vl:3b
 ```
 
-`qwen2.5vl:3b` (~3.2 GB) is only needed to read handwriting; without it the system still
-works (Tesseract only, handwriting flagged for review).
+`qwen2.5vl:3b` (~3.2 GB) reads handwriting. It runs in the ingestion worker and takes about
+4 minutes per handwritten image on CPU (`VISION_TIMEOUT_S=600`). Without it the system still
+works, but handwriting is read by Tesseract only, every handwritten row goes to review, and
+the deliberately messy sheet cannot be read at all.
 
 ```bash
 cp .env.example .env
@@ -231,7 +233,7 @@ Endpoints (all under `/v1`; full contract in `docs/openapi.json`):
 | `OLLAMA_BASE_URL` | `http://host.docker.internal:11434/v1` | Ollama on the host |
 | `OLLAMA_PRIMARY_MODEL` / `OLLAMA_FALLBACK_MODEL` | `qwen2.5:7b-instruct` / `qwen2.5:3b-instruct` | text models |
 | `OLLAMA_VISION_MODEL`, `VISION_CHAIN` | `qwen2.5vl:3b`, `ollama-vision` | handwriting OCR |
-| `LLM_TIMEOUT_S`, `BREAKER_FAILS`, `BREAKER_RESET_S` | `90`, `3`, `60` | timeouts and circuit breaker |
+| `LLM_TIMEOUT_S`, `VISION_TIMEOUT_S`, `BREAKER_FAILS`, `BREAKER_RESET_S` | `90`, `600`, `3`, `60` | timeouts (vision OCR runs in the worker, so it may wait longer) and circuit breaker |
 | `EMBEDDER`, `OLLAMA_EMBED_MODEL`, `EMBED_DIM` | `ollama`, `nomic-embed-text`, `768` | embeddings |
 | `RERANK_MODEL` | (unused) | kept for a future cross-encoder |
 | `OCR_REVIEW_THRESHOLD` | `0.75` | below this, OCR values go to review |
@@ -261,9 +263,14 @@ summary for the one known gap). Markers: `unit`, `integration`, `security`, `ocr
 
 - **CPU inference is slow**: ~30-90 s for answers that call a model (up to ~3 min cold).
   Feedback submission re-runs the question.
-- **Handwriting needs `qwen2.5vl:3b`**: without it the deliberately ambiguous sheet cannot be
-  read at all (the live evaluation's only failing case) and clean handwriting is read by
-  Tesseract only (all rows flagged for review, none stored as fact).
+- **Handwriting goes to human review.** `qwen2.5vl:3b` reads both handwritten samples
+  (field accuracy 100% on the clean sheet, ~78% on the deliberately messy one), but a 3B
+  vision model is not reliable enough to be trusted on its own: a row is only stored as
+  fact when the model reports no doubt and Tesseract does not contradict it. On the sample
+  sheets the model reports doubt on every row, so all handwritten rows wait for review and
+  no wrong value is ever stored as fact (`scripts.ocr_eval`). A larger vision model would
+  let more rows through automatically. Without the vision model, the messy sheet cannot be
+  read at all and clean handwriting is read by Tesseract only (all rows in review).
 - OCR row numbers for images count the rows that were read; a skipped line in an arbitrary
   photo would shift locators. PDF tables that continue on a page without a repeated header
   are not joined.

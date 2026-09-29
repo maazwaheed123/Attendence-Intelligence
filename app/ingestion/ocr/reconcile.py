@@ -2,7 +2,9 @@
 
 Confidence of a record = its weakest KEY field (identity, status). Per field:
   - engine confidence (Tesseract word confidence; vision self-report capped at 0.90)
-  - fields the vision model marked uncertain            -> 0.40
+  - fields the vision model marked uncertain, or a note about
+    a correction (crossed out, smudged, ...)             -> 0.40
+  - an uncertain status that Tesseract reads the same    -> 0.80 (corroborated)
   - engines read known-but-different statuses/IDs       -> <= 0.50 + reason
   - handwriting without the vision model                -> <= 0.60 (always review)
   - printed text exactly matching the status vocabulary / ID pattern -> >= 0.85
@@ -28,10 +30,43 @@ LEXICON_FLOOR = 0.85
 _ID_PATTERN = re.compile(r"^[A-Z]\d{3,}$")
 VISION_CAP = 0.90
 NO_VISION_HANDWRITING_CAP = 0.60
+UNCERTAIN_CONF = 0.40
+CORROBORATED_CONF = 0.80
+_FIELD_ALIASES = {
+    "id": "employee_id", "employee id": "employee_id", "employee_id": "employee_id",
+    "name": "employee_name", "employee name": "employee_name", "employee_name": "employee_name",
+    "status": "status", "in": "check_in", "check in": "check_in", "check_in": "check_in",
+    "out": "check_out", "check out": "check_out", "check_out": "check_out",
+    "department": "department", "dept": "department",
+}  # fmt: skip
+_CORRECTION_NOTE = re.compile(
+    r"cross|strike|struck|rewrit|overwrit|correct|smudg|eras|illegib|unclear|unsure|\?", re.I
+)
 
 
 def _norm_id(s):
     return (s or "").upper().replace("O", "0").replace(" ", "").replace("€", "E").replace("£", "E")
+
+
+def _uncertain_fields(vrow) -> set[str]:
+    """Map the model's uncertainty report onto field names.
+
+    Vision models do not reliably answer with field names: they also return "Status",
+    "Check In" or the doubtful value itself ("Absent"). Anything that cannot be mapped
+    is treated as doubt about the status, never ignored.
+    """
+    out = set()
+    for raw in vrow.uncertain_fields or []:
+        key = re.sub(r"[\s_-]+", " ", str(raw)).strip().lower()
+        if key in _FIELD_ALIASES:
+            out.add(_FIELD_ALIASES[key])
+            continue
+        values = {f: str(getattr(vrow, f, "") or "").strip().lower() for f in FIELDS}
+        hit = next((f for f, v in values.items() if v and v == key), None)
+        out.add(hit or "status")
+    if vrow.notes and _CORRECTION_NOTE.search(vrow.notes):
+        out.add("status")
+    return out
 
 
 def _match_tesseract_row(vrow, table: OcrTable | None):
@@ -81,10 +116,9 @@ def reconcile(
             t_row = _match_tesseract_row(v, table)
             conf = {f: min(v.confidence, VISION_CAP) for f in FIELDS}
             reasons = list(date_reasons)
-            for f in v.uncertain_fields:
-                if f in conf:
-                    conf[f] = 0.4
-                    reasons.append(f"{f} unclear on the sheet")
+            for f in sorted(_uncertain_fields(v)):
+                conf[f] = UNCERTAIN_CONF
+                reasons.append(f"{f} unclear on the sheet")
             if v.notes:
                 reasons.append(f"transcriber note: {v.notes}")
             if t_row and "status" in t_row.cells and v.status:
@@ -101,8 +135,12 @@ def reconcile(
                         "OCR engines disagree on status "
                         f"('{t_row.cells['status'].text}' vs '{v.status}')"
                     )
-                elif t_known and v_known:
-                    conf["status"] = min(0.95, conf["status"] + 0.05)
+                elif t_known and v_known and t_status == v_status:
+                    if conf["status"] <= UNCERTAIN_CONF and t_row.cells["status"].conf >= 0.5:
+                        conf["status"] = CORROBORATED_CONF
+                        reasons.append("status confirmed by Tesseract")
+                    else:
+                        conf["status"] = min(0.95, conf["status"] + 0.05)
             values = {f: getattr(v, f, None) for f in FIELDS}
             records.append(
                 _record(page, i, values, conf, reasons, sheet_date, threshold, raw_engine="vision")

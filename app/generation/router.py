@@ -198,13 +198,13 @@ def _breaker() -> CircuitBreaker:
     )
 
 
-def _router(chain: list[str]) -> LLMRouter:
+def _router(chain: list[str], timeout_s: float | None = None) -> LLMRouter:
     s = get_settings()
     return LLMRouter(
         [build_provider(n) for n in chain if n != TEMPLATE],
         _breaker(),
         template_fallback=TEMPLATE in chain,
-        timeout_s=s.llm_timeout_s,
+        timeout_s=timeout_s or s.llm_timeout_s,
         max_tokens=s.llm_max_tokens,
     )
 
@@ -216,7 +216,8 @@ def get_router() -> LLMRouter:
 
 @lru_cache
 def get_vision_router() -> LLMRouter:
-    return _router(get_settings().vision_chain_list)
+    s = get_settings()
+    return _router(s.vision_chain_list, s.vision_timeout_s)
 
 
 def reset_routers() -> None:

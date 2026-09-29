@@ -76,6 +76,64 @@ def test_uncertain_fields_cap_confidence():
     assert rec.confidence == 0.4 and rec.values["status"] == "P?"
 
 
+@pytest.mark.parametrize(
+    ("uncertain", "notes"),
+    [
+        (["Status"], ""),
+        (["Absent"], ""),
+        (["Check In"], "Status crossed out and rewritten"),
+        (["something odd"], ""),
+        ([], "value smudged"),
+    ],
+)
+def test_real_model_uncertainty_formats_are_not_ignored(uncertain, notes):
+    v = VisionSheet(
+        sheet_date="30/09/2026",
+        rows=[
+            VisionRow(
+                employee_id="E009",
+                status="Absent",
+                check_in="9:07",
+                confidence=1.0,
+                uncertain_fields=uncertain,
+                notes=notes,
+            )
+        ],
+    )
+    (rec,), _ = reconcile(None, v, handwriting=True, threshold=0.75)
+    assert rec.confidence < 0.75
+
+
+def test_uncertain_time_is_dropped():
+    v = VisionSheet(
+        sheet_date="30/09/2026",
+        rows=[
+            VisionRow(
+                employee_id="E010",
+                status="Present",
+                check_out="17:30",
+                confidence=1.0,
+                uncertain_fields=["Check Out"],
+            )
+        ],
+    )
+    (rec,), _ = reconcile(None, v, handwriting=True, threshold=0.75)
+    assert rec.values["check_out"] is None and rec.confidence >= 0.75
+
+
+def test_uncertain_status_confirmed_by_tesseract():
+    v = VisionSheet(
+        sheet_date="30/09/2026",
+        rows=[
+            VisionRow(
+                employee_id="E001", status="Present", confidence=1.0, uncertain_fields=["Status"]
+            )  # fmt: skip
+        ],
+    )
+    (rec,), _ = reconcile(_table("Present", 0.9), v, handwriting=True, threshold=0.75)
+    assert rec.confidence >= 0.75 and any("confirmed by Tesseract" in n for n in rec.notes)
+
+
 def test_low_confidence_time_dropped_not_stored():
     t = _table()
     t.rows[0].cells["check_in"] = OcrCell("O9:1?", 0.2)
