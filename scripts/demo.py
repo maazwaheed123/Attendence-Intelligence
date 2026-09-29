@@ -118,7 +118,8 @@ def step_ingest(api: Api) -> None:
         final[name] = job
         counts = job.get("counts") or {}
         state = job.get("status") or job.get("error", {}).get("code")
-        print(f"   {name:28} {state:10} v{job.get('version')} records={counts.get('records_created')} "
+        print(f"   {name:28} {state:10} v{job.get('version')} "
+              f"records={counts.get('records_created')} "
               f"review={counts.get('review_required')}")  # fmt: skip
         if expected_failure:
             check(f"{name} rejected with a reason", state in ("failed", "UNSUPPORTED_FILE",
