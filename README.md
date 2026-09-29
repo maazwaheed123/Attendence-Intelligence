@@ -253,10 +253,10 @@ docker compose run --rm -T api python -m scripts.eval_report    # regenerates do
 docker compose run --rm -T api python -m scripts.ocr_eval
 ```
 
-925 automated tests (unit, integration, security, OCR, e2e) run against a separate
+926 automated tests (unit, integration, security, OCR, e2e) run against a separate
 `attendance_test` database with mock models and deterministic embeddings, at 96% line
-coverage. The live suite runs the demo questions against the real stack (23/24 pass; see the
-summary for the one known gap). Markers: `unit`, `integration`, `security`, `ocr`, `e2e`,
+coverage. The live suite runs the demo questions against the real stack (24/24 pass).
+Markers: `unit`, `integration`, `security`, `ocr`, `e2e`,
 `live` (excluded from the gate).
 
 ## Known limitations
