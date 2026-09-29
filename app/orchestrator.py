@@ -49,7 +49,7 @@ log = logging.getLogger(__name__)
 
 @dataclass
 class _Answer:
-    status: str  # answered | unavailable | needs_review
+    status: str
     text: str
     mode: str = "structured"
     reason: str | None = None
@@ -70,16 +70,15 @@ class QueryRun:
         self.settings = get_settings()
         self.warnings: list[str] = []
         self.failed_attempts: list[dict] = []
-        self.llm_used = None  # LLMResult whose text became the answer
+        self.llm_used = None
         self.sql_executed: str | None = None
         self.debug: dict = {}
         self.intent: str | None = None
-        self.retrieved: set[str] = set()  # ids retrieval returned for THIS request
-        self.flagged: list[str] = []  # texts of flagged (possible injection) chunks
-        self.applied: dict | None = None  # feedback example used for this answer
-        self.cache_status = "off"  # off | miss | hit
+        self.retrieved: set[str] = set()
+        self.flagged: list[str] = []
+        self.applied: dict | None = None
+        self.cache_status = "off"
 
-    # ------------------------------------------------------------------ entry
     def execute(self) -> dict:
         start = time.perf_counter()
         key = cache.key_for(self.ctx, self.question, self.filters)
@@ -152,7 +151,6 @@ class QueryRun:
         self._audit(response, int((time.perf_counter() - start) * 1000))
         return response
 
-    # ------------------------------------------------------------------ routing
     def _route(self, cls) -> _Answer:
         if cls.mode == "out_of_scope":
             key = {"pii": "not_permitted", "unsafe": "unsafe"}.get(cls.reason, "out_of_scope")
@@ -169,7 +167,6 @@ class QueryRun:
             answer = self._attach_evidence(answer)
         return answer
 
-    # ------------------------------------------------------------------ documents
     def _document(self) -> _Answer:
         s = self.slots
         if s.unresolved_person or s.unresolved_entity:
@@ -208,8 +205,6 @@ class QueryRun:
                 "insufficient_evidence", T.UNAVAILABLE["no_document_evidence"], mode="document"
             )
         if doc is not None and doc.insufficient:
-            # The caller named a document that IS in scope: quote it rather than refuse
-            # (qwen 7b tends to call a memo with a flagged paragraph "insufficient").
             self.warnings.append(
                 "The model judged the evidence insufficient; the requested document is quoted."
             )
@@ -288,7 +283,7 @@ class QueryRun:
     def _apply_filters(self) -> None:
         s, f, d = self.slots, self.filters, self.directory
         if self.ctx.role == "employee" and not (s.employee_id or s.unresolved_person):
-            emp = d.employee(self.ctx.employee_id)  # self-only scope: "my attendance"
+            emp = d.employee(self.ctx.employee_id)
             if emp:
                 s.employee_id, s.employee_name = emp[0], emp[1]
         if f.get("date_from") or f.get("date_to"):
@@ -361,7 +356,6 @@ class QueryRun:
             log.info("LLM SQL execution failed request_id=%s: %s", self.request_id, exc)
             return None
 
-    # ------------------------------------------------------------------ finishing
     def _finish(self, rows, tq, gen, dual, explicit_period) -> _Answer:
         s, fmt = self.slots, self.directory.date_format
         pending = lineage.pending_review(self.scope, s)
@@ -400,7 +394,7 @@ class QueryRun:
         answer = reference
         improved = self._apply_feedback(rows) if tq is not None and not needs_review else None
         if improved:
-            answer = improved  # reviewer-approved wording, values recomputed from these rows
+            answer = improved
         elif not needs_review:
             answer = self._phrase(rows, reference if tq is not None else None) or reference
         check = self._ground(answer, rows)
@@ -432,7 +426,6 @@ class QueryRun:
             answer = f"Low confidence: {answer} ({conf.explanation})"
         return _Answer(status, answer, citations=lin.citations, citation_total=lin.total, conf=conf)
 
-    # ------------------------------------------------------------------ feedback
     def _question_vector(self) -> list[float] | None:
         from app.retrieval.embeddings import EmbeddingUnavailable, get_embedder
 
@@ -502,7 +495,7 @@ class QueryRun:
         s = self.slots
         if tq is not None:
             if self.intent in ("list_by_status", "count_by_status") and not rows_have_facts(rows):
-                where, params = templates.base_where(s)  # "nobody was X": cite the day's records
+                where, params = templates.base_where(s)
             else:
                 where, params = tq.where, tq.params
             group = None
@@ -545,7 +538,6 @@ class QueryRun:
             allowed_text=allowed,
         )
 
-    # ------------------------------------------------------------------ non-answers
     def _unavailable(self, reason: str, text_: str, mode: str = "structured") -> _Answer:
         return _Answer(
             "unavailable", text_, mode=mode, reason=reason, conf=confidence.unavailable(reason)
@@ -577,7 +569,6 @@ class QueryRun:
             "needs_review", text_, citations=citations, citation_total=len(pending), conf=conf
         )
 
-    # ------------------------------------------------------------------ output
     def _provider_fields(self) -> dict:
         if self.llm_used is not None:
             r = self.llm_used
@@ -660,7 +651,7 @@ class QueryRun:
     def _audit(self, response: dict, latency_ms: int) -> None:
         outcome = response["status"]
         if response["unavailable_reason"] == "no_data_in_scope":
-            outcome = "filtered_or_absent"  # never distinguishes "denied" from "absent"
+            outcome = "filtered_or_absent"
         audit.record(
             "query",
             self.request_id,

@@ -33,14 +33,13 @@ def parse(content: bytes, filename: str) -> ParseResult:
         if sum(len(p.chars) for p in pdf.pages) < MIN_TEXT_CHARS_PER_PAGE * max(1, len(pdf.pages)):
             from app.ingestion.parsers.ocr_parser import parse_scanned_pdf
 
-            return parse_scanned_pdf(content, filename)  # no text layer -> OCR
+            return parse_scanned_pdf(content, filename)
 
         page_lines: list[list[str]] = []
         for p_no, page in enumerate(pdf.pages, start=1):
             tables = page.find_tables()
             for t_no, table in enumerate(tables, start=1):
                 rows = [[(c or "").strip() for c in row] for row in table.extract()]
-                # PDF locator: page + table + row (header = row 1)
                 extract_rows(
                     rows,
                     result,

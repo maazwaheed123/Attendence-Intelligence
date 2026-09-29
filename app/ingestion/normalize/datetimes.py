@@ -79,6 +79,6 @@ def total_hours(check_in: time | None, check_out: time | None) -> float | None:
         return None
     start = datetime.combine(date(2000, 1, 1), check_in)
     end = datetime.combine(date(2000, 1, 1), check_out)
-    if end < start:  # overnight shift
+    if end < start:
         end += timedelta(days=1)
     return round((end - start).total_seconds() / 3600, 2)

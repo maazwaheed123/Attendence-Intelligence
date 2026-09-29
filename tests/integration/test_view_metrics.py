@@ -129,4 +129,4 @@ def test_multi_source_day_resolves_to_one_row(corpus_db, scope_for):
         ).all()
     assert len(rows) == 1
     assert rows[0].source_count == 3
-    assert rows[0].source_file == "tenant_a_sep_v2.csv"  # highest extraction confidence wins
+    assert rows[0].source_file == "tenant_a_sep_v2.csv"

@@ -61,13 +61,12 @@ def test_last_month_without_data(api, auth):
 
 
 def test_unmappable_question(api, auth, monkeypatch):
-    scripted(monkeypatch)  # model returns junk -> rules only
+    scripted(monkeypatch)
     r = ask(api, auth, "a_eng_manager", "Tell me how the team did")
     _unavailable(r, "insufficient_evidence")
 
 
 def test_day_without_records_in_scope(api, auth):
-    # 23 Sep is a holiday (records exist); 26 Sep is a Saturday (no records at all)
     r = ask(api, auth, "a_eng_manager", "Who was present on 26 September 2026?")
     _unavailable(r, "no_data_in_scope")
     assert r["answer"].endswith("for 26/09/2026.")

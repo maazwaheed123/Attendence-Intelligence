@@ -70,7 +70,7 @@ def test_build_marks_failures():
     md = eval_report.build(files, 96.2, "900 passed", {"unit": 1}, ev, [])
     rows = {ln.split(" | ")[1]: ln for ln in md.splitlines() if ln.startswith("| ") and " | " in ln}
     assert rows["Unavailable answer"].endswith("**FAIL** |")
-    assert rows["OCR/handwriting handling"].endswith("**FAIL** |")  # live Q18 failed
+    assert rows["OCR/handwriting handling"].endswith("**FAIL** |")
     assert rows["Idempotency"].endswith("**PASS** |")
     assert "96.2%" in md and "needs vision" in md and "median 26 s" in md
     assert "## Known gaps" in md and "**Q18**" in md

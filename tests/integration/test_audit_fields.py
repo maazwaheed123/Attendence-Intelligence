@@ -45,4 +45,4 @@ def test_query_event_has_every_required_field(api, auth, persona, question, outc
         c.get("chunk_id") or c["record_id"] for c in r["citations"]
     )
     assert len(ev["details"]["question_hash"]) == 64 and "status" in ev["details"]
-    assert question not in str(dict(ev))  # the raw question is never audited
+    assert question not in str(dict(ev))

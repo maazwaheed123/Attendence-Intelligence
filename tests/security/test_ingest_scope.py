@@ -11,8 +11,8 @@ def test_rows_outside_entity_scope_become_failures(ingest_api, auth):
     """Engineering manager uploads the Engineering+HR file: HR rows are refused."""
     body = upload(ingest_api, auth("a_eng_manager"), "tenant_a_sep_v2.csv").json()
     assert body["status"] == "completed"
-    assert body["counts"]["records_created"] == 110  # 5 engineering employees x 22 days
-    assert body["counts"]["row_failures"] == 66  # 3 HR employees x 22 days
+    assert body["counts"]["records_created"] == 110
+    assert body["counts"]["row_failures"] == 66
     assert all("not found in your permitted scope" in f["reason"] for f in body["failures"])
     assert {r["entity_id"] for r in records()} == {"engineering"}
 
@@ -29,7 +29,7 @@ def test_records_always_get_token_tenant(ingest_api, auth):
 
 def test_tenant_b_cannot_ingest_tenant_a_employees(ingest_api, auth):
     body = upload(ingest_api, auth("b_manager"), "tenant_a_sep_v2.csv").json()
-    assert body["status"] == "failed"  # no row matches tenant B's roster
+    assert body["status"] == "failed"
     assert records() == []
 
 

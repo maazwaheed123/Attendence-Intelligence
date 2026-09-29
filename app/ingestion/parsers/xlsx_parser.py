@@ -18,7 +18,6 @@ def parse(content: bytes, filename: str) -> ParseResult:
     for ws in wb.worksheets:
         rows = [list(r) for r in ws.iter_rows(values_only=True)]
         title = ws.title
-        # XLSX locator: sheet name + Excel row number (1-based), exactly what a user sees.
         if extract_rows(
             rows, result, lambda i, t=title: f"sheet={t};row={i + 1}", source_label=title
         ):

@@ -27,7 +27,7 @@ def test_q1_who_was_present(api, auth, expected):
     exp = expected["by_persona"]["a_eng_manager"]["by_date"]["2026-09-01"]
     assert r["status"] == "answered" and r["retrieval_mode"] == "structured"
     assert ids_in(r["answer"]) == exp["present"] == ["E001", "E002", "E003", "E012"]
-    assert "E004" not in r["answer"]  # absent
+    assert "E004" not in r["answer"]
     assert sorted(c["excerpt"].split(" | ")[1][:4] for c in r["citations"]) == exp["present"]
     assert r["citation_total"] == 4 and r["confidence_band"] == "high"
 
@@ -39,7 +39,7 @@ def test_q2_engineering_average(api, auth, expected):
     assert "91.83%" in r["answer"]
     assert "95.5 present employee-days out of 104 scheduled" in r["answer"]
     assert "01/09/2026 - 30/09/2026" in r["answer"]
-    assert r["citation_total"] == 111  # 5 x 22 employee-days; the conflict day cites 2 sources
+    assert r["citation_total"] == 111
     assert any("conflicting sources" in w for w in r["warnings"])
 
 
@@ -49,7 +49,6 @@ def test_q3_highest_department(api, auth, expected):
     assert rank == {"keys": ["engineering"], "unique": True, "value": 91.83}
     assert r["answer"].startswith("Engineering had the highest attendance")
     assert "91.83%" in r["answer"]
-    # citations cover the winning department only
     assert {c["excerpt"].split(" | ")[1][:4] for c in r["citations"]} <= {
         "E001",
         "E002",
@@ -168,6 +167,5 @@ def test_q5_hybrid_answers_the_structured_part(api, auth):
     r = ask(api, auth, "a_eng_manager", "Show evidence that Alice was present on 3 Sep")
     assert r["status"] == "answered"
     assert r["answer"].startswith("Alice Johnson (E001) was present on 03/09/2026")
-    # remarks are confidential; this persona has internal clearance (Step 10 hybrid)
     assert any("No supporting document text" in w for w in r["warnings"])
     assert r["citations"] and r["citations"][0]["source_file"].endswith((".csv", ".xlsx"))

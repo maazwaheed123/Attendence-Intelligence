@@ -114,7 +114,6 @@ class LLMRouter:
             result.parsed = response_model.model_validate(extract_json(result.text))
             return result
         except (json.JSONDecodeError, ValidationError, TypeError) as first_error:
-            # One repair round: show the model its error, ask for valid JSON only.
             repair = [
                 *messages,
                 {"role": "assistant", "content": result.text[:2000]},
@@ -171,9 +170,6 @@ class LLMRouter:
                 info.update(p.ping())
             out.append(info)
         return out
-
-
-# ------------------------------------------------------------------ factory
 
 
 def build_provider(name: str) -> LLMProvider:

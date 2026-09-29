@@ -27,7 +27,6 @@ TIMEOUT_S = 600
 Q2 = "What was Engineering's average attendance % in September?"
 NO_EMPLOYEE = "No attendance data for the requested employee in your permitted scope."
 
-# id, persona, question, filters, expectations
 CASES: list[dict] = [
     dict(id="Q1", persona="a_eng_manager", q="Who was present on 1 September 2026?",
          status="answered", mode={"structured"}, contains=["E001", "E002", "E003", "E012"],
@@ -151,7 +150,6 @@ def _checks(case: dict, http_status: int, body: dict, results: dict) -> list[dic
         keys = ("status", "answer", "unavailable_reason", "citations", "retrieval_mode")
         same = all(ref.get(k) == body.get(k) for k in keys)
         check(f"identical to {case['same_as']} (no existence leak)", same)
-    # every citation must carry traceability
     check("citations traceable",
           all(c["source_file"] and c["locator"] for c in body["citations"]))  # fmt: skip
     return out

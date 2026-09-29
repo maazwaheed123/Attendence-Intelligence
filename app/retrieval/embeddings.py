@@ -114,7 +114,6 @@ class OllamaEmbedder:
         except (ValueError, KeyError, TypeError) as exc:
             raise EmbeddingUnavailable("malformed embedding response") from exc
         if len(vectors) != len(inputs) or any(len(v) != self.dim for v in vectors):
-            # A wrong model/dimension must never be written into vector(768).
             raise EmbeddingUnavailable(f"expected {len(inputs)} vectors of {self.dim} dims")
         return [_normalize(v) for v in vectors]
 

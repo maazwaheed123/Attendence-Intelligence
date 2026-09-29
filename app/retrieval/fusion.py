@@ -44,7 +44,7 @@ class Scored:
     hit: Hit
     rrf: float = 0.0
     sources: list[str] = field(default_factory=list)
-    score: float = 0.0  # rerank score, 0..1
+    score: float = 0.0
     reasons: list[str] = field(default_factory=list)
 
 
@@ -56,7 +56,7 @@ def rrf(*ranked_lists: list[Hit], k: int = RRF_K) -> list[Scored]:
             s.rrf += 1.0 / (k + rank)
             if h.source not in s.sources:
                 s.sources.append(h.source)
-            if h.source == "vector":  # keep the cosine for the reranker
+            if h.source == "vector":
                 s.hit = replace(s.hit, score=h.score, source="vector")
     return sorted(merged.values(), key=lambda s: (-s.rrf, s.hit.chunk_id))
 
@@ -132,7 +132,7 @@ class LexicalReranker:
             if mentions_employee(h.text, slots) or h.employee_id == slots.employee_id:
                 value += 0.15
                 reasons.append("employee")
-            elif h.employee_id:  # a row card about someone else
+            elif h.employee_id:
                 value -= 0.15
         if slots.date_from and slots.single_date and mentions_date(h.text, slots.date_from):
             value += 0.15

@@ -117,8 +117,6 @@ def health_deep() -> dict:
 
     core_ok = components["database"]["status"] == "ok"
     llm_ok = any(p["status"] == "ok" for p in llm)
-    # Models or Redis down = degraded, not down: structured answers use the template
-    # engine, ingestion defers embeddings, cache/rate limit/breakers fail open.
     optional_ok = llm_ok and all(
         components[k]["status"] == "ok" for k in ("embeddings", "cache", "queue")
     )

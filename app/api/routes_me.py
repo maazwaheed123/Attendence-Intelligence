@@ -37,6 +37,6 @@ def audit(
         "FROM audit_events WHERE (CAST(:rid AS text) IS NULL OR request_id = :rid) "
         "ORDER BY event_id DESC LIMIT :lim"
     )
-    with scoped_session(ctx.to_scope(), role="app") as s:  # audit read policy = own tenant
+    with scoped_session(ctx.to_scope(), role="app") as s:
         rows = s.execute(text(sql), {"rid": request_id, "lim": limit}).mappings().all()
     return {"events": [dict(r) for r in rows]}

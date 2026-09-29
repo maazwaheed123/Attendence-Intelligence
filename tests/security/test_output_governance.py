@@ -19,9 +19,6 @@ def _events(request_id, event_type):
         ).all()
 
 
-# ------------------------------------------------------------------ Q14 injection
-
-
 def test_q14_model_obeying_the_memo_is_not_served(api, auth, monkeypatch):
     scripted(
         monkeypatch,
@@ -32,7 +29,7 @@ def test_q14_model_obeying_the_memo_is_not_served(api, auth, monkeypatch):
     )
     r = ask(api, auth, "a_eng_manager", "Summarise the injection memo")
     assert "Administrator" not in r["answer"] and "every tenant" not in r["answer"]
-    assert r["answer"].startswith("Relevant evidence")  # quoted, non-flagged paragraphs
+    assert r["answer"].startswith("Relevant evidence")
     assert any("repeated flagged instructions" in w for w in r["warnings"])
     assert all("tenant_b" not in c["source_file"] for c in r["citations"])
 
@@ -45,9 +42,6 @@ def test_policy_claim_in_a_structured_phrase_is_withheld(api, auth, monkeypatch)
     r = ask(api, auth, "a_eng_manager", "Was Alice present on 3 September 2026?")
     assert r["status"] == "unavailable" and r["unavailable_reason"] == "blocked"
     assert _events(r["request_id"], "security_block")
-
-
-# ------------------------------------------------------------------ Q16 PII
 
 
 def test_q16_phone_request_refused(api, auth):
@@ -70,9 +64,6 @@ def test_pii_in_a_model_answer_is_masked(api, auth, monkeypatch, truth):
     assert all(phone not in c["excerpt"] for c in r["citations"])
 
 
-# ------------------------------------------------------------------ fabricated citations
-
-
 def test_fabricated_citation_is_stripped(api, auth, monkeypatch):
     original = orchestrator.QueryRun._response
 
@@ -90,9 +81,6 @@ def test_fabricated_citation_is_stripped(api, auth, monkeypatch):
     assert r["status"] == "answered" and len(r["citations"]) == 4
 
 
-# ------------------------------------------------------------------ leakage guard
-
-
 def test_leakage_guard_blocks_even_if_grounding_is_bypassed(api, auth, monkeypatch):
     """Defence in depth: disable grounding, let the model name another tenant's employee."""
     from app.governance.grounding import Grounding
@@ -105,10 +93,7 @@ def test_leakage_guard_blocks_even_if_grounding_is_bypassed(api, auth, monkeypat
     ev = _events(r["request_id"], "security_block")
     assert ev and ev[0].details["kinds"] == ["employee_id", "person_name"]
     stored = api.get(f"/v1/query/{r['request_id']}", headers=auth("a_eng_manager")).json()
-    assert "John" not in stored["answer"]  # the blocked text is never persisted
-
-
-# ------------------------------------------------------------------ Q17 / Q18 / confidence
+    assert "John" not in stored["answer"]
 
 
 def test_q17_conflict_needs_review_with_both_citations(api, auth):

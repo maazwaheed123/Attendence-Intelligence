@@ -27,7 +27,7 @@ MAX_ROWS = 5000
 STATUSES = ("present", "absent", "leave", "holiday", "wfh", "half_day", "unknown", "conflict")
 
 COLUMNS = (
-    "row_type",  # record | document
+    "row_type",
     "record_id",
     "chunk_id",
     "attendance_date",
@@ -162,14 +162,14 @@ def _query_rows(s, request_id: str) -> tuple[list[dict], dict]:
         ).mappings()
     }
     rows, seen = [], set()
-    for c in citations:  # citation order IS the export order
+    for c in citations:
         chunk = chunks.get(c.get("chunk_id") or "")
         rid = c.get("record_id") or (chunk or {}).get("record_id")
         if rid and rid in records:
             row = {**records[rid], "chunk_id": c.get("chunk_id")}
             if chunk:
                 row["excerpt"] = chunk["text_masked"]
-        elif chunk:  # narrative evidence without a canonical record
+        elif chunk:
             row = {
                 "record_id": None,
                 "chunk_id": chunk["chunk_id"],
@@ -178,7 +178,7 @@ def _query_rows(s, request_id: str) -> tuple[list[dict], dict]:
                 "excerpt": chunk["text_masked"],
                 "classification": chunk["classification"],
             }
-        else:  # no longer visible in this scope -> not exported
+        else:
             continue
         key = row["record_id"] or row["chunk_id"]
         if key not in seen:

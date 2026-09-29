@@ -271,7 +271,7 @@ def test_feedback_prefilled_and_submitted(app):
 
 
 def test_feedback_prefill_follows_new_answers(app):
-    at = app("a_reviewer", "Feedback")  # visited before any answer exists
+    at = app("a_reviewer", "Feedback")
     assert at.text_input(key="fb_rid").value == ""
     at.session_state["last_answer"] = ANSWER
     at.run()
@@ -305,9 +305,6 @@ def test_health_tiles(app):
     labels = [m.label for m in at.metric]
     assert "database" in labels and "cache" in labels
     assert at.dataframe[0].value["provider"].tolist() == ["ollama-primary"]
-
-
-# ------------------------------------------------------------------ helpers
 
 
 class _File:
@@ -355,13 +352,10 @@ def test_ui_never_touches_backend_internals():
         assert not bad, (path.name, bad)
 
 
-# ------------------------------------------------------------------ real client vs real API
-
-
 @pytest.fixture
 def real(api, monkeypatch):
     def request(method, url, **kw):
-        kw.pop("timeout", None)  # TestClient does not take one
+        kw.pop("timeout", None)
         return api.request(method, url.removeprefix("http://api:8000"), **kw)
 
     monkeypatch.setattr(ui_client.httpx, "request", request)

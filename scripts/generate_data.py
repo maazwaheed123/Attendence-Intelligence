@@ -35,7 +35,6 @@ from scripts.datagen.util import sha256_file
 
 ROOT = Path(__file__).resolve().parents[1]
 
-# Order in which the demo corpus is ingested (matters for versioning: v1 then v2).
 CORPUS_ORDER = [
     "tenant_a_sep.csv",
     "tenant_a_sep_v2.csv",
@@ -72,7 +71,7 @@ def generate(root: Path = ROOT / "data") -> dict:
     a_eng_hr = [r for r in a if r["entity_id"] in ("engineering", "hr")]
     a_sales = [r for r in a if r["entity_id"] == "sales"]
     errors = {(e["employee_id"], e["date"]) for e in spec["v1_errors"]}
-    lucas_gap = {("E011", "2026-09-30")}  # missing from the xlsx; only on the messy scan
+    lucas_gap = {("E011", "2026-09-30")}
 
     manifests = [
         write_attendance_csv(
@@ -117,7 +116,6 @@ def generate(root: Path = ROOT / "data") -> dict:
         write_other_product_csv(gen / "other_product.csv", truth["other_product_rows"]),
         *write_invalid_files(gen),
     ]
-    # The CSV v1 manifest is flagged so tests know those rows get superseded.
     manifests[0].description += " (v1: contains 3 wrong rows, superseded by tenant_a_sep_v2.csv)"
 
     expected = exp.build_expected(truth, manifests, spec)

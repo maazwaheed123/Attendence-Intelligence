@@ -58,7 +58,7 @@ def test_tokens_never_written_to_audit(api, token_for):
             text("SELECT string_agg(audit_events::text, ' ') FROM audit_events")
         ).scalar()
     assert tok not in dump
-    assert tok.split(".")[2] not in dump  # not even the signature
+    assert tok.split(".")[2] not in dump
 
 
 def test_health_not_audited(api):

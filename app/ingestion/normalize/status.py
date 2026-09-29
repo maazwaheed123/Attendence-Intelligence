@@ -39,7 +39,7 @@ def _norm(value) -> str:
 def map_status(value) -> tuple[str, bool]:
     """(canonical_status, recognized). Unrecognized -> ('unknown', False)."""
     if any(mark in str(value or "") for mark in UNCERTAIN_MARKS):
-        return "unknown", False  # never silently resolve an uncertain mark to a status
+        return "unknown", False
     s = _norm(value)
     if s in _LOOKUP:
         return _LOOKUP[s], True

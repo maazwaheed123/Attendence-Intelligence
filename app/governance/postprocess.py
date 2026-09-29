@@ -33,7 +33,7 @@ WITHHELD = (
     "Please rephrase the question."
 )
 _EMP_ID = re.compile(r"\b[A-Z]\d{3,}\b")
-_TENANT = re.compile(r"\btenant_[a-z0-9]+\b", re.I)  # not file names: tenant_a_week2.docx
+_TENANT = re.compile(r"\btenant_[a-z0-9]+\b", re.I)
 _NAME = re.compile(r"\b([A-Z][a-z]+)\s+([A-Z][a-z]+)\b")
 _POLICY_CLAIM = re.compile(
     r"\b(administrator|admin|developer|debug) mode\b|\b(ignor(e|ing)|disregard(ing)?) "

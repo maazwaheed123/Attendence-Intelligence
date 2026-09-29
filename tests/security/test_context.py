@@ -54,7 +54,7 @@ def test_matching_body_context_ok(ctx_client, auth):
         {"tenant_id": "tenant_b"},
         {"product_id": "hrms_ai"},
         {"module": "payroll"},
-        {"entity_id": "hr"},  # entity escalation
+        {"entity_id": "hr"},
     ],
 )
 def test_body_cannot_change_or_widen_context(ctx_client, auth, body):
@@ -75,11 +75,11 @@ def test_all_entity_scope_may_name_any_entity(ctx_client, auth):
     "override",
     [
         {"product_id": "unknown_product"},
-        {"tenant_id": "tenant_b", "product_id": "hrms_ai"},  # tenant_b has no hrms_ai
+        {"tenant_id": "tenant_b", "product_id": "hrms_ai"},
         {"tenant_id": "tenant_zzz"},
         {"module": "payroll"},
         {"entities": ["engineering", "nonexistent_dept"]},
-        {"tenant_id": "tenant_b", "entities": ["sales"]},  # sales exists only in tenant_a
+        {"tenant_id": "tenant_b", "entities": ["sales"]},
     ],
 )
 def test_token_context_must_exist_in_registry(ctx_client, override):

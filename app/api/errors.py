@@ -43,7 +43,7 @@ def _rid(request: Request) -> str:
 
 
 def envelope(request: Request, status: int, code: str, message: str, headers=None):
-    headers = {**(headers or {}), "X-Error-Code": code}  # lets the audit trail record the code
+    headers = {**(headers or {}), "X-Error-Code": code}
     if status == 401:
         headers.setdefault("WWW-Authenticate", "Bearer")
     return JSONResponse(

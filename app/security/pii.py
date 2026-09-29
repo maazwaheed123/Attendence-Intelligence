@@ -10,9 +10,8 @@ import re
 _PATTERNS: list[tuple[str, re.Pattern]] = [
     ("EMAIL", re.compile(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9_.-]+\.[A-Za-z]{2,}\b")),
     ("NATIONAL_ID", re.compile(r"\bNID-\d{6,12}\b", re.I)),
-    ("NATIONAL_ID", re.compile(r"\b\d{3}-\d{2}-\d{4}\b")),  # SSN-style
-    ("NATIONAL_ID", re.compile(r"\b\d{4}\s\d{4}\s\d{4}\b")),  # Aadhaar-style
-    # Phone: optional +, then >= 8 digits separated by spaces, dashes, dots or parentheses.
+    ("NATIONAL_ID", re.compile(r"\b\d{3}-\d{2}-\d{4}\b")),
+    ("NATIONAL_ID", re.compile(r"\b\d{4}\s\d{4}\s\d{4}\b")),
     ("PHONE", re.compile(r"(?<![\w/])\+?\(?\d[\d\s().-]{7,}\d(?![\w/])")),
 ]
 

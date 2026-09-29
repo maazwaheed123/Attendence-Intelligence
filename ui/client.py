@@ -10,7 +10,7 @@ import os
 import httpx
 
 API_URL = os.getenv("API_URL", "http://api:8000")
-TIMEOUT_S = float(os.getenv("UI_HTTP_TIMEOUT_S", "300"))  # CPU inference is slow
+TIMEOUT_S = float(os.getenv("UI_HTTP_TIMEOUT_S", "300"))
 
 
 class ApiError(Exception):
@@ -24,7 +24,6 @@ class ApiClient:
         self.base_url = base_url.rstrip("/")
         self.token = token
 
-    # ------------------------------------------------------------------ plumbing
     def _request(self, method: str, path: str, **kw) -> httpx.Response:
         headers = kw.pop("headers", {})
         if self.token:
@@ -48,7 +47,6 @@ class ApiClient:
     def _json(self, method: str, path: str, **kw) -> dict:
         return self._request(method, path, **kw).json()
 
-    # ------------------------------------------------------------------ auth / context
     def personas(self) -> dict:
         return self._json("GET", "/v1/auth/personas")
 
@@ -58,7 +56,6 @@ class ApiClient:
     def me(self) -> dict:
         return self._json("GET", "/v1/me")
 
-    # ------------------------------------------------------------------ ingestion
     def ingest(self, filename: str, content: bytes, logical_name: str | None = None,
                entity_id: str | None = None) -> dict:  # fmt: skip
         data = {k: v for k, v in (("logical_name", logical_name), ("entity_id", entity_id)) if v}
@@ -74,14 +71,12 @@ class ApiClient:
     def retry(self, job_id: str) -> dict:
         return self._json("POST", f"/v1/jobs/{job_id}/retry")
 
-    # ------------------------------------------------------------------ query
     def query(self, question: str, filters: dict | None = None) -> dict:
         body = {"question": question}
         if filters:
             body["filters"] = filters
         return self._json("POST", "/v1/query", json=body)
 
-    # ------------------------------------------------------------------ feedback
     def submit_feedback(self, body: dict) -> dict:
         return self._json("POST", "/v1/feedback", json=body)
 
@@ -95,7 +90,6 @@ class ApiClient:
     def rollback(self, example_id: str) -> dict:
         return self._json("POST", f"/v1/feedback/{example_id}/rollback")
 
-    # ------------------------------------------------------------------ export / health
     def export(self, body: dict) -> tuple[bytes, dict]:
         r = self._request("POST", "/v1/export", json=body)
         keep = ("content-type", "content-disposition", "x-export-checksum", "x-export-record-count")

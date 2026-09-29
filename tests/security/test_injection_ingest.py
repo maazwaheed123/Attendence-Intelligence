@@ -21,7 +21,6 @@ def test_injection_memo_flagged_not_dropped(ingest_api, auth, scope_for):
         ).all()
     flagged = [t for t, sus in rows if sus]
     assert len(flagged) == 1 and "Ignore all previous instructions" in flagged[0]
-    # The injected text is visible to the reader role only as flagged data, in-scope only.
     with scoped_session(scope_for("a_eng_manager")) as s:
         assert (
             s.execute(text("SELECT count(*) FROM document_chunks WHERE suspicious")).scalar_one()

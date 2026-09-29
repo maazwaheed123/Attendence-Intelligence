@@ -54,7 +54,6 @@ def test_redis_down_is_degraded_not_crashed(api, auth, monkeypatch):
     assert body["components"]["cache"]["status"] == "down"
     assert body["components"]["queue"]["status"] == "down"
     assert body["components"]["database"]["status"] == "ok"
-    # queries still work: rate limit and cache fail open
     assert ask(api, auth, "a_eng_manager", "Who was present on 1 September 2026?")["answer"]
 
 

@@ -19,12 +19,11 @@ ALLOWED = [
     "SELECT * FROM v_attendance WHERE employee_id IN ('E001', 'E002') AND check_in > '09:30'",
     "SELECT a.employee_id FROM v_attendance AS a JOIN v_attendance AS b ON a.employee_id = b.employee_id AND b.status = 'absent'",
     "SELECT employee_id FROM v_attendance WHERE status IN (SELECT status FROM v_attendance WHERE conflict)",
-    "select employee_id from v_attendance;",  # one trailing semicolon is tolerated
+    "select employee_id from v_attendance;",
     "SELECT * FROM v_attendance WHERE employee_name ILIKE '%son%'",
 ]
 
 MALICIOUS = [
-    # other tables / catalogs
     "SELECT * FROM attendance_records WHERE tenant_id='tenant_b'",
     "SELECT * FROM employees",
     "SELECT phone_enc FROM employees",
@@ -33,7 +32,6 @@ MALICIOUS = [
     "SELECT * FROM pg_catalog.pg_tables",
     "SELECT * FROM information_schema.tables",
     "SELECT * FROM pg_shadow",
-    # statement types
     "DROP TABLE employees",
     "SELECT 1; DROP TABLE employees",
     "SELECT * FROM v_attendance; DELETE FROM attendance_records",
@@ -47,7 +45,6 @@ MALICIOUS = [
     "WITH x AS (SELECT * FROM attendance_records) SELECT * FROM x",
     "SELECT employee_id FROM v_attendance UNION SELECT employee_name FROM employees",
     "SELECT employee_id FROM v_attendance UNION ALL SELECT employee_id FROM v_attendance",
-    # dangerous functions
     "SELECT pg_sleep(10)",
     "SELECT pg_read_file('/etc/passwd')",
     "SELECT set_config('app.tenant_id', 'tenant_b', false)",
@@ -62,12 +59,10 @@ MALICIOUS = [
     "SELECT 'employees'::regclass",
     "SELECT * FROM v_attendance WHERE employee_name ~ '.*' OR status = 'x'",
     "SELECT * FROM v_attendance WHERE EXISTS (SELECT 1 FROM employees)",
-    # comments, quoting tricks, parameters
     "SELECT * FROM v_attendance -- WHERE tenant_id = 'tenant_a'",
     "SELECT * FROM v_attendance /* hidden */",
     "SELECT $$x$$",
     "SELECT * FROM v_attendance WHERE employee_id = $1",
-    # columns / joins / limits
     "SELECT raw_values FROM v_attendance",
     "SELECT phone_enc FROM v_attendance",
     "SELECT * FROM v_attendance, v_attendance",

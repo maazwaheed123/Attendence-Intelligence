@@ -28,7 +28,7 @@ _ORDINALS = {"first": 1, "second": 2, "third": 3, "fourth": 4, "fifth": 5, "last
 
 _ISO = re.compile(r"\b(\d{4})-(\d{2})-(\d{2})\b")
 _NUMERIC = re.compile(r"\b(\d{1,2})[/.](\d{1,2})[/.](\d{4})\b")
-_DAY_MONTH = re.compile(  # not "week 2 of September"
+_DAY_MONTH = re.compile(
     rf"(?<!week )(?<!week)\b(\d{{1,2}}){_ORD}\s+(?:of\s+)?({_MONTH_RX})\.?(?:,?\s+(\d{{4}}))?\b",
     re.I,
 )
@@ -40,7 +40,6 @@ _RELATIVE_MONTH = re.compile(r"\b(last|previous|this|current)\s+month\b", re.I)
 _RELATIVE_WEEK = re.compile(r"\b(last|previous|this|current)\s+week\b", re.I)
 _RELATIVE_DAY = re.compile(r"\b(today|yesterday)\b", re.I)
 
-# Words that are never a person's name even when capitalised.
 NOT_NAMES = {
     *(m for m in MONTHS),
     *(d.lower() for d in calendar.day_name),
@@ -61,7 +60,6 @@ NOT_NAMES = {
     these those it its be been being not no yes ok okay hi hello thanks thank sep sept
     """.split(),  # noqa: SIM905 - a word list reads better as text
 }
-# Department words: mentioning one that is not in scope must not fall back to "all".
 _DEPARTMENT_WORDS = {
     "engineering",
     "hr",
@@ -91,8 +89,8 @@ def today() -> dt.date:
 class Directory:
     """What the caller may see, loaded through RLS (rag_reader)."""
 
-    employees: list[tuple[str, str, str]] = field(default_factory=list)  # id, name, entity
-    entities: list[tuple[str, str]] = field(default_factory=list)  # id, name
+    employees: list[tuple[str, str, str]] = field(default_factory=list)
+    entities: list[tuple[str, str]] = field(default_factory=list)
     coverage: tuple[dt.date | None, dt.date | None] = (None, None)
     date_format: str = "DD/MM/YYYY"
 
@@ -124,9 +122,6 @@ def load_directory(scope: DbScope) -> Directory:
         coverage=(coverage[0], coverage[1]),
         date_format=fmt or "DD/MM/YYYY",
     )
-
-
-# ------------------------------------------------------------------ dates
 
 
 def fmt_date(d: dt.date, date_format: str = "DD/MM/YYYY") -> str:
@@ -229,7 +224,6 @@ def extract_period(
             monday -= dt.timedelta(days=7)
         return monday, monday + dt.timedelta(days=4), f"{rel[1].lower()} week"
 
-    # lowercase "may" is a verb, not a month
     month_m = next((m for m in _MONTH_YEAR.finditer(rest) if m[1] != "may"), None)
     year, month = ref.year, ref.month
     if month_m:
@@ -243,7 +237,7 @@ def extract_period(
         weeks = month_weeks(year, month)
         label = f"week {n}" if n > 0 else "last week of the month"
         if not weeks or n == 0 or n > len(weeks):
-            d1 = dt.date(year, month, 1)  # a week that does not exist -> empty period
+            d1 = dt.date(year, month, 1)
             return d1, d1 - dt.timedelta(days=1), label
         d1, d2 = weeks[n - 1] if n > 0 else weeks[-1]
         return d1, d2, label
@@ -252,9 +246,6 @@ def extract_period(
         d1, d2 = month_range(year, month)
         return d1, d2, f"{calendar.month_name[month]} {year}"
     return None
-
-
-# ------------------------------------------------------------------ names
 
 
 def _word(term: str, flags=re.I) -> re.Pattern:
@@ -296,7 +287,7 @@ def resolve_people(question: str, directory: Directory) -> tuple[list[tuple[str,
         hit(_word(emp_id), emp_id, name)
     for index in (by_first, by_last):
         for token, emps in index.items():
-            for emp_id, name in emps:  # an ambiguous first name matches every holder
+            for emp_id, name in emps:
                 if not any(h[1] == emp_id for h in hits):
                     rx = _word(token, 0)
                     if rx.search(remaining):
@@ -312,7 +303,7 @@ def resolve_people(question: str, directory: Directory) -> tuple[list[tuple[str,
             unresolved = True
             break
     if not unresolved and re.search(r"\bE\d{3,}\b", remaining, re.I):
-        unresolved = True  # an employee id that is not in scope
+        unresolved = True
     seen: dict[str, str] = {}
     for _, emp_id, name in sorted(hits):
         seen.setdefault(emp_id, name)

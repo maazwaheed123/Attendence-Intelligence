@@ -37,14 +37,14 @@ class Hit:
     source_document_id: str
     record_id: str | None
     chunk_type: str
-    text: str  # always text_masked
+    text: str
     locator: str
     entity_id: str | None
     employee_id: str | None
     classification: str
     suspicious: bool
     score: float
-    source: str  # vector | keyword | trigram
+    source: str
 
 
 def require_scope(session: Session) -> None:

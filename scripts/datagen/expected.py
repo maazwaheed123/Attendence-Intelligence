@@ -25,7 +25,7 @@ def evidence_status(truth_rows, manifests, spec) -> dict:
     for m in manifests:
         if m.kind != "attendance" or m.product_id != spec["default_product"]:
             continue
-        superseded = m.filename == "tenant_a_sep.csv"  # replaced by v2 in the corpus order
+        superseded = m.filename == "tenant_a_sep.csv"
         for row in m.rows:
             if superseded:
                 continue

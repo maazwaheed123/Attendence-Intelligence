@@ -228,7 +228,6 @@ def reset_corpus() -> dict:
                 )
                 counts["chunks"] += 1
 
-        # One row per tenant in the remaining tenant-bearing tables (RLS coverage).
         for tenant in ("tenant_a", "tenant_b"):
             s.execute(
                 text(

@@ -64,7 +64,7 @@ def get_security_context(
     except ClaimsError as exc:
         raise Unauthenticated("Invalid token claims.") from exc
     _validate_against_registry(ctx)
-    request.state.ctx = ctx  # for audit middleware
+    request.state.ctx = ctx
     if not ratelimit.allow(ctx.sub):
         raise AppError(429, "RATE_LIMITED", "Too many requests.")
     return ctx

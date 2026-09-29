@@ -47,7 +47,7 @@ class OpenAICompatibleProvider:
         payload = {
             "model": self.model,
             "messages": messages,
-            "temperature": 0,  # deterministic as far as the model allows
+            "temperature": 0,
             "max_tokens": max_tokens,
             "stream": False,
         }

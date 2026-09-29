@@ -74,7 +74,6 @@ def build_truth(spec: dict) -> dict:
                 "employee_name": emp["name"],
                 "entity_id": emp["entity"],
                 "department": entity_names[emp["entity"]],
-                # Fictional contact data: 555-01xx is reserved for fiction.
                 "phone": f"+1-555-01{phone_idx:02d}",
                 "national_id": f"NID-{rng.randint(100_000_000, 999_999_999)}",
                 "email": f"{first}.{last.replace(' ', '')}@{tenant_id}.example",

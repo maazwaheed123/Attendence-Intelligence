@@ -25,7 +25,6 @@ def parse(content: bytes, filename: str) -> ParseResult:
 
     for t_idx, table in enumerate(doc.tables, start=1):
         rows = [[cell.text.strip() for cell in row.cells] for row in table.rows]
-        # DOCX locator: table number + row number (header = row 1) [+ column for wide tables]
         long_ok = extract_rows(
             rows, result, lambda i, t=t_idx: f"table={t};row={i + 1}", source_label=f"table {t_idx}"
         )

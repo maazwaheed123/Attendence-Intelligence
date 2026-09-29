@@ -43,12 +43,9 @@ VIEW_COLUMNS = frozenset(
     }
 )
 
-# sqlglot function classes (exp.Func subclasses). exp.Anonymous = any function sqlglot
-# does not know (pg_sleep, set_config, current_setting, dblink, lo_import, ...) and is
-# therefore always rejected.
 ALLOWED_FUNCTIONS = frozenset(
     {
-        "And",  # boolean connectors are Func subclasses in sqlglot
+        "And",
         "Or",
         "Count",
         "Sum",
@@ -62,12 +59,12 @@ ALLOWED_FUNCTIONS = frozenset(
         "TimestampTrunc",
         "Extract",
         "Case",
-        "If",  # WHEN branches inside CASE
+        "If",
         "Cast",
         "TryCast",
         "Lower",
         "Upper",
-        "TimeToStr",  # TO_CHAR
+        "TimeToStr",
         "ToChar",
     }
 )
@@ -88,7 +85,6 @@ ALLOWED_CAST_TYPES = frozenset(
         "BOOLEAN",
     }
 )
-# Node types that must never appear anywhere in the tree.
 FORBIDDEN_NODES = (
     exp.Union,
     exp.Intersect,

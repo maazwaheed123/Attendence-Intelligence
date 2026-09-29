@@ -95,7 +95,7 @@ def supported_sentences(answer: str, evidence: Evidence, question: str) -> tuple
     """Sentence-level grounding: each sentence is checked against the evidence it
     cites (or, without a tag, against every cited item). Unsupported sentences are
     dropped. Returns (kept text, number dropped)."""
-    from app.governance import grounding  # local: governance imports generation modules
+    from app.governance import grounding
 
     by_tag = evidence.by_tag()
     cited_all = [by_tag[t] for t in dict.fromkeys(_TAG.findall(answer)) if t in by_tag]

@@ -14,13 +14,13 @@ GEN = Path(__file__).resolve().parents[2] / "data" / "generated"
 
 def test_deskew_detects_scan_rotation():
     gray = preprocess.load_gray((GEN / "scan_printed.png").read_bytes())
-    assert abs(abs(preprocess.estimate_skew(gray)) - 1.8) < 0.3  # generator rotated by 1.8 deg
+    assert abs(abs(preprocess.estimate_skew(gray)) - 1.8) < 0.3
 
 
 def test_grid_lines_removed():
     img = np.full((400, 800), 255, np.uint8)
-    img[200, 20:780] = 0  # long horizontal rule
-    img[190:210, 100:104] = 0  # short glyph-like stroke
+    img[200, 20:780] = 0
+    img[190:210, 100:104] = 0
     out = preprocess.remove_lines(img)
     assert out[200, 400] == 255 and out[195, 101] == 0
 
@@ -53,9 +53,7 @@ def test_engines_agree_raises_confidence():
         ],
     )
     (rec,), info = reconcile(_table(), v, handwriting=True, threshold=0.75)
-    assert (
-        info["engine"] == "ocr_reconciled" and rec.confidence == 0.85
-    )  # min(id 0.85, status 0.90)
+    assert info["engine"] == "ocr_reconciled" and rec.confidence == 0.85
 
 
 def test_engines_disagree_lowers_confidence():
@@ -83,7 +81,7 @@ def test_low_confidence_time_dropped_not_stored():
     t.rows[0].cells["check_in"] = OcrCell("O9:1?", 0.2)
     (rec,), _ = reconcile(t, None, handwriting=False, threshold=0.75)
     assert rec.values["check_in"] is None and any("check_in unreadable" in n for n in rec.notes)
-    assert rec.raw["check_in"] == "O9:1?"  # raw OCR text kept for review
+    assert rec.raw["check_in"] == "O9:1?"
 
 
 def test_handwriting_without_vision_capped():

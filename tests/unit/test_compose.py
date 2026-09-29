@@ -11,8 +11,6 @@ COMPOSE = yaml.safe_load((Path(__file__).resolve().parents[2] / "docker-compose.
 
 
 def test_worker_runs_rq_scheduler():
-    # enqueue() uses Retry(interval=[10, 30]); without a scheduler those retries never run
-    # and jobs stay "retrying" forever (found in Step 16).
     assert "--with-scheduler" in COMPOSE["services"]["worker"]["command"]
 
 

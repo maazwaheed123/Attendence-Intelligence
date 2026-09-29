@@ -47,9 +47,6 @@ def to_json(value):
 
 
 def _run_verbatim(session, sql: str, limit: int) -> tuple[list[str], list[tuple]]:
-    # psycopg only interprets placeholders when parameters are passed, so "%" in a
-    # LIKE pattern or ":x" inside a literal stays literal. Same connection and
-    # transaction as the session, so the scope settings apply.
     dbapi = session.connection().connection.driver_connection
     with dbapi.cursor() as cur:
         cur.execute(sql)

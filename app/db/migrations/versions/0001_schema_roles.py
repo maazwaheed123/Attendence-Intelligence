@@ -22,8 +22,6 @@ def _password(url_secret) -> str:
 def upgrade() -> None:
     s = get_settings()
 
-    # ------------------------------------------------------------------ roles
-    # Cluster-wide, so they may already exist (e.g. created by the test database).
     for role, url in (("app_rw", s.database_url_app), ("rag_reader", s.database_url_reader)):
         op.execute(
             f"""
@@ -45,10 +43,6 @@ def upgrade() -> None:
         """
     )
 
-    # ------------------------------------------------------- scope functions
-    # All RLS policies call these, so the isolation rule is defined ONCE.
-    # current_setting(..., true) returns NULL when unset -> comparisons are NULL
-    # -> policy is false -> zero rows (fail closed).
     op.execute(
         """
         CREATE FUNCTION class_rank(c text) RETURNS int
@@ -85,7 +79,6 @@ def upgrade() -> None:
         """
     )
 
-    # ------------------------------------------------------------------ tables
     op.execute(
         """
         CREATE TABLE products (
@@ -307,10 +300,6 @@ def upgrade() -> None:
         """
     )
 
-    # ------------------------------------------------------------------ grants
-    # app_rw: ingestion + application writes. No DELETE anywhere (soft-delete via
-    # is_active/status), no UPDATE/DELETE on audit_events (append-only).
-    # rag_reader: SELECT only, and only on non-PII columns.
     op.execute(
         """
         GRANT SELECT ON products, tenants, tenant_products TO app_rw, rag_reader;
@@ -350,4 +339,3 @@ def downgrade() -> None:
             app_entity_ok(text), app_ctx(text), class_rank(text);
         """
     )
-    # Roles are cluster-wide (shared with the test database) and are kept.

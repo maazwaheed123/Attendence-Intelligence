@@ -4,4 +4,4 @@ RETRIEVAL_VERSION is stored with every response (and later with feedback example
 so a change in retrieval behaviour is always traceable.
 """
 
-RETRIEVAL_VERSION = "r1.0-hybrid"  # Step 10: RRF + dedupe + lexical rerank
+RETRIEVAL_VERSION = "r1.0-hybrid"

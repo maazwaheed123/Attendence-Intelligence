@@ -134,11 +134,8 @@ def test_query_audit_event(api, auth):
     assert ev.provider == r["provider"] and ev.fallback_path == r["fallback_path"]
     assert float(ev.confidence) == r["confidence"]
     assert ev.details["intent"] == "list_by_status" and len(ev.details["sql_hash"]) == 64
-    assert "Who was present" not in str(ev.details)  # raw question never audited
+    assert "Who was present" not in str(ev.details)
     assert denied.outcome == "filtered_or_absent"
-
-
-# ------------------------------------------------------------------ LLM paths
 
 
 def test_llm_sql_agrees_with_template(api, auth, monkeypatch):
@@ -155,7 +152,7 @@ def test_llm_sql_agrees_with_template(api, auth, monkeypatch):
 
 
 def test_llm_sql_disagreement_uses_template(api, auth, monkeypatch):
-    wrong = Q2_SQL.replace("entity_id = 'engineering'", "status = 'present'")  # 100%
+    wrong = Q2_SQL.replace("entity_id = 'engineering'", "status = 'present'")
     scripted(monkeypatch, sql={"sql": wrong})
     r = ask(api, auth, "a_eng_manager", Q2)
     assert "91.83%" in r["answer"]
@@ -191,7 +188,7 @@ def test_model_only_intent_uses_llm_sql_and_its_lineage(api, auth, monkeypatch):
 
 
 def test_model_only_intent_without_a_model(api, auth, monkeypatch):
-    scripted(monkeypatch)  # every stage returns junk
+    scripted(monkeypatch)
     r = ask(api, auth, "a_hr_admin", "Who had the most absences in September?")
     assert r["status"] == "unavailable" and r["unavailable_reason"] == "insufficient_evidence"
 

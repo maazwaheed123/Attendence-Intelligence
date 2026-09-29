@@ -37,7 +37,6 @@ def test_feedback_changes_invalidate(api, auth, monkeypatch):
     assert fb["status"] == "active", fb
     applied = ask(api, auth, "a_eng_manager", Q2)
     assert applied["applied_feedback"]["example_id"] == fb["example_id"]
-    # a hit keeps the applied example (and counts its use)
     again = ask(api, auth, "a_eng_manager", Q2)
     assert cache_state(again["request_id"]) == "hit"
     assert again["applied_feedback"]["example_id"] == fb["example_id"]
@@ -132,4 +131,4 @@ def test_redis_down_fails_open(api, auth, monkeypatch):
     monkeypatch.setattr(cache, "get_redis", boom)
     r = ask(api, auth, "a_eng_manager", Q1)
     assert r["status"] == "answered" and cache_state(r["request_id"]) == "off"
-    cache.bump_data_version("tenant_a", "attendance_ai")  # must not raise
+    cache.bump_data_version("tenant_a", "attendance_ai")

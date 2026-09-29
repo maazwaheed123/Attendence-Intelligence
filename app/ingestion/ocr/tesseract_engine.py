@@ -17,18 +17,18 @@ COLUMN_TOLERANCE_PX = 40
 @dataclass
 class OcrCell:
     text: str
-    conf: float  # 0..1
+    conf: float
 
 
 @dataclass
 class OcrRow:
-    row: int  # locator row number (header = 1)
+    row: int
     cells: dict[str, OcrCell]
 
 
 @dataclass
 class OcrTable:
-    header: dict[str, str]  # canonical -> header text as read
+    header: dict[str, str]
     rows: list[OcrRow]
     sheet_date: OcrCell | None
     mean_conf: float
@@ -76,7 +76,7 @@ def read(gray: np.ndarray) -> OcrTable | None:
     lines = _lines(gray)
     text_lines = [" ".join(w["text"] for w in ws) for ws in lines]
     header_idx, cols = None, None
-    for fuzzy in (False, True):  # exact header words first; fuzzy only as a fallback
+    for fuzzy in (False, True):
         for i, ws in enumerate(lines):
             if found := _header(ws, fuzzy=fuzzy):
                 header_idx, cols = i, found
@@ -110,7 +110,7 @@ def read(gray: np.ndarray) -> OcrTable | None:
             if col:
                 cells.setdefault(col, []).append(w)
         if len(cells) < 2:
-            continue  # stray marks, not a row
+            continue
         row = OcrRow(
             row=len(rows) + 2,
             cells={

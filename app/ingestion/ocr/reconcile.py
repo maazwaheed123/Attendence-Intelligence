@@ -24,7 +24,7 @@ KEY_FIELDS = ("employee_id", "status")
 SECONDARY = ("check_in", "check_out", "department")
 FIELDS = ("employee_id", "employee_name", "department", "status", "check_in", "check_out")
 PRINTED_CAP = 0.95
-LEXICON_FLOOR = 0.85  # a word that exactly matches the closed vocabulary is strong evidence
+LEXICON_FLOOR = 0.85
 _ID_PATTERN = re.compile(r"^[A-Z]\d{3,}$")
 VISION_CAP = 0.90
 NO_VISION_HANDWRITING_CAP = 0.60
@@ -102,7 +102,7 @@ def reconcile(
                         f"('{t_row.cells['status'].text}' vs '{v.status}')"
                     )
                 elif t_known and v_known:
-                    conf["status"] = min(0.95, conf["status"] + 0.05)  # independent agreement
+                    conf["status"] = min(0.95, conf["status"] + 0.05)
             values = {f: getattr(v, f, None) for f in FIELDS}
             records.append(
                 _record(page, i, values, conf, reasons, sheet_date, threshold, raw_engine="vision")
@@ -116,8 +116,6 @@ def reconcile(
             reasons = list(date_reasons)
             if handwriting:
                 reasons.append("handwriting read by Tesseract only (vision OCR unavailable)")
-            # Lexicon validation: OCR confidence is per-glyph; an exact match against the
-            # closed status vocabulary or the ID pattern is independent evidence.
             if not handwriting:
                 if (
                     values["status"]
@@ -127,7 +125,6 @@ def reconcile(
                     conf["status"] = max(conf["status"], LEXICON_FLOOR)
                 if values["employee_id"] and _ID_PATTERN.match(values["employee_id"]):
                     conf["employee_id"] = max(conf["employee_id"], LEXICON_FLOOR)
-            # Identity can come from either the ID or the name cell.
             ident = max(
                 conf["employee_id"] if values["employee_id"] else 0,
                 conf["employee_name"] if values["employee_name"] else 0,

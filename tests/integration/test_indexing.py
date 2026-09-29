@@ -52,7 +52,7 @@ def test_every_record_gets_one_row_card_and_every_chunk_is_embedded(ingest_api, 
         c["same_tenant"] and c["same_entity"] and c["same_emp"] and c["same_loc"] for c in cards
     )
     dims = q("SELECT vector_dims(embedding) AS d, count(*) AS n FROM document_chunks GROUP BY 1")
-    assert dims == [{"d": 768, "n": dims[0]["n"]}], dims  # nothing NULL, all 768-dim
+    assert dims == [{"d": 768, "n": dims[0]["n"]}], dims
 
 
 def test_row_card_text(ingest_api, auth):
@@ -121,7 +121,7 @@ def test_new_version_reindexes_and_deactivates_old_chunks(ingest_api, auth):
         "SELECT c.text_masked FROM document_chunks c JOIN attendance_records r USING (record_id) "
         "WHERE c.is_active AND r.employee_id = 'E006' AND r.attendance_date = '2026-09-10'"
     )
-    assert len(card) == 1 and "Present" in card[0]["text_masked"]  # the corrected row
+    assert len(card) == 1 and "Present" in card[0]["text_masked"]
 
 
 def test_reprocessing_does_not_duplicate_chunks(ingest_api, auth, scope_for):
@@ -149,7 +149,7 @@ class _Down:
 def test_embedding_outage_defers_indexing_and_reindex_recovers(ingest_api, auth, monkeypatch):
     monkeypatch.setattr(service, "get_embedder", lambda: _Down())
     body = upload(ingest_api, auth("a_hr_admin"), "tenant_a_sep_v2.csv").json()
-    assert body["status"] == "completed"  # data is stored and queryable
+    assert body["status"] == "completed"
     assert body["counts"]["embedding_pending"] == 176
     assert "index_pending" in [h["stage"] for h in body["stage_history"]]
     assert any("embeddings pending for 176 chunks" in w for w in body["warnings"])
@@ -158,7 +158,7 @@ def test_embedding_outage_defers_indexing_and_reindex_recovers(ingest_api, auth,
     result = reindex()
     assert result == {"row_cards": 176, "embedded": 176, "pending": 0, "model": FakeEmbedder.model}
     assert q("SELECT count(*) AS n FROM document_chunks WHERE embedding IS NULL")[0]["n"] == 0
-    assert reindex()["embedded"] == 0  # idempotent
+    assert reindex()["embedded"] == 0
 
 
 def test_reindex_reset_reembeds_everything(ingest_api, auth):
@@ -184,7 +184,7 @@ def test_deep_health_degraded_when_embedder_down(client, monkeypatch):
     monkeypatch.setattr(embeddings, "get_embedder", lambda: Unreachable())
     body = client.get("/v1/health/deep").json()
     assert body["components"]["embeddings"]["status"] == "down"
-    assert body["status"] == "degraded"  # core up, a model dependency down
+    assert body["status"] == "degraded"
 
 
 def test_schema_vector_width_matches_the_embedder(corpus_db):
@@ -200,7 +200,7 @@ def test_schema_vector_width_matches_the_embedder(corpus_db):
 
 def test_reindex_backfills_row_cards_for_older_data(ingest_api, auth):
     upload(ingest_api, auth("a_hr_admin"), "tenant_a_sep_v2.csv")
-    with owner_session() as s:  # simulate data ingested before Step 9
+    with owner_session() as s:
         s.execute(text("DELETE FROM document_chunks WHERE chunk_type = 'row_card'"))
     result = reindex()
     assert result["embedded"] == 176 and result["pending"] == 0

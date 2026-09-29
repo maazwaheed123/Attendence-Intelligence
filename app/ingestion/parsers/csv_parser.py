@@ -16,7 +16,6 @@ def parse(content: bytes, filename: str) -> ParseResult:
         dialect = csv.excel
     rows = list(csv.reader(io.StringIO(text), dialect))
     result = ParseResult(method="csv")
-    # CSV locator: physical line number (header = row 1), as a person counts in a sheet.
     if not extract_rows(rows, result, lambda i: f"row={i + 1}", source_label=filename):
         raise PermanentError(
             "no header row found (need a date, a status and an employee id or name column)"

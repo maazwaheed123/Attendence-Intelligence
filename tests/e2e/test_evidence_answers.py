@@ -20,7 +20,7 @@ def test_q5_hybrid_record_plus_remark(api, auth):
     assert r["answer"].startswith("Alice Johnson (E001) was present on 03/09/2026")
     assert "on-site at the client office on 03/09/2026" in r["answer"]
     locs = _locs(r)
-    assert locs[0][0] == "tenant_a_sep_v2.csv"  # the canonical record first
+    assert locs[0][0] == "tenant_a_sep_v2.csv"
     assert ("tenant_a_week2.docx", REMARK_ALICE) in locs
     doc = next(c for c in r["citations"] if c.get("chunk_id"))
     assert doc["tag"].startswith("C") and "Alice" in doc["excerpt"]
@@ -101,12 +101,11 @@ def test_llm_says_insufficient(api, auth, monkeypatch):
 
 
 def test_insufficient_verdict_on_a_named_document_quotes_it(api, auth, monkeypatch):
-    # Live qwen 7b called the injection memo "insufficient" (Step 16 eval, Q14).
     scripted(monkeypatch, answer={"answer": "", "insufficient": True})
     r = ask(api, auth, "a_eng_manager", "Summarise the injection memo")
     assert r["status"] == "answered" and r["answer"].startswith("Relevant evidence")
     assert {c["source_file"] for c in r["citations"]} == {"injection_memo.docx"}
-    assert "administrator mode" not in r["answer"]  # the flagged paragraph is never quoted
+    assert "administrator mode" not in r["answer"]
     assert any("requested document is quoted" in w for w in r["warnings"])
 
 

@@ -47,7 +47,6 @@ def upgrade() -> None:
             CREATE POLICY p_scope ON {table} USING ({expr}) WITH CHECK ({expr});
             """
         )
-    # Audit log: anyone in the application may append; reads are tenant-scoped.
     op.execute(
         """
         ALTER TABLE audit_events ENABLE ROW LEVEL SECURITY;

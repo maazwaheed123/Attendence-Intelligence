@@ -55,7 +55,7 @@ def test_unknown_status(raw):
         ("15 September 2026", "DD/MM/YYYY", date(2026, 9, 15)),
         (date(2026, 9, 3), "DD/MM/YYYY", date(2026, 9, 3)),
         (datetime(2026, 9, 3, 0, 0), "DD/MM/YYYY", date(2026, 9, 3)),
-        (46266, "DD/MM/YYYY", date(2026, 9, 1)),  # Excel serial
+        (46266, "DD/MM/YYYY", date(2026, 9, 1)),
     ],
 )
 def test_dates(raw, fmt, expected):
@@ -143,7 +143,7 @@ def test_header_row_found_below_title_rows():
         ("a.csv", b"date,status\n", True),
         ("a.pdf", b"%PDF-1.4 ...", True),
         ("a.png", b"\x89PNG\r\n\x1a\n...", True),
-        ("a.csv", b"MZ\x90\x00\x03\x00\x00\x00", False),  # renamed executable
+        ("a.csv", b"MZ\x90\x00\x03\x00\x00\x00", False),
         ("a.xlsx", b"not a zip", False),
         ("a.exe", b"MZ", False),
         ("a.pdf", b"date,status\n", False),

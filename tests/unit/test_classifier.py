@@ -32,7 +32,6 @@ ALL = Directory(
 )
 
 CASES = [
-    # (question, mode, intent)
     ("Who was present on 1 September 2026?", "structured", "list_by_status"),
     ("Who was absent on 01/09/2026?", "structured", "list_by_status"),
     ("List everyone on leave in week 1", "structured", "list_by_status"),
@@ -117,16 +116,13 @@ def test_slots():
     assert s.aggregate == "average"
 
 
-# ------------------------------------------------------------------ rewrite: dates
-
-
 @pytest.mark.parametrize(
     ("text", "expected"),
     [
         ("on 1 September 2026", (D(2026, 9, 1), D(2026, 9, 1))),
         ("on Sep 1", (D(2026, 9, 1), D(2026, 9, 1))),
         ("on September 3rd, 2026", (D(2026, 9, 3), D(2026, 9, 3))),
-        ("on 01/09/2026", (D(2026, 9, 1), D(2026, 9, 1))),  # tenant format DD/MM/YYYY
+        ("on 01/09/2026", (D(2026, 9, 1), D(2026, 9, 1))),
         ("on 2026-09-15", (D(2026, 9, 15), D(2026, 9, 15))),
         ("from 7 Sep to 11 Sep", (D(2026, 9, 7), D(2026, 9, 11))),
         ("in September", (D(2026, 9, 1), D(2026, 9, 30))),
@@ -158,7 +154,7 @@ def test_us_date_format_and_missing_week():
         D(2026, 9, 1),
     )
     d1, d2, _ = rewrite.extract_period("in week 7", latest=D(2026, 9, 30))
-    assert d1 > d2  # empty period -> "no data" downstream
+    assert d1 > d2
 
 
 @freeze_time("2026-10-05")
@@ -172,9 +168,6 @@ def test_relative_periods():
 def test_no_period_and_may_as_a_verb():
     assert rewrite.extract_period("Average attendance") is None
     assert rewrite.extract_period("may I see the attendance") is None
-
-
-# ------------------------------------------------------------------ rewrite: names
 
 
 def test_names_resolve_only_within_scope():
@@ -210,9 +203,6 @@ def test_entities_resolve_only_within_scope():
     assert rewrite.resolve_entity("overall attendance", ENG) == (None, None, False)
 
 
-# ------------------------------------------------------------------ LLM classifier
-
-
 def _router(provider):
     return LLMRouter([provider], CircuitBreaker(MemoryBackend()))
 
@@ -220,7 +210,7 @@ def _router(provider):
 def test_llm_consulted_only_when_rules_are_unsure():
     mock = MockProvider(default={"mode": "structured", "intent": "attendance_pct", "slots": {}})
     classifier.classify("Who was present on 1 Sep?", ENG, _router(mock))
-    assert mock.calls == []  # confident rule result: no model call
+    assert mock.calls == []
     c = classifier.classify("Tell me how the team did", ENG, _router(mock))
     assert len(mock.calls) == 1 and (c.source, c.intent) == ("llm", "attendance_pct")
 
@@ -253,4 +243,4 @@ def test_llm_unavailable_falls_back_to_rules():
     c = classifier.classify("Tell me how the team did", ENG, _router(ChaosProvider("timeout")))
     assert (c.source, c.mode, c.intent) == ("rules", "structured", None)
     c = classifier.classify("Tell me about Alice", ENG, _router(ChaosProvider("timeout")))
-    assert (c.intent, c.slots.employee_id) == ("attendance_pct", "E001")  # rules alone suffice
+    assert (c.intent, c.slots.employee_id) == ("attendance_pct", "E001")

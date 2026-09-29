@@ -19,8 +19,8 @@ class TemplateQuery:
     intent: str
     sql: str
     params: dict
-    where: str  # the row filter, reused for citations and the data-presence check
-    group_cols: tuple[str, ...] = ()  # rank: citations are limited to the winners
+    where: str
+    group_cols: tuple[str, ...] = ()
     extra: dict = field(default_factory=dict)
 
 
@@ -53,7 +53,7 @@ def build(intent: str, s: Slots) -> TemplateQuery | None:
         )
         return TemplateQuery(intent, sql, p, w)
     if intent == "rank":
-        w, p = base_where(replace(s, employee_id=None))  # rank across people, not within one
+        w, p = base_where(replace(s, employee_id=None))
         keys = (
             ("entity_id", "department")
             if s.group_by == "department"
@@ -103,7 +103,7 @@ def build(intent: str, s: Slots) -> TemplateQuery | None:
 def has_answer(intent: str, rows: list[dict]) -> bool:
     """False when the result carries no fact (no rows, NULL aggregate)."""
     if intent in ("list_by_status", "count_by_status"):
-        return True  # "nobody was absent" is an answer when the period has data
+        return True
     if not rows:
         return False
     if intent == "attendance_pct":
@@ -117,8 +117,6 @@ def winners(rows: list[dict]) -> list[dict]:
     """Rank rows tied with the first one (rows are already ordered)."""
     return [r for r in rows if rows and r["attendance_pct"] == rows[0]["attendance_pct"]]
 
-
-# ------------------------------------------------------------------ cross-check
 
 _EMP_ID = re.compile(r"^[A-Za-z]\d{2,}$")
 

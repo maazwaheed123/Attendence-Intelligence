@@ -52,7 +52,7 @@ class LLMResult:
     provider: str
     model: str
     latency_ms: int
-    parsed: Any = None  # validated pydantic object when a response_model was given
+    parsed: Any = None
     fallback_path: str = ""
     attempts: list[dict] = field(default_factory=list)
     usage: dict = field(default_factory=dict)
@@ -61,7 +61,7 @@ class LLMResult:
 class LLMProvider(Protocol):
     name: str
     model: str
-    external: bool  # True = data leaves this machine (blocked unless tenant allows)
+    external: bool
     supports_vision: bool
 
     def chat(

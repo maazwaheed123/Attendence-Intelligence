@@ -57,7 +57,6 @@ def extract_rows(
     return True
 
 
-# "Mon 07/09", "07/09", "Tue 08.09.2026" - a column header that is a day.
 _DAY_COL = re.compile(r"^(?:[A-Za-z]{3,9}\.?\s+)?(\d{1,2})[/.\-](\d{1,2})(?:[/.\-](\d{2,4}))?$")
 _YEAR = re.compile(r"\b(20\d{2})\b")
 

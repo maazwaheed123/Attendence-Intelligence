@@ -52,7 +52,6 @@ def ingested(ingest_api, auth, monkeypatch):
 def test_every_file_completed_without_row_failures(ingested):
     for name, body in ingested.items():
         assert body["counts"]["row_failures"] == 0, (name, body["failures"][:3])
-    # Exactly the two deliberately ambiguous handwritten rows need review.
     assert sum(b["counts"]["review_required"] for b in ingested.values()) == 2
     assert ingested["handwritten_ambiguous.png"]["counts"]["review_required"] == 2
 

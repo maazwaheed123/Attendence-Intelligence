@@ -48,7 +48,7 @@ class SecurityContext(BaseModel):
         if ctx.role == "employee" and not ctx.employee_id:
             raise ClaimsError("employee role requires employee_id")
         try:
-            ctx.to_scope()  # format validation of every isolation value
+            ctx.to_scope()
         except ScopeError as exc:
             raise ClaimsError(str(exc)) from exc
         return ctx

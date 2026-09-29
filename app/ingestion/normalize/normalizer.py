@@ -109,8 +109,6 @@ def normalize(
                 time_conf = 0.7
 
         confidence = round(min(rec.confidence, id_conf, status_conf, time_conf), 3)
-        # "info:" notes (e.g. an unreadable time that was dropped) are kept on the
-        # record but do not cast doubt on the attendance fact itself.
         doubts = [r for r in reasons if not r.startswith("info:")]
         review = confidence < review_threshold or bool(doubts and confidence < 0.9)
         drafts.append(

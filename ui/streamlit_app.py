@@ -42,7 +42,6 @@ def can(permission: str) -> bool:
     return permission in (ss.get("me") or {}).get("permissions", [])
 
 
-# ------------------------------------------------------------------ sidebar
 def sidebar() -> str:
     st.sidebar.title("Attendance Intelligence")
     try:
@@ -53,14 +52,14 @@ def sidebar() -> str:
         show_error(exc)
         return st.sidebar.radio("Page", PAGES, key="page")
     names = sorted(personas)
-    default = names.index("a_hr_admin") if "a_hr_admin" in names else 0  # can use every page
+    default = names.index("a_hr_admin") if "a_hr_admin" in names else 0
     persona = st.sidebar.selectbox("Persona", names, index=default, key="persona")
     if persona != ss.get("token_persona"):
         try:
             ss["token"] = api_client.ApiClient().dev_token(persona)
             ss["token_persona"] = persona
             ss["me"] = api().me()
-            ss.pop("last_answer", None)  # never show one persona's answer to another
+            ss.pop("last_answer", None)
             ss.pop("export_file", None)
         except Exception as exc:  # noqa: BLE001
             show_error(exc)
@@ -77,7 +76,6 @@ def sidebar() -> str:
     return st.sidebar.radio("Page", PAGES, key="page")
 
 
-# ------------------------------------------------------------------ ask
 def filters_form(prefix: str, with_status: bool = False) -> dict:
     out: dict = {}
     with st.expander("Filters (optional)"):
@@ -173,7 +171,6 @@ def page_ask() -> None:
         render_answer(ss["last_answer"])
 
 
-# ------------------------------------------------------------------ upload
 def render_job(j: dict) -> None:
     status = j.get("status", "?")
     icon = {"completed": "✅", "duplicate": "♻️", "failed": "❌", "rejected": "⛔"}.get(status, "⏳")
@@ -248,14 +245,12 @@ def page_upload() -> None:
                 show_error(exc)
 
 
-# ------------------------------------------------------------------ feedback
 def page_feedback() -> None:
     st.header("Feedback / training loop")
     if not can("feedback_submit"):
         st.info("Only reviewers and HR admins can submit feedback.")
         return
     last = ss.get("last_answer") or {}
-    # Keyed widgets keep their first value: re-seed the form whenever a new answer arrives.
     if ss.get("fb_seeded_for") != last.get("request_id"):
         ss["fb_seeded_for"] = last.get("request_id")
         ss["fb_rid"] = last.get("request_id", "")
@@ -321,7 +316,6 @@ def page_feedback() -> None:
                 show_error(exc)
 
 
-# ------------------------------------------------------------------ export
 def page_export() -> None:
     st.header("Export permitted results")
     if not can("export"):
@@ -354,7 +348,6 @@ def page_export() -> None:
                            mime=h.get("content-type"), key="download")  # fmt: skip
 
 
-# ------------------------------------------------------------------ health
 def page_health() -> None:
     st.header("Service health")
     try:

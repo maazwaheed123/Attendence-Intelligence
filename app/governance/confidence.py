@@ -21,18 +21,18 @@ WEIGHTS = {
 }
 DUAL_PATH = {"agree": 1.0, "template_only": 1.0, "llm_only": 0.5, "disagree": 0.3}
 REVIEW_CAP = 0.5
-CONFLICT_PENALTY = 0.05  # the answer excludes days whose sources disagree
+CONFLICT_PENALTY = 0.05
 
 
 @dataclass
 class Signals:
     sql_valid: bool
-    dual_path: str  # agree | template_only | llm_only | disagree
+    dual_path: str
     grounded: bool
-    citation_coverage: float  # 0..1
+    citation_coverage: float
     mean_extraction_confidence: float | None
     needs_review: bool = False
-    conflict_days: int = 0  # conflicting employee-days excluded from the result
+    conflict_days: int = 0
 
 
 @dataclass

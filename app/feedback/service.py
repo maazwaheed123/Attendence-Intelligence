@@ -74,7 +74,7 @@ def _embed(question: str) -> list[float] | None:
     try:
         return get_embedder().embed_query(question)
     except EmbeddingUnavailable:
-        return None  # the matcher falls back to lexical similarity
+        return None
 
 
 def submit(ctx: SecurityContext, request_id: str, body: dict) -> dict:
@@ -89,7 +89,7 @@ def submit(ctx: SecurityContext, request_id: str, body: dict) -> dict:
     validation: dict = {
         "pii_masked": sum(fb_pii.values()) + sum(ideal_pii.values()),
         "injection_flags": flags,
-        "scope_from": "token",  # nothing in the feedback text can change scope
+        "scope_from": "token",
     }
 
     analysis = QueryRun(ctx, request_id, question, None).analyze()
@@ -163,6 +163,7 @@ def submit(ctx: SecurityContext, request_id: str, body: dict) -> dict:
         "reviewer_id": ctx.sub,
         "approved_by": ctx.sub if status == "active" else None,
         "approved_at": dt.datetime.now(dt.UTC) if status == "active" else None,
+        "model": original["response"].get("model"),
         "prompt_version": PROMPT_VERSION,
         "retrieval_version": RETRIEVAL_VERSION,
         "validation": json.dumps(validation),

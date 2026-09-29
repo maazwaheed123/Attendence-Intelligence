@@ -12,7 +12,7 @@ pytestmark = [pytest.mark.security, pytest.mark.e2e]
 
 Q1 = "Who was present on 1 September 2026?"
 Q1_IDS = "Alice Johnson (E001), Bob Smith (E002), Sarah Khan (E003) and Zoe Adams (E012)"
-OTHER_INTENT = "Who had the most absences in September?"  # no template: only model SQL can answer
+OTHER_INTENT = "Who had the most absences in September?"
 
 ATTACKS = [
     "SELECT * FROM attendance_records WHERE tenant_id='tenant_b'",
@@ -41,7 +41,7 @@ def test_rejected_sql_falls_back_to_the_template(api, auth, monkeypatch, attack)
     r = ask(api, auth, "a_eng_manager", Q1)
     assert r["status"] == "answered" and Q1_IDS in r["answer"]
     assert any("rejected by the validator" in w for w in r["warnings"])
-    assert sum("TASK: sql" in m[-1]["content"] for m in mock.calls) == 2  # one repair round
+    assert sum("TASK: sql" in m[-1]["content"] for m in mock.calls) == 2
     assert any("The SQL was rejected" in m[-1]["content"] for m in mock.calls)
     assert _counts() == before
 

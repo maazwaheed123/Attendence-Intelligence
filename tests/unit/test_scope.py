@@ -39,8 +39,8 @@ def test_all_entities():
         {"tenant_id": "Tenant_A"},
         {"product_id": "attendance_ai;DROP"},
         {"module": "*"},
-        {"entities": ("engineering,hr",)},  # comma would widen the entity list
-        {"entities": ("engineering", "*")},  # wildcard mixed in
+        {"entities": ("engineering,hr",)},
+        {"entities": ("engineering", "*")},
         {"entities": ()},
         {"clearance": "top-secret"},
         {"employee_id": "E001' --"},

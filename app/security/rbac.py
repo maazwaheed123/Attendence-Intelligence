@@ -10,7 +10,7 @@ class Permission(StrEnum):
     QUERY = "query"
     EXPORT = "export"
     FEEDBACK_SUBMIT = "feedback_submit"
-    FEEDBACK_MANAGE = "feedback_manage"  # deactivate / rollback
+    FEEDBACK_MANAGE = "feedback_manage"
     AUDIT_READ = "audit_read"
 
 
@@ -24,7 +24,6 @@ ROLE_PERMISSIONS: dict[str, frozenset[Permission]] = {
     "auditor": frozenset({Permission.AUDIT_READ}),
 }
 
-# A token may never claim a clearance above its role's ceiling.
 ROLE_MAX_CLEARANCE = {
     "hr_admin": "restricted",
     "manager": "confidential",

@@ -25,7 +25,7 @@ import httpx
 
 API_URL = os.getenv("DEMO_API_URL", "http://api:8000")
 ROOT = Path(__file__).resolve().parents[1]
-EXPORT_DIR = ROOT / "data" / "exports"  # git-ignored
+EXPORT_DIR = ROOT / "data" / "exports"
 Q1 = "Who was present on 1 September 2026?"
 Q2 = "What was Engineering's average attendance % in September?"
 IDEAL = (
@@ -208,7 +208,7 @@ def step_feedback(api: Api) -> None:
     title("8. Roll back to the previous version")
     r = api.http.post(f"/v1/feedback/{fb.get('example_id')}/rollback",
                       headers=api.h("a_reviewer"))  # fmt: skip
-    if r.status_code == 409:  # first ever example: nothing to roll back to -> deactivate
+    if r.status_code == 409:
         r = api.http.post(f"/v1/feedback/{fb.get('example_id')}/deactivate",
                           headers=api.h("a_reviewer"))  # fmt: skip
         print(f"   no earlier version; deactivated -> HTTP {r.status_code}")

@@ -10,7 +10,7 @@ from sqlalchemy import ARRAY, BigInteger, Computed, ForeignKey, Numeric, String,
 from sqlalchemy.dialects.postgresql import JSONB, TSVECTOR, UUID
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
-EMBED_DIM = 768  # nomic-embed-text; migration 0004
+EMBED_DIM = 768
 
 
 class Base(DeclarativeBase):

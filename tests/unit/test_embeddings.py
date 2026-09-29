@@ -63,7 +63,7 @@ def test_ollama_batches_prefixes_and_normalizes():
 
     e = _ollama(handler)
     vectors = e.embed_documents(["a", "b", "c"])
-    assert [len(b["input"]) for b in seen] == [2, 1]  # batch size 2
+    assert [len(b["input"]) for b in seen] == [2, 1]
     assert all(t.startswith(DOC_PREFIX) for b in seen for t in b["input"])
     assert seen[0]["model"] == "nomic-embed-text"
     assert vectors[0] == pytest.approx([0.6, 0.8, 0.0, 0.0])

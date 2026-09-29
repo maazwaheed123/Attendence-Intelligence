@@ -39,7 +39,6 @@ def query(
     ctx: SecurityContext = Depends(require(Permission.QUERY)),
 ) -> dict:
     filters = body.filters or QueryFilters()
-    # Explicit filters outside the token scope are refused BEFORE any retrieval.
     enforce_request_context(ctx, entity_id=filters.entity_id)
     if ctx.role == "employee" and filters.employee_id not in (None, ctx.employee_id):
         raise AppError(403, "CONTEXT_MISMATCH", "employee_id is outside the authenticated scope.")

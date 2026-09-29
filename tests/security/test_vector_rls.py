@@ -38,7 +38,7 @@ def test_other_tenants_exact_vector_is_unreachable(corpus_db, scope_for):
 
     for persona in ("a_hr_admin", "a_eng_manager", "a_employee_e001", "x_other_product"):
         hits = _vector(scope_for(persona), target["text_masked"], k=50)
-        assert hits, persona  # the search works, it just never sees tenant_b
+        assert hits, persona
         assert not {h.chunk_id for h in hits} & b_ids, persona
 
 
@@ -72,9 +72,9 @@ def test_product_scope(corpus_db, scope_for):
 
 def test_confidential_remarks_need_clearance(corpus_db, scope_for):
     remark = _chunks("classification = 'confidential' AND tenant_id = 'tenant_a' LIMIT 1")[0]
-    admin = _vector(scope_for("a_hr_admin"), remark["text_masked"], k=1)  # restricted clearance
+    admin = _vector(scope_for("a_hr_admin"), remark["text_masked"], k=1)
     assert admin[0].chunk_id == str(remark["chunk_id"])
-    manager = _vector(scope_for("a_eng_manager"), remark["text_masked"], k=50)  # internal
+    manager = _vector(scope_for("a_eng_manager"), remark["text_masked"], k=50)
     assert str(remark["chunk_id"]) not in {h.chunk_id for h in manager}
     assert all(h.classification == "internal" for h in manager)
 
@@ -87,7 +87,7 @@ def test_superseded_chunks_are_never_returned(corpus_db, scope_for):
 
 
 def test_search_without_scope_is_refused(corpus_db):
-    with owner_session() as s:  # bypasses RLS: exactly why stores refuse it
+    with owner_session() as s:
         for call in (
             lambda: VEC.search(s, E.embed_query("x")),
             lambda: FTS.search(s, "x"),
@@ -102,7 +102,7 @@ def test_hnsw_settings_applied_per_transaction(corpus_db, scope_for):
         VEC.search(s, E.embed_query("present"), k=5)
         assert s.execute(text("SHOW hnsw.iterative_scan")).scalar() == "relaxed_order"
         assert s.execute(text("SHOW hnsw.ef_search")).scalar() == "100"
-    with scoped_session(scope_for("a_eng_manager")) as s:  # SET LOCAL: gone next transaction
+    with scoped_session(scope_for("a_eng_manager")) as s:
         assert s.execute(text("SHOW hnsw.ef_search")).scalar() == "40"
 
 

@@ -133,9 +133,6 @@ def rule_slots(q: str, directory: Directory) -> Slots:
     return s
 
 
-# ------------------------------------------------------------------ LLM classifier
-
-
 class LlmSlots(BaseModel):
     date_from: str | None = None
     date_to: str | None = None
@@ -215,7 +212,6 @@ def _merge(rule: Classification, llm: LlmClassification, q: str, directory: Dire
         s.rank_direction = ls.rank_direction
     if s.group_by is None and ls.group_by in ("employee", "department"):
         s.group_by = ls.group_by
-    # Model-proposed names go through the same scoped resolution as the question text.
     if not (s.employee_id or s.unresolved_person) and ls.employee:
         people, unresolved = rewrite.resolve_people(ls.employee, directory)
         if people:
@@ -238,7 +234,6 @@ def classify(q: str, directory: Directory, router=None, audit: dict | None = Non
         return Classification(mode, None, slots, "rules", reason, flags)
     intent = rule_intent(q, slots) if mode != "document" else None
     if flags and intent is None:
-        # Instructions aimed at the system and nothing answerable: refuse without a model.
         return Classification("out_of_scope", None, slots, "rules", "unsafe", flags)
     rule = Classification(mode or "structured", intent, slots, "rules", None, flags)
     if intent is not None or mode == "document" or router is None:

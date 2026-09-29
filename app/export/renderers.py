@@ -63,8 +63,7 @@ def to_xlsx(ds: ExportDataset) -> bytes:
     return buf.getvalue()
 
 
-# PDF: the columns that fit a landscape A4 page; "id" = record_id or chunk_id.
-_PDF_COLS = (  # (column, header label, width)
+_PDF_COLS = (
     ("id", "record / chunk id", 58 * mm),
     ("attendance_date", "date", 18 * mm),
     ("employee_id", "emp", 11 * mm),

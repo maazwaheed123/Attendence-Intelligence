@@ -19,7 +19,7 @@ from scripts.datagen.util import FIXED_DT, dmy, to_date
 FONT_DIR = Path(__file__).resolve().parents[2] / "data" / "fonts"
 PRINT_FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
 PRINT_FONT_BOLD = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
-PAGE = (1240, 1754)  # A4 at 150 dpi
+PAGE = (1240, 1754)
 PAPER = (250, 250, 244)
 HAND_WORDS = {
     "present": "Present",
@@ -60,9 +60,6 @@ def _save_pdf(img: Image.Image, path: Path):
         creationDate=FIXED_DT.timetuple(),
         modDate=FIXED_DT.timetuple(),
     )
-
-
-# --------------------------------------------------------------------------- printed scan
 
 
 def write_printed_scan(png_path: Path, pdf_path: Path, rows, *, day: str, seed: int):
@@ -153,9 +150,6 @@ def write_printed_scan(png_path: Path, pdf_path: Path, rows, *, day: str, seed: 
             )
         manifests.append(m)
     return manifests
-
-
-# --------------------------------------------------------------------------- handwriting
 
 
 def _ruled_paper() -> Image.Image:

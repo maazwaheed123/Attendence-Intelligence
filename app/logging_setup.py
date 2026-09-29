@@ -25,7 +25,6 @@ class JsonFormatter(logging.Formatter):
             "request_id": request_id_var.get(),
             "message": record.getMessage(),
         }
-        # structured extras: log.info("x", extra={"cache": "hit"})
         out.update({k: v for k, v in vars(record).items() if k not in _STD})
         if record.exc_info:
             out["exc"] = self.formatException(record.exc_info)

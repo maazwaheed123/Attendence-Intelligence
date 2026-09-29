@@ -110,7 +110,7 @@ def facts(intent: str, s: Slots, rows: list[dict], date_format: str) -> dict[str
 
 
 def _pattern(value: str) -> re.Pattern:
-    if re.fullmatch(r"[\d.,/:-]+", value):  # numbers, dates, times: never inside a longer number
+    if re.fullmatch(r"[\d.,/:-]+", value):
         return re.compile(rf"(?<![\w.]){re.escape(value)}(?![\w]|\.\d)")
     return re.compile(rf"(?<!\w){re.escape(value)}(?!\w)")
 
@@ -130,7 +130,7 @@ def render(template: str, f: dict[str, str]) -> str | None:
     try:
         return template.format(**f)
     except (KeyError, IndexError, ValueError):
-        return None  # the live answer lacks a fact the template needs
+        return None
 
 
 def placeholders(template: str) -> list[str]:

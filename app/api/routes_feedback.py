@@ -27,14 +27,13 @@ def _example(ctx: SecurityContext, example_id: str) -> dict:
         uuid.UUID(example_id)
     except ValueError as exc:
         raise AppError(404, "NOT_FOUND", "Not found.") from exc
-    ex = store.get(ctx.to_scope(), example_id)  # RLS: other scopes see nothing
+    ex = store.get(ctx.to_scope(), example_id)
     if ex is None:
         raise AppError(404, "NOT_FOUND", "Not found.")
     return ex
 
 
 def _may_manage(ctx: SecurityContext, ex: dict) -> None:
-    # hr_admin manages any example in scope; reviewers only their own (PLAN D.2)
     if ctx.role != "hr_admin" and ex["reviewer_id"] != ctx.sub:
         raise AppError(403, "FORBIDDEN", "Reviewers may only manage their own feedback.")
 

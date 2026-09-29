@@ -31,7 +31,6 @@ ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
 MARKERS = ("unit", "integration", "security", "ocr", "e2e", "live")
 
-# Assignment section 7 "mandatory test scenarios" -> evidence (test files, live case ids).
 SCENARIOS: list[tuple[str, str, list[str], list[str]]] = [
     ("Mixed-format ingestion",
      "At least four different input types are processed into the canonical schema.",
@@ -119,7 +118,7 @@ def junit_by_file(junit: Path) -> dict[str, dict[str, int]]:
     files: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
     root = ET.parse(junit).getroot()  # noqa: S314 - our own pytest output, not untrusted input
     for case in root.iter("testcase"):
-        mod = case.get("classname", "")  # tests.e2e.test_x[.Class]
+        mod = case.get("classname", "")
         parts = mod.split(".")
         key = "/".join(parts[1:3]) if parts[0] == "tests" else mod
         kinds = {child.tag for child in case}
@@ -193,7 +192,6 @@ def build(files, coverage_pct, suite_line, counts, ev, ocr) -> str:
 
     if ev:
         res = ev["results"]
-        # >= 1 s means a model was called (the final text may still be a template/quote)
         lat = [r["latency_s"] for r in res if r["latency_s"] >= 1]
         lines += ["", "## Live evaluation (real local models)", "",
                   f"Server `{ev['api_url']}`; chain ollama qwen2.5:7b-instruct -> "

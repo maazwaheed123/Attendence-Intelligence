@@ -40,7 +40,7 @@ class Manifest:
     product_id: str = "attendance_ai"
     logical_name: str = ""
     version: int = 1
-    kind: str = "attendance"  # attendance | narrative | invalid
+    kind: str = "attendance"
     description: str = ""
     expected_failure: str | None = None
     rows: list[dict] = field(default_factory=list)

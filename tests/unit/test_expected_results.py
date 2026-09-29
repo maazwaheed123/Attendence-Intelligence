@@ -26,7 +26,6 @@ def test_department_percentages(truth, expected):
     got = expected["by_persona"]["a_hr_admin"]["periods"]["month"]["by_department"]
     for dept in ("engineering", "hr", "sales"):
         assert got[dept] == _pct(_clean(truth, "tenant_a", dept))
-    # Hand-checked values (see data/README.md metric rules)
     assert got == {"engineering": 91.83, "hr": 88.89, "sales": 89.76}
 
 
@@ -43,10 +42,9 @@ def test_employee_percentages_and_ranks(truth, expected):
 
 def test_conflict_and_review_excluded_from_aggregates(expected):
     eng = expected["by_persona"]["a_eng_manager"]["periods"]["month"]
-    # Bob: 21 scheduled days minus the conflicted 15 Sep -> 20
     assert eng["by_employee"]["E002"] == 82.5
     sales = expected["by_persona"]["a_hr_admin"]["periods"]["month"]["by_employee"]
-    assert sales["E011"] == 92.5  # Lucas: 20 days counted, 30 Sep awaits review
+    assert sales["E011"] == 92.5
 
 
 def test_week2_lowest_is_bob(expected):

@@ -28,7 +28,7 @@ def reindex(reset: bool = False) -> dict:
             .scalars()
             .all()
         )
-        cards = sum(indexing.create_row_cards(s, d) for d in docs)  # idempotent
+        cards = sum(indexing.create_row_cards(s, d) for d in docs)
     if reset:
         with owner_session() as s:
             s.execute(text("UPDATE document_chunks SET embedding = NULL"))
@@ -41,7 +41,7 @@ def reindex(reset: bool = False) -> dict:
     with owner_session() as s:
         pending = indexing.count_pending(s)
         scopes = s.execute(text("SELECT tenant_id, product_id FROM tenant_products")).all()
-    for tenant, product in scopes:  # new vectors change document answers
+    for tenant, product in scopes:
         cache.bump_data_version(tenant, product)
     return {"row_cards": cards, "embedded": total, "pending": pending, "model": embedder.model}
 

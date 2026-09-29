@@ -81,8 +81,8 @@ def test_missing_claim(api, claim):
     "override",
     [
         {"role": "superuser"},
-        {"clearance": "restricted"},  # manager ceiling is confidential
-        {"entities": "engineering"},  # must be a list
+        {"clearance": "restricted"},
+        {"entities": "engineering"},
         {"entities": []},
         {"tenant_id": "tenant_a' OR '1'='1"},
         {"entities": ["engineering,hr"]},

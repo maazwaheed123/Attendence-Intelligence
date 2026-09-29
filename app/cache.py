@@ -93,7 +93,7 @@ def key_for(ctx: SecurityContext, question: str, filters: dict) -> str | None:
 
 def cacheable(response: dict) -> bool:
     if ">" in (response.get("fallback_path") or ""):
-        return False  # a provider failed: retry once models recover
+        return False
     if response["status"] in ("answered", "needs_review"):
         return True
     return response["unavailable_reason"] == "no_data_in_scope"

@@ -5,7 +5,6 @@ from dataclasses import asdict, dataclass, field
 
 MODES = ("structured", "document", "hybrid", "out_of_scope")
 
-# Intents the template engine can answer deterministically (fallback + cross-check).
 TEMPLATE_INTENTS = (
     "list_by_status",
     "count_by_status",
@@ -14,7 +13,6 @@ TEMPLATE_INTENTS = (
     "employee_status_on_date",
     "hours",
 )
-# "other" = structured but only the LLM SQL path can answer it.
 INTENTS = (*TEMPLATE_INTENTS, "other")
 
 STATUSES = ("present", "absent", "leave", "holiday", "wfh", "half_day", "unknown")
@@ -24,18 +22,18 @@ STATUSES = ("present", "absent", "leave", "holiday", "wfh", "half_day", "unknown
 class Slots:
     date_from: dt.date | None = None
     date_to: dt.date | None = None
-    period_label: str | None = None  # "week 2", "September 2026", ...
+    period_label: str | None = None
     entity_id: str | None = None
     entity_name: str | None = None
     employee_id: str | None = None
     employee_name: str | None = None
     extra_employees: list[str] = field(default_factory=list)
-    unresolved_person: bool = False  # a name that matches nobody in scope
-    unresolved_entity: bool = False  # a department that is not in scope
+    unresolved_person: bool = False
+    unresolved_entity: bool = False
     status: str | None = None
-    rank_direction: str | None = None  # highest | lowest
-    group_by: str | None = None  # employee | department
-    aggregate: str | None = None  # total | average (hours)
+    rank_direction: str | None = None
+    group_by: str | None = None
+    aggregate: str | None = None
 
     @property
     def single_date(self) -> bool:
@@ -53,9 +51,9 @@ class Classification:
     mode: str
     intent: str | None
     slots: Slots
-    source: str = "rules"  # rules | llm
-    reason: str | None = None  # out_of_scope category: off_topic | pii | unsafe
-    flags: list[str] = field(default_factory=list)  # injection rule names
+    source: str = "rules"
+    reason: str | None = None
+    flags: list[str] = field(default_factory=list)
 
     @property
     def templatable(self) -> bool:

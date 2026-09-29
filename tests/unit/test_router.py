@@ -63,7 +63,7 @@ def test_circuit_opens_after_threshold_and_skips_provider():
         r.complete(MSG)
     assert bad.calls == 3 and r.breaker.state("primary") == "open"
     res = r.complete(MSG)
-    assert bad.calls == 3  # not called while open
+    assert bad.calls == 3
     assert res.attempts[0] == {"provider": "primary", "error": "circuit_open"}
 
 
@@ -74,11 +74,11 @@ def test_half_open_probe_closes_on_success(monkeypatch):
     monkeypatch.setattr(breaker_mod.time, "time", lambda: clock["t"])
     flaky = ChaosProvider("timeout", "primary", fail_times=1, then="recovered")
     r = router(flaky, MockProvider("fallback"), fails=1, reset_s=60)
-    r.complete(MSG)  # fails -> open
+    r.complete(MSG)
     assert r.breaker.state("primary") == "open"
-    clock["t"] += 61  # cool-down elapsed
+    clock["t"] += 61
     assert r.breaker.state("primary") == "half_open"
-    res = r.complete(MSG)  # single probe allowed, succeeds
+    res = r.complete(MSG)
     assert res.provider == "primary" and res.text == "recovered"
     assert r.breaker.state("primary") == "closed"
 

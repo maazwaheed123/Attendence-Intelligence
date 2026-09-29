@@ -24,7 +24,6 @@ def test_repeat_question_is_a_hit_with_new_request_id(api, auth):
     assert cache_state(second["request_id"]) == "hit"
     assert first["request_id"] != second["request_id"]
     assert same_except_request_id(first, second)
-    # the hit is persisted under its own id and readable back
     stored = api.get(f"/v1/query/{second['request_id']}", headers=auth("a_eng_manager"))
     assert stored.status_code == 200 and stored.json()["request_id"] == second["request_id"]
 

@@ -52,10 +52,10 @@ def test_docx_narrative_chunks(ingest_api, auth, manifests):
     }
     assert {c["classification"] for c in remarks} == {"confidential"}
     assert all(c["entity_id"] == "engineering" for c in remarks)
-    assert all(c["embedding"] is not None for c in remarks)  # embedded since Step 9
+    assert all(c["embedding"] is not None for c in remarks)
     notes = chunks("locator = 'section=Notes;para=1'")
     assert notes[0]["classification"] == "internal"
-    assert not chunks("text LIKE '%Acme Corp - Internal%'")  # page header excluded
+    assert not chunks("text LIKE '%Acme Corp - Internal%'")
 
 
 def test_text_pdf_tables_and_cleaning(ingest_api, auth, manifests):
@@ -116,7 +116,7 @@ def test_pii_in_narrative_masked(ingest_api, auth):
         and "[PHONE]" in c["text_masked"]
         and "[EMAIL]" in c["text_masked"]
     )
-    assert "555-0107" in c["text"]  # raw kept for audit; rag_reader has no grant on it
+    assert "555-0107" in c["text"]
 
 
 def test_new_version_deactivates_old_chunks(ingest_api, auth):

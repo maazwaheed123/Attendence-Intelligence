@@ -125,7 +125,6 @@ def write_sales_xlsx(path: Path, rows, *, skip_keys=frozenset()):
     part1 = [r for r in rows if to_date(r["attendance_date"]) <= split]
     part2 = [r for r in rows if to_date(r["attendance_date"]) > split]
 
-    # Sheet 1
     ws = wb.active
     ws.title = "Sep 1-15"
     ws["A1"] = "Acme Corp - Sales Department Attendance"
@@ -174,7 +173,6 @@ def write_sales_xlsx(path: Path, rows, *, skip_keys=frozenset()):
     ws.column_dimensions["B"].width = 18
     ws.column_dimensions["D"].width = 12
 
-    # Sheet 2
     ws2 = wb.create_sheet("Sep 16-30")
     ws2["A1"] = "Sales Attendance (continued)"
     h2 = ["Staff ID", "Name", "Department", "Day", "Status", "Clock In", "Clock Out"]
@@ -262,7 +260,6 @@ def write_pii_xlsx(path: Path, rows, employees):
 
 def write_invalid_files(out: Path):
     corrupt = out / "corrupt.xlsx"
-    # Not a zip container: looks like an xlsx by name only.
     corrupt.write_bytes(b"This is not a real spreadsheet.\x00\x01\x02 corrupted payload\n" * 4)
     empty = out / "empty.csv"
     empty.write_bytes(b"")

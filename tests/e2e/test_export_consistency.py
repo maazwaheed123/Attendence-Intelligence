@@ -37,7 +37,6 @@ def test_three_formats_identical(api, auth, persona, body):
     assert ids, "selection must not be empty"
     assert [key(r) for r in xrows] == ids
     assert pdf_ids(files["pdf"].content) == ids
-    # same traceability in every format
     assert [(r["source_file"], r["source_locator"]) for r in xrows] == [
         (r["source_file"], r["source_locator"]) for r in jrows
     ]

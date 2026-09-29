@@ -47,7 +47,7 @@ PARSERS = {
     "csv": csv_parser.parse,
     "xlsx": xlsx_parser.parse,
     "docx": docx_parser.parse,
-    "pdf": pdf_parser.parse,  # routes scanned PDFs to OCR itself
+    "pdf": pdf_parser.parse,
     "image": ocr_parser.parse,
 }
 CONFIDENTIAL_SECTIONS = ("remark", "comment", "confidential", "disciplinary")
@@ -84,9 +84,6 @@ def scope_to_dict(scope: DbScope) -> dict:
 
 def scope_from_dict(d: dict) -> DbScope:
     return DbScope(**{**d, "entities": tuple(d["entities"])})
-
-
-# --------------------------------------------------------------------------- submit
 
 
 def submit(
@@ -132,8 +129,6 @@ def submit(
         prev = db.execute(
             text(
                 "SELECT document_id, version FROM source_documents "
-                # in-flight versions count too: async uploads of v1 and v2 in quick
-                # succession must still become v1 -> v2, not two active "v1"s
                 "WHERE logical_name = :ln AND status <> 'failed' "
                 "ORDER BY version DESC LIMIT 1"
             ),
@@ -170,11 +165,10 @@ def submit(
             )
         )
         try:
-            db.flush()  # document first: the job row references it
+            db.flush()
         except IntegrityError as exc:
             if "checksum_sha256" not in str(exc.orig):
                 raise
-            # Same file already ingested in this tenant, outside the caller's entity scope.
             raise AppError(
                 409, "CONFLICT", "This file was already ingested for this tenant."
             ) from exc
@@ -253,9 +247,6 @@ def retry_job(ctx: SecurityContext, job_id: uuid.UUID) -> dict:
         return job_view(db, job_id)
 
 
-# --------------------------------------------------------------------------- process
-
-
 def _set_stage(db: Session, job: IngestionJob, stage: str, status: str = "running", **extra):
     job.stage, job.status = stage, status
     job.stage_history = [
@@ -315,9 +306,8 @@ def process(job_id, scope_dict: dict, *, raise_transient: bool = False) -> str:
             diff = _supersede(db, prev_doc_id, drafts) if prev_doc_id else None
             doc.status = "completed"
             if _newer_version_completed(db, doc_id):
-                # Retries can finish an older version after its successor: it is history.
                 _deactivate(db, doc_id)
-            row_cards = indexing.create_row_cards(db, doc_id)  # after (de)activation
+            row_cards = indexing.create_row_cards(db, doc_id)
             if doc.entity_id is None:
                 entities = {d["entity_id"] for d in drafts}
                 if len(entities) == 1:
@@ -393,7 +383,6 @@ def _index(scope: DbScope, job_id, doc_id) -> None:
             _set_stage(db, job, "index_pending", error=str(exc)[:200])
         job.counts = {**job.counts, "embedding_pending": pending}
         _set_stage(db, job, "completed", "completed")
-    # new/superseded records change answers: invalidate this tenant's cached queries
     cache.bump_data_version(scope.tenant_id, scope.product_id)
 
 
@@ -520,9 +509,6 @@ def _supersede(db: Session, prev_doc_id, drafts) -> dict:
         "changed": len(changed),
         "changed_rows": changed[:50],
     }
-
-
-# --------------------------------------------------------------------------- views
 
 
 def job_view(db: Session, job_id, *, duplicate_of=None, checksum=None) -> dict:

@@ -23,13 +23,13 @@ def _truth(truth, emp, date):
 
 @pytest.mark.parametrize("name", ["scan_printed.png", "scan_printed.pdf"])
 def test_printed_scan(ingest_api, auth, manifests, truth, name, monkeypatch):
-    vision_down(monkeypatch)  # printed sheets must not need the vision model
+    vision_down(monkeypatch)
     body = upload(ingest_api, auth("a_hr_admin"), name).json()
     assert body["status"] == "completed", body
     assert body["counts"]["records_created"] == 8 and body["counts"]["review_required"] == 0
     recs = {r["source_locator"]: r for r in records(f"source_file = '{name}'")}
     expected = {row["locator"]: row for row in manifests["files"][name]["rows"]}
-    assert set(recs) == set(expected)  # traceability: same page/row locators as the source
+    assert set(recs) == set(expected)
     fields = correct = 0
     for loc, row in expected.items():
         rec, t = recs[loc], _truth(truth, row["employee_id"], row["attendance_date"])
@@ -40,7 +40,6 @@ def test_printed_scan(ingest_api, auth, manifests, truth, name, monkeypatch):
         ):
             fields += 1
             correct += got == want
-        # Never a wrong time stored as fact: either correct, or dropped with a reason.
         for col in ("check_in", "check_out"):
             if rec[col] is not None:
                 assert rec[col].strftime("%H:%M") == t[col], (loc, col)
@@ -61,7 +60,7 @@ def test_handwriting_with_vision(ingest_api, auth, truth, monkeypatch):
     for rec in records("source_file = 'handwritten_sheet.png'"):
         t = _truth(truth, rec["employee_id"], "2026-09-30")
         assert rec["status"] == t["status"] and rec["extraction_method"] == "ocr_reconciled"
-        assert float(rec["extraction_confidence"]) <= 0.95  # never "certain"
+        assert float(rec["extraction_confidence"]) <= 0.95
         assert rec["raw_values"]["_engine"] == "vision"
 
 
@@ -74,9 +73,7 @@ def test_ambiguous_handwriting_flagged_not_trusted(ingest_api, auth, monkeypatch
     assert not by_emp["E008"]["review_required"] and not by_emp["E010"]["review_required"]
     noah, lucas = by_emp["E009"], by_emp["E011"]
     assert noah["review_required"] and any("status unclear" in r for r in noah["review_reasons"])
-    assert (
-        lucas["review_required"] and lucas["status"] == "unknown"
-    )  # "P?" is never read as present
+    assert lucas["review_required"] and lucas["status"] == "unknown"
     assert lucas["raw_values"]["status"] == "P?" and lucas["raw_values"]["employee_id"] == "E01?"
     assert float(lucas["extraction_confidence"]) < 0.5
     with scoped_session(scope_for("a_hr_admin")) as s:
@@ -85,7 +82,7 @@ def test_ambiguous_handwriting_flagged_not_trusted(ingest_api, auth, monkeypatch
                 text("SELECT employee_id FROM v_attendance WHERE attendance_date = '2026-09-30'")
             ).scalars()
         )
-    assert in_view == {"E008", "E010"}  # review-required rows never appear as facts
+    assert in_view == {"E008", "E010"}
 
 
 def test_handwriting_without_vision_is_all_review(ingest_api, auth, monkeypatch):
@@ -102,7 +99,7 @@ def test_handwriting_without_vision_is_all_review(ingest_api, auth, monkeypatch)
 def test_unreadable_without_vision_is_retryable(ingest_api, auth, monkeypatch):
     vision_down(monkeypatch)
     body = upload(ingest_api, auth("a_hr_admin"), "handwritten_ambiguous.png").json()
-    assert body["status"] == "failed" and body["attempts"] == 3  # transient -> retried
+    assert body["status"] == "failed" and body["attempts"] == 3
     assert "vision OCR unavailable" in body["failures"][-1]["message"]
     use_recorded_vision(monkeypatch, "handwritten_ambiguous")
     again = ingest_api.post(f"/v1/jobs/{body['job_id']}/retry", headers=auth("a_hr_admin")).json()
@@ -130,6 +127,4 @@ def test_ocr_overlap_with_csv_is_consistent(ingest_api, auth, monkeypatch, scope
             )
         ).all()
     assert len(rows) == 8 and all(r.source_count == 2 and r.status != "conflict" for r in rows)
-    assert {r.source_file for r in rows} == {
-        "tenant_a_sep_v2.csv"
-    }  # higher confidence source cited first
+    assert {r.source_file for r in rows} == {"tenant_a_sep_v2.csv"}

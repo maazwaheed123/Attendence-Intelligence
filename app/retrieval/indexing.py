@@ -40,7 +40,7 @@ def create_row_cards(db: Session, document_id) -> int:
     )
     rows = []
     for r in records:
-        card, _ = pii.mask_text(row_card_text(r))  # defensive: cards never carry PII
+        card, _ = pii.mask_text(row_card_text(r))
         rows.append(
             {
                 "c": card_id(r["record_id"]),

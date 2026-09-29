@@ -61,7 +61,6 @@ def _method(engines: set) -> str:
 
 def _no_records(state: _State, what: str):
     if state.vision_unavailable:
-        # Retryable: handwriting may be readable once the vision model is available.
         raise TransientError(
             f"no attendance table could be read from the {what} (vision OCR unavailable)"
         )

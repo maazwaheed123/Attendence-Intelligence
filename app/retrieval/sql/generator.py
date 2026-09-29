@@ -25,10 +25,10 @@ class SqlDraft(BaseModel):
 
 @dataclass
 class Generated:
-    sql: str | None  # validated SQL, or None
-    result: LLMResult | None = None  # last successful model call
+    sql: str | None
+    result: LLMResult | None = None
     rejections: list[str] = field(default_factory=list)
-    attempts: list[dict] = field(default_factory=list)  # provider failures (all failed)
+    attempts: list[dict] = field(default_factory=list)
 
 
 def resolved_parameters(s: Slots) -> str:

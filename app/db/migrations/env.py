@@ -7,7 +7,6 @@ from app.config import get_settings
 
 
 def _url() -> str:
-    # Tests pass an explicit URL (the test database) via config.attributes.
     return (
         context.config.attributes.get("url") or get_settings().database_url_owner.get_secret_value()
     )

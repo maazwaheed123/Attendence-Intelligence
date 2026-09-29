@@ -36,9 +36,10 @@ def normalize_question(q: str) -> str:
 NS_LINEAGE = uuid.UUID("3c1d7a52-8f0b-4e7a-9a3e-1b2f6c4d5e60")
 PUBLIC_COLS = (
     "example_id, lineage_id, version, status, question, intent_signature, original_request_id, "
-    "feedback, ideal_final_output, answer_template, style_notes, entity_id, classification, "
+    "feedback, ideal_final_output, answer_template, style_notes, product_id, tenant_id, module, "
+    "entity_id, role_scope, classification, "
     "reviewer_id, approved_by, approved_at, validation, times_applied, last_applied_request_id, "
-    "prompt_version, retrieval_version, created_at, updated_at"
+    "model, prompt_version, retrieval_version, created_at, updated_at"
 )
 
 
@@ -74,7 +75,7 @@ def insert(scope: DbScope, row: dict, vector: list[float] | None) -> dict:
                 ),
                 {"l": row["lineage_id"]},
             )
-        json_cols = ("validation", "original_response")  # passed as JSON text
+        json_cols = ("validation", "original_response")
         values = [f"CAST(:{c} AS jsonb)" if c in json_cols else f":{c}" for c in row]
         s.execute(
             text(

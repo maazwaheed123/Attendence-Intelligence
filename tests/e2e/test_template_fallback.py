@@ -34,7 +34,7 @@ def test_template_answers_when_all_providers_fail(
     assert must_contain in r["answer"]
     assert r["provider"] == "template" and r["model"] == "deterministic"
     assert r["fallback_path"] == "ollama-primary>ollama-fallback>template"
-    assert all(p.calls >= 1 for p in providers)  # the chain really was tried
+    assert all(p.calls >= 1 for p in providers)
     assert r["citations"] and r["confidence_band"] == "high"
 
 

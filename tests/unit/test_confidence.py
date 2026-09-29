@@ -47,7 +47,7 @@ def test_bands():
     assert band(0.60, 0.85, 0.60) == "medium"
     assert band(0.599, 0.85, 0.60) == "low"
     assert score(_s(dual_path="disagree")).band == "medium"
-    assert score(_s(grounded=False, citation_coverage=0.0)).band == "medium"  # exactly 0.60
+    assert score(_s(grounded=False, citation_coverage=0.0)).band == "medium"
     assert (
         score(_s(grounded=False, citation_coverage=0.0, mean_extraction_confidence=0)).band == "low"
     )

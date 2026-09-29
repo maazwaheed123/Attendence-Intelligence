@@ -56,7 +56,6 @@ def test_other_product_export_only_its_product(api, auth):
 
 
 def test_employee_filter_outside_entity_is_empty(api, auth):
-    # Priya (hr) is invisible to the engineering manager: same as an unknown id
     assert _ids(api, auth, "a_eng_manager", filters={"employee_id": "E005"}) == []
     assert _ids(api, auth, "a_eng_manager", filters={"employee_id": "E999"}) == []
 
@@ -97,10 +96,9 @@ def test_invalid_status_filter_rejected(api, auth):
 
 
 def test_no_pii_in_any_format(api, auth):
-    # ids are not PII (and a UUID fragment like "2115-5710" looks like a phone number)
     for fmt in ("json", "xlsx", "pdf"):
         r = export(api, auth, "a_hr_admin", fmt, source="records")
-        if fmt == "pdf":  # extracted text glues cells together -> check word by word
+        if fmt == "pdf":
             words = UUID.sub("", pdf_text(r.content)).split()
             assert not [w for w in words if pii.contains_pii(w)], fmt
             continue

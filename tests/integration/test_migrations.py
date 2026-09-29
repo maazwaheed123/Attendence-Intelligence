@@ -21,7 +21,7 @@ def test_upgrade_downgrade_upgrade(migrated_db):
     head = ScriptDirectory.from_config(cfg).get_current_head()
     with owner_session() as s:
         assert s.execute(text("SELECT version_num FROM alembic_version")).scalar_one() == head
-    reset_corpus()  # restore data for any test that runs after this one
+    reset_corpus()
 
 
 def test_models_match_database(corpus_db):
@@ -45,6 +45,6 @@ def test_seed_is_idempotent_and_encrypts_pii(corpus_db):
                 "SELECT phone_enc FROM employees WHERE employee_id='E001' AND product_id='attendance_ai'"
             )
         ).scalar_one()
-    assert n == 18 + 2  # full roster + 2 decoy-product employees
-    assert "555" not in phone_enc  # stored encrypted
+    assert n == 18 + 2
+    assert "555" not in phone_enc
     assert decrypt(phone_enc).startswith("+1-555-01")

@@ -31,7 +31,7 @@ class Lineage:
     total: int = 0
     mean_confidence: float | None = None
     conflict_days: int = 0
-    available: bool = True  # False: the query shape did not allow a citation filter
+    available: bool = True
 
 
 def excerpt(r: dict) -> str:
@@ -63,7 +63,6 @@ def _collect(
     ).rows
     stats = executor.run(
         scope,
-        # a conflicted day is cited through each of its source records
         "SELECT sum(CASE WHEN conflict THEN source_count ELSE 1 END) AS n, "
         "avg(extraction_confidence) AS conf, "
         f"count(*) FILTER (WHERE conflict) AS conflicts FROM {source} WHERE {where}",
@@ -128,7 +127,7 @@ def citation_filter(sql: str, rows: list[dict]) -> tuple[str, str]:
         for g in group.expressions:
             name = g.name.lower() if isinstance(g, exp.Column) else ""
             if name not in VIEW_COLUMNS or name not in rows[0]:
-                continue  # an expression, or a key the result does not show
+                continue
             values = sorted({str(r[name]) for r in rows if r.get(name) is not None})
             literals = [exp.Literal.string(v) for v in values] or [exp.null()]
             cond = exp.and_(cond, exp.column(name).isin(*literals))

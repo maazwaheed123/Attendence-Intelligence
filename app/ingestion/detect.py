@@ -42,7 +42,7 @@ def sniff(content: bytes) -> str | None:
                 return "docx"
         return None
     if b"\x00" in content[:4096]:
-        return None  # binary, not a flat file
+        return None
     try:
         content[:4096].decode("utf-8-sig")
     except UnicodeDecodeError:

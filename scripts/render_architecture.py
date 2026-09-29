@@ -27,7 +27,6 @@ FILL = {
     "store": (246, 246, 246),
 }
 
-# (key, fill, (x0, y0, x1, y1), title, lines)
 BOXES = [
     ("client", "client", (60, 40, 460, 190), "Clients",
      ["Streamlit UI :8501", "curl / Swagger /docs", "scripts/demo.py"]),
@@ -87,7 +86,7 @@ BOXES = [
       "qwen2.5vl:3b (vision)", "nomic-embed-text"]),
 ]  # fmt: skip
 
-ARROWS = [  # polylines (last segment gets the head)
+ARROWS = [
     [(460, 115), (560, 115)],
     [(700, 190), (350, 250)],
     [(1000, 190), (1000, 250)],
@@ -147,7 +146,6 @@ def render(path: Path = OUT) -> list[str]:
     d = ImageDraw.Draw(img)
     title, body, small = _font(BOLD, 21), _font(FONT, 16), _font(BOLD, 18)
     overflow = []
-    # isolation boundary around the database (drawn first, under the boxes)
     _dashed_rect(d, (40, 950, 1320, 1315), RED)
     label = ("ISOLATION BOUNDARY - Postgres Row-Level Security (ENABLE + FORCE on every tenant "
              "table): rows outside the caller's scope never leave the database, so no retrieval "

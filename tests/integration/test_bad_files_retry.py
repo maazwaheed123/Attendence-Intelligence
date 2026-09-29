@@ -38,7 +38,7 @@ def test_unsupported_extension(ingest_api, auth):
 def test_no_header_fails_permanently(ingest_api, auth):
     r = upload(ingest_api, auth("a_hr_admin"), "notes.csv", content=b"hello,world\n1,2\n")
     body = r.json()
-    assert body["status"] == "failed" and body["attempts"] == 1  # permanent: not retried
+    assert body["status"] == "failed" and body["attempts"] == 1
     assert "no header row" in body["failures"][-1]["message"]
     failed = ingest_api.get(
         "/v1/jobs", headers=auth("a_hr_admin"), params={"status": "failed"}

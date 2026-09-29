@@ -53,7 +53,7 @@ def test_csv(ingest_api, auth, manifests, truth):
         "parsed",
         "normalized",
         "persisted",
-        "indexed",  # Step 9: row cards + embeddings
+        "indexed",
         "completed",
     ]
     recs = records("source_file = 'tenant_a_sep_v2.csv'")
@@ -68,7 +68,7 @@ def test_xlsx_two_sheets_messy_layout(ingest_api, auth, manifests, truth):
     body = r.json()
     assert body["status"] == "completed", body
     assert body["counts"]["records_created"] == 87
-    assert body["counts"]["skipped_rows"] == 1  # "Total present days" row
+    assert body["counts"]["skipped_rows"] == 1
     recs = records("source_file = 'tenant_a_sales_sep.xlsx'")
     _assert_matches_manifest(recs, manifests["files"]["tenant_a_sales_sep.xlsx"], truth)
     assert {r["source_locator"].split(";")[0] for r in recs} == {
@@ -121,7 +121,6 @@ def test_traceability_endpoint(ingest_api, auth):
         params={"limit": 1000},
     )
     recs = r.json()["records"]
-    # Engineering manager sees only engineering rows of the multi-department file.
     assert recs and {x["department"] for x in recs} == {"Engineering"}
     assert all(
         x["source_file"] == "tenant_a_sep_v2.csv" and x["source_locator"].startswith("row=")

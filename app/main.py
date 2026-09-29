@@ -35,7 +35,7 @@ def create_app() -> FastAPI:
     app.include_router(routes_query.router)
     app.include_router(routes_feedback.router)
     app.include_router(routes_export.router)
-    if settings.dev_tokens_enabled:  # never mounted in prod
+    if settings.dev_tokens_enabled:
         app.include_router(routes_auth.router)
     return app
 

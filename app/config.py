@@ -13,20 +13,17 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
-    # --- service ---
     app_env: Literal["dev", "test", "prod"] = "dev"
     app_name: str = "attendance-intelligence"
     app_version: str = "0.1.0"
     log_level: str = "INFO"
 
-    # --- auth ---
     jwt_secret: SecretStr = SecretStr("change-me")
     jwt_alg: str = "HS256"
     jwt_ttl_min: int = 60
     allowed_modules: str = "attendance"
-    dev_personas_file: str = "scripts/seed_spec.yaml"  # dev/test only: /v1/auth/dev-token
+    dev_personas_file: str = "scripts/seed_spec.yaml"
 
-    # --- stores ---
     database_url_owner: SecretStr = SecretStr(
         "postgresql+psycopg://postgres:postgres@postgres:5432/attendance"
     )
@@ -39,12 +36,10 @@ class Settings(BaseSettings):
     redis_url: str = "redis://redis:6379/0"
     pii_encryption_key: SecretStr = SecretStr("")
 
-    # --- ingestion ---
     ingest_sync: bool = False
     max_upload_mb: int = 20
     upload_dir: str = "data/uploads"
 
-    # --- LLM (local Ollama only, no API keys) ---
     llm_chain: str = "ollama-primary,ollama-fallback,template"
     ollama_base_url: str = "http://host.docker.internal:11434/v1"
     ollama_primary_model: str = "qwen2.5:7b-instruct"
@@ -56,12 +51,9 @@ class Settings(BaseSettings):
     breaker_fails: int = 3
     breaker_reset_s: int = 60
 
-    # --- retrieval / governance thresholds ---
-    # Embeddings: local Ollama nomic-embed-text (768-dim, already installed, no
-    # download). "fake" = deterministic hashing embedder for tests / offline use.
     embedder: Literal["ollama", "fake"] = "ollama"
     ollama_embed_model: str = "nomic-embed-text"
-    embed_dim: int = 768  # must match vector(768) in the schema (migration 0004)
+    embed_dim: int = 768
     embed_batch: int = 32
     embed_timeout_s: float = 60.0
     rerank_model: str = "BAAI/bge-reranker-base"

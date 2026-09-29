@@ -42,7 +42,7 @@ def test_repeat_query_is_improved_with_live_numbers(api, auth):
         r = ask_id(api, auth, persona)
         assert r["answer"] == IDEAL, persona
         assert r["applied_feedback"]["example_id"] == fb["example_id"]
-        assert r["citations"]  # still cited from the live records
+        assert r["citations"]
     with owner_session() as s:
         n = s.execute(
             text("SELECT times_applied FROM feedback_examples WHERE example_id = :e"),
@@ -65,7 +65,7 @@ def test_paraphrase_is_improved(api, auth):
 def test_template_recomputes_values_for_another_period(api, auth):
     _improve(api, auth)
     r = ask_id(api, auth, "a_eng_manager", "What was Engineering's average attendance % in week 2?")
-    if r["applied_feedback"]:  # same kind of question, different data
+    if r["applied_feedback"]:
         assert "from 07/09/2026 to 11/09/2026 was 92%" in r["answer"]
         assert "91.83" not in r["answer"]
 

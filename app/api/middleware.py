@@ -53,8 +53,6 @@ class RequestIdMiddleware(BaseHTTPMiddleware):
         try:
             response = await call_next(request)
         except Exception:
-            # Handle here (not only in the app-level handler, which runs outside
-            # this middleware) so even 500s carry the request ID.
             log.exception("unhandled error request_id=%s", rid)
             error_code = "INTERNAL_ERROR"
             response = JSONResponse(

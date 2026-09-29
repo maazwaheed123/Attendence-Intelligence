@@ -34,7 +34,7 @@ def test_model_never_sees_out_of_scope_evidence(api, auth, monkeypatch, persona)
         assert e["name"] not in seen and e["id"] not in seen
     assert "tenant_b_sep.pdf" not in seen
     if persona != "a_hr_admin":
-        assert "arrived late on 07/09" not in seen  # confidential remark, internal clearance
+        assert "arrived late on 07/09" not in seen
     if persona == "a_employee_e001":
         assert "E002 Bob Smith" not in seen
     if persona == "x_other_product":
@@ -72,4 +72,4 @@ def test_injected_instruction_does_not_change_scope(api, auth, monkeypatch):
     )
     r = ask(api, auth, "a_eng_manager", "Summarise the injection memo")
     assert len(r["citations"]) <= 6
-    assert "tenant_b_sep.pdf" not in _files(r)  # output checks on obeyed text: Step 11
+    assert "tenant_b_sep.pdf" not in _files(r)

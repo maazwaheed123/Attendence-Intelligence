@@ -3,17 +3,15 @@ import os
 import re
 from pathlib import Path
 
-# --- Point every test at the dedicated test database BEFORE app settings load. ---
 for _var in ("DATABASE_URL_OWNER", "DATABASE_URL_APP", "DATABASE_URL_READER"):
     if os.environ.get(_var):
         os.environ[_var] = re.sub(r"/attendance$", "/attendance_test", os.environ[_var])
 os.environ["APP_ENV"] = "test"
 os.environ["INGEST_SYNC"] = "true"
-os.environ["LLM_CHAIN"] = "mock,template"  # the gate never calls a real model
+os.environ["LLM_CHAIN"] = "mock,template"
 os.environ["VISION_CHAIN"] = "mock"
-os.environ["EMBEDDER"] = "fake"  # deterministic vectors; the real model runs only under "live"
+os.environ["EMBEDDER"] = "fake"
 os.environ["UPLOAD_DIR"] = "/tmp/attendance_test_uploads"
-# Query suites send many requests per persona; test_rate_limit sets its own limit.
 os.environ["RATE_LIMIT_PER_MIN"] = "100000"
 os.environ["REDIS_URL"] = re.sub(
     r"/\d+$", "/15", os.environ.get("REDIS_URL", "redis://redis:6379/0")
@@ -117,7 +115,6 @@ def scope_for():
     return persona_scope
 
 
-# --------------------------------------------------------------- sample-data fixtures
 DATA = Path(__file__).resolve().parents[1] / "data"
 
 

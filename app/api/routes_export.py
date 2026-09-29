@@ -49,13 +49,11 @@ def export(
     ctx: SecurityContext = Depends(require(Permission.EXPORT)),
 ) -> Response:
     filters = body.filters or ExportFilters()
-    # Explicit filters outside the token scope are refused BEFORE any read.
     enforce_request_context(ctx, entity_id=filters.entity_id)
     rid = request.state.request_id
     try:
         ds = dataset.build(ctx, rid, body.model_dump(exclude_none=True))
     except dataset.ExportNotFound as exc:
-        # same message as any unknown id: another scope's request does not "exist"
         raise AppError(404, "NOT_FOUND", "Not found.") from exc
     content = renderers.RENDERERS[body.format](ds)
     checksum = ds.metadata["checksum"]

@@ -24,10 +24,10 @@ class TransientError(IngestionError):
 class RawRecord:
     """One attendance fact as found in the source, before normalization."""
 
-    locator: str  # e.g. "row=5", "sheet=Sep 1-15;row=7", "page=2;table=1;row=4"
-    values: dict[str, Any]  # canonical field name -> raw value
-    raw: dict[str, Any]  # original header -> original value (restricted columns removed)
-    confidence: float = 0.99  # extraction confidence (OCR lowers this)
+    locator: str
+    values: dict[str, Any]
+    raw: dict[str, Any]
+    confidence: float = 0.99
     notes: list[str] = field(default_factory=list)
 
 
@@ -40,7 +40,7 @@ class NarrativeBlock:
 
 @dataclass
 class ParseResult:
-    method: str  # extraction_method stored on each record
+    method: str
     records: list[RawRecord] = field(default_factory=list)
     narrative: list[NarrativeBlock] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)

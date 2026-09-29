@@ -60,8 +60,8 @@ def test_long_block_is_split_with_overlap_inside_its_section():
     assert all(c.section == "Manager remarks" for c in chunks)
     first, second = chunks[0].text.split(), chunks[1].text.split()
     assert len(first) == MAX_WORDS
-    assert first[-OVERLAP:] == second[:OVERLAP]  # 50-word overlap
-    assert chunks[-1].text.split()[-1] == "w699"  # nothing lost
+    assert first[-OVERLAP:] == second[:OVERLAP]
+    assert chunks[-1].text.split()[-1] == "w699"
     covered = {w for c in chunks for w in c.text.split()}
     assert covered == set(words)
 
